@@ -1,0 +1,45 @@
+export class FkUser {
+    id: number;
+    role_id?:number;
+    full_name: string;
+    username?: string;
+    email: string;
+    password?:string;
+    token?:string;
+    status?: number;
+    status_text?: string;
+    gender?: string;
+    mobile_no?: string = "";
+    is_artist?: number;
+    is_deleted?:boolean=false;
+    is_picture?: number;
+    // privacy_setting?: number;
+    // notification_status?: number;
+    // device_type?: string;
+    // device_token?: string;
+    // verification_code?: string;
+    // is_verified?: number;
+    // status_text_value?: string;
+    // role_name?: string
+    profile_picture_url?:string;   
+    created_at?: string;
+    cs_cm?: string;
+    remarks?: string = "";
+    bank_account?:string;
+    address?:string="";
+    city?:string="";
+    country?: string = "";
+    user_current_tornados?:number;
+    user_total_tornados?:number;
+    artist_current_tornados?:number;
+    artist_total_tornados?:number;
+    chips?:number;
+    gift_send?:number;
+    total_followers?:number;
+    total_followings?:number;
+    total_friends?:number;
+    total_streams?:number;
+    user_energy?:number;
+    user_level?:number;
+    witkey_dollar?:number;
+}

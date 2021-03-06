@@ -1,0 +1,448 @@
+<div class="genrel-popup postdetail clearfix" id="postdetail" style="display: none;">
+	<div class="post-cart pb-0">
+		<div class="cart-header clearfix">
+			<div class="left">
+				<figure style="background-position: 50% 50%; background-size: cover;" *ngIf="objGetPostSettingsById !=null && objGetPostSettingsById.User!=null && objGetPostSettingsById.User.ProfilePictureUrl !=null"
+				 class="user-img" [style.background-image]="'url('+imagePath+objGetPostSettingsById.User.ProfilePictureUrl+')'"></figure>
+				<figure style="background-position: 50% 50%; background-size: cover;" *ngIf="!(objGetPostSettingsById !=null && objGetPostSettingsById.User!=null && objGetPostSettingsById.User.ProfilePictureUrl !=null)"
+				 class="user-img" [style.background-image]="'url(assets/images/signup-thumb.jpg)'"></figure>
+
+				<div class="dtl">
+					<h3>{{objGetPostSettingsById?.User?.FullName}}</h3>
+					<ul>
+						<li> Risk
+							<span class="redtxt" *ngIf="objGetPostSettingsById.RiskLevel == 1">High</span>
+							<span class="redtxt" *ngIf="objGetPostSettingsById.RiskLevel == 2">Medium</span>
+							<span class="redtxt" *ngIf="objGetPostSettingsById.RiskLevel == 3">Low</span>
+						</li>
+						<li>{{ objGetPostSettingsById?.Location }}</li>
+						<li style="cursor: default;" title="{{objGetPostSettingsById.CreatedDate | date: 'dd MMMM yyyy'}} {{objGetPostSettingsById.CreatedDate | date: 'hh:mm a' }}">
+							{{objGetPostSettingsById.CreatedDate | amTimeAgo:true }} ago
+						</li>
+
+					</ul>
+				</div>
+			</div>
+			<span *ngIf="objGetPostSettingsById.IsUserFollow==false && objGetPostSettingsById.User.Id != objUserSettings.Id"
+			 class="icon-add2 detailFollowIcon" (click)="detailPostFollow(objGetPostSettingsById.User.Id)"></span>
+
+		</div>
+
+		<div class="cart-content" style="border-bottom:none;">
+			<p class="" [innerHTML]=objGetPostSettingsById.Text></p>
+		</div>
+
+		<div *ngIf="objGetPostSettingsById?.Medias?.length>1" class="cart-img" id="multipleImages" [class.multiple]="objGetPostSettingsById?.Medias?.length>3"
+		 [class.double]="objGetPostSettingsById?.Medias?.length==2" [class.tripple]="objGetPostSettingsById?.Medias?.length==3">
+			<ng-container *ngFor="let postImgs of objGetPostSettingsById?.Medias;let j=index;">
+				<a *ngIf="postImgs.Type==1" data-fancybox="" href="https://risco.ingicweb.com/api{{postImgs.Url}}" class="fancyImage thumb galleryImages{{objGetPostSettingsById?.Id}}"
+				 [style.background-image]="'url('+imagePath+''+postImgs.Url+')'" title=""></a>
+				<a *ngIf="postImgs.Type==2" data-fancybox="" href="https://risco.ingicweb.com/api{{postImgs.Url}}" class="fancyImage thumb galleryImages{{objGetPostSettingsById?.Id}}"
+				 title=""><video src="https://risco.ingicweb.com/api{{postImgs.Url}}" controls="" controlsList="nodownload"></video></a>
+				<a *ngIf="objGetPostSettingsById?.Medias?.length>4" (click)="remainingImages(objGetPostSettingsById.Id)" class="thumb_count"
+				 style="cursor: pointer;"><span style="color: #fff">{{(objGetPostSettingsById.Medias.length)-4}}+</span></a>
+			</ng-container>
+		</div>
+
+		<div class="cart-img" *ngIf="objGetPostSettingsById?.Medias?.length==1">
+			<a *ngIf="objGetPostSettingsById?.Medias[0].Type==2" data-fancybox="" href="https://risco.ingicweb.com/api{{objGetPostSettingsById.Medias[0].Url}}"
+			 class="fancyImage thumb" title="">
+				<video src="https://risco.ingicweb.com/api{{objGetPostSettingsById.Medias[0].Url}}" controls="" controlsList="nodownload"></video>
+			</a>
+			<a *ngIf="objGetPostSettingsById?.Medias[0].Type==1" href="https://risco.ingicweb.com/api{{objGetPostSettingsById.Medias[0].Url}}"
+			 data-fancybox="" class=" fancyImage cart-img" [style.background-image]="'url(https://risco.ingicweb.com/api'+objGetPostSettingsById.Medias[0].Url+')'">
+			</a>
+		</div>
+
+		<div class="cart-content">
+			<ul class="social-counter">
+				<span *ngIf="!(objGetPostSettingsById.LikesCount==0 && objGetPostSettingsById.CommentsCount==0 && objGetPostSettingsById.ShareCount==0)">
+					<li *ngIf="objGetPostSettingsById.LikesCount==1">{{objGetPostSettingsById.LikesCount}} Like</li>
+					<li *ngIf="objGetPostSettingsById.LikesCount>1">{{objGetPostSettingsById.LikesCount}} Likes</li>
+
+					<li *ngIf="objGetPostSettingsById.CommentsCount==1">{{objGetPostSettingsById.CommentsCount}} Comment</li>
+					<li *ngIf="objGetPostSettingsById.CommentsCount>1">{{objGetPostSettingsById.CommentsCount}} Comments</li>
+
+					<li *ngIf="objGetPostSettingsById.ShareCount==1">{{objGetPostSettingsById.ShareCount}} Share</li>
+					<li *ngIf="objGetPostSettingsById.ShareCount>1">{{objGetPostSettingsById.ShareCount}} Shares</li>
+				</span>
+
+			</ul>
+		</div>
+		<div class="cart-footer">
+			<ul>
+				<li><a *ngIf="objGetPostSettingsById.IsLiked"><span class="icon-thumbs-up2" (click)="internalStarClicked()"></span></a></li>
+				<li><a *ngIf="!objGetPostSettingsById.IsLiked"><span class="icon-thumbs-o-up" (click)="internalStarClicked()"></span></a></li>
+
+				<li><a><span class="icon-comment"></span></a></li>
+				<li class="more">
+					<a href="javascript:;" (click)="appComponent.sharePostClick(objGetPostSettingsById)"><span class="icon-reply"></span></a>
+					<!-- <div class="more-dropdown reply">
+							<ul>
+								<li (click)="rePostInternal(objGetPostSettingsById.Id,1)" class="textHover"><a href="javascript:;">Public</a></li>
+								<li (click)="rePostInternal(objGetPostSettingsById.Id,2)" class="textHover"><a href="javascript:;">Followers Only</a></li>
+								<li (click)="rePostInternal(objGetPostSettingsById.Id,3)" class="textHover"><a href="javascript:;">Only me</a></li>
+							</ul>
+						</div> -->
+				</li>
+				<li><a><span class="icon-share"></span></a></li>
+
+				<li class="more" (click)="moreClick(objGetPostSettingsById)">
+					<a href="javascript:;" (click)="setIndexInternal(objGetPostSettingsById?.User?.Id,objGetPostSettingsById?.Id)"><span
+						 class="icon-more"></span></a>
+					<div class="more-dropdown">
+						<ul>
+							<li style="cursor: pointer;" *ngIf="objGetPostSettingsById?.User?.Id != objUserSettings?.Id" (click)="hidePostByIdInternal(objGetPostSettingsById.Id)"
+							 class="textHover"><a href="javascript:;" data-fancybox="" data-src="#hide_single_post">Hide Post</a></li>
+							<li style="cursor: pointer;" *ngIf="objGetPostSettingsById?.User?.Id != objUserSettings?.Id" class="textHover"><a
+								 href="javascript:;" data-fancybox="" data-src="#hide_all_post_internal">Hide all posts by this user</a></li>
+							<li style="cursor: pointer;" class="textHover"><a>Turn off notifications for this post</a></li>
+							<li style="cursor: pointer;" *ngIf="objGetPostSettingsById?.User?.Id != objUserSettings?.Id" (click)="setIdInternal(objGetPostSettingsById.Id)"
+							 class="textHover"><a data-fancybox data-src="#report-dialog">Report Post</a></li>
+							<li style="cursor: pointer;" [hidden]="objGetPostSettingsById?.User?.Id != objUserSettings?.Id" class="textHover"><a
+								 href="javascript:;" data-fancybox="" data-src="#delete_post_internal">Delete Post</a></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="user-comment clearfix">
+		<img *ngIf="imagePath && CommentsPicture" class="user-img" [src]="imagePath + CommentsPicture" onerror="this.src='assets/images/signup-thumb.jpg'">
+
+		<div class="content">
+			<small *ngIf="objGetPostSettingsById?.User && objGetPostSettingsById?.User?.UserName">Comment to <span class="bluetxt">@{{objGetPostSettingsById?.User?.UserName}}</span></small>
+			<div class="field">
+				<!-- <emoji-input [(model)]="objCommentText" [textArea]="{cols : 2, rows : 2}"
+						[closeAfterSelection]="false" placeholder="Comment to Reply..."
+						(click)="popuuComment()"
+						id="comnt" (setPopupAction)="setPopupActionComment($event)">
+						</emoji-input>
+						<span class="icon-Shape-13 showIcon" (click)="openPopupComment()"></span> -->
+
+				<span class="icon-Shape-13 showIcon parent-comment-area" (click)="showEmojee(1)"></span>
+				<textarea id="comnt" [(ngModel)]="objCommentText" placeholder="enter comment here"></textarea>
+				<emoji-mart (emojiSelect)="addEmoji($event, 1)" [showPreview]="false" [emojiTooltip]="true" set="emojione"
+				 [hideRecent]="true">
+				</emoji-mart>
+
+				<a href="javascript:;" class="sent_btn showIcon" title="" *ngIf=" (objCommentText.length != 0 && objCommentText.trim() != '' )  || uploadedImageUrls[0] || uploadedVideoUrls[0] ">
+					<span class="icon-send showIcon" (click)="postComment(objCommentText)"></span>
+				</a>
+
+				<div class="comment_media">
+					<ul>
+						<li *ngIf="uploadedImageUrls[0]">
+							<figure class="uploadedimg user-img" [style.background-image]="'url('+appComponent.imagePath+uploadedImageUrls[0]+')'"></figure>
+							<span style="cursor: pointer;" class="icon-close2" (click)="onRemoveFile(mediaTypeEnum.Image,0)"></span>
+						<li *ngIf="uploadedVideoUrls[0]">
+							<video>
+								<source [src]="appComponent.imagePath+uploadedVideoUrls[0]" type="video/mp4" />
+							</video>
+							<span style="cursor: pointer;" class="icon-close2" (click)="onRemoveFile(mediaTypeEnum.Video,0)"></span>
+						</li>
+					</ul>
+					<img *ngIf="PostService.showLoaderImages" style="display: block;position: relative;left: 37%;top:2px;width:64px;height:42px;border-radius: 50%;border: 3px solid transparent;"
+					 src="assets/images/Facebook-1s-200px.svg">
+				</div>
+
+			</div>
+
+			<ul class="attach-list">
+				<li>
+					<a href="javascript:;"><span id="parent-img" class="icon-picture"></span>
+						<input type="file" id="uploadpicCmnt" accept="image/*" style="display:none;" (change)="onSelectFile(mediaTypeEnum.Image, 1)">
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;"><span id="parent-vdo" class="icon-Forma-1"></span>
+						<input type="file" id="uploadvdoCmnt" accept="video/*" style="display:none;" (change)="onSelectFile(mediaTypeEnum.Video, 1)">
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="peoples-comments">
+		<div class="comment clearfix" *ngFor="let objComment of objGetPostSettingsById.Comments.reverse() ; let i = index;">
+			<figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objComment?.User?.ProfilePictureUrl?'url('+imagePath+''+objComment?.User?.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}"></figure>
+			<div class="content">
+				<h3 (click)="userProfileRedirect(objComment?.User?.Id)" style="cursor: pointer">{{objComment?.User?.FullName}}
+					<small>@{{objComment?.User?.UserName}}
+						- {{objComment?.CreatedDate | date: 'hh:mm a'}}</small></h3>
+				<span *ngIf="objGetPostSettingsById.User && objGetPostSettingsById?.User?.UserName">Comment to <span class="bluetxt">@{{objGetPostSettingsById?.User?.UserName}}</span></span>
+				<p>{{objComment.Text}}</p>
+				<div class="comments_media" *ngIf="objComment?.Medias">
+					<figure *ngIf="objComment?.Medias[0]?.Type == 1" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objComment?.Medias[0]?.Url"
+					 [style.background-image]="'url('+appComponent.imagePath+objComment.Medias[0].Url+')'"></figure>
+					<figure *ngIf="objComment?.Medias[0]?.Type == 2" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objComment?.Medias[0]?.Url">
+						<video [src]="appComponent.imagePath+objComment?.Medias[0]?.Url"></video>
+					</figure>
+					<figure *ngIf="objComment?.Medias[1]?.Type == 2" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objComment?.Medias[1]?.Url">
+						<video [src]="appComponent.imagePath+objComment?.Medias[1]?.Url"></video>
+					</figure>
+				</div>
+				<ul class="actBtns">
+					<li>
+						<a *ngIf="objComment.IsLiked"><span class="icon-thumbs-up2" (click)="commentStarClicked(i)"></span></a>
+						<a *ngIf="!objComment.IsLiked"><span class="icon-thumbs-o-up" (click)="commentStarClicked(i)"></span></a>
+					</li>
+					<li><a href="javascript:;" class="sub_comment_btn"><span class="icon-comment"></span></a></li>
+
+				</ul>
+				<div class="sub_comment_box">
+					<div class="field">
+
+						<!-- <emoji-input [(model)]="objChildCommentText" [textArea]="{rows : 4}" [closeAfterSelection]="false" placeholder="Enter Comment" (click)="popuuChildComment()" id="replyText" (setPopupAction)="setPopupActionChildComment($event)">
+								</emoji-input>
+								<span class="icon-Shape-13 showIcon" (click)="openPopupChildComment()"></span> -->
+
+						<span class="icon-Shape-13 showIcon child-comment-area" (click)="showEmojee(0)"></span>
+						<textarea id="replyText" placeholder="enter reply here" [(ngModel)]="objChildCommentText"></textarea>
+						<emoji-mart class="child-emoji-mart" (emojiSelect)="addEmoji($event, 0)" [showPreview]="false" [emojiTooltip]="true"
+						 [hideRecent]="true">
+						</emoji-mart>
+
+						<a href="javascript:;" class="sent_btn showIcon" title="" *ngIf="( objChildCommentText.length != 0 && objChildCommentText.trim() != '' ) || commentReplyImageUrls[0] || commentReplyVideoUrls[0] ">
+							<span class="icon-send showIcon" (click)="replyComment(objComment.Id,objChildCommentText)"></span>
+						</a>
+						<div class="comment_media">
+							<ul>
+								<li *ngIf="commentReplyImageUrls[0]">
+									<figure class="uploadedimg user-img" [style.background-image]="'url('+appComponent.imagePath+commentReplyImageUrls[0]+')'"></figure>
+									<span style="cursor: pointer;" class="icon-close2" (click)="onRemoveFile(mediaTypeEnum.Image,0)"></span>
+								<li *ngIf="commentReplyVideoUrls[0]">
+									<video>
+										<source [src]="appComponent.imagePath+commentReplyVideoUrls[0]" type="video/mp4" />
+									</video>
+									<span style="cursor: pointer;" class="icon-close2" (click)="onRemoveFile(mediaTypeEnum.Video,0)"></span>
+								</li>
+							</ul>
+							<img *ngIf="PostService.showLoaderImages" style="display: block;position: relative;left: 37%;top:2px;width:64px;height:42px;border-radius: 50%;border: 3px solid transparent;"
+							 src="assets/images/Facebook-1s-200px.svg">
+						</div>
+					</div>
+
+					<ul class="actBtns">
+						<li (click)="triggerClick('uploadpicCmntReply')">
+							<a href="javascript:;"><span id="child-img" class="icon-picture"></span>
+								<input type="file" id="uploadpicCmntReply" accept="image/*" style="display:none;" (change)="onSelectFile(mediaTypeEnum.Image, 0)">
+							</a>
+						</li>
+						<li (click)="triggerClick('uploadvdoCmntReply')">
+							<a href="javascript:;"><span id="child-vdo" class="icon-Forma-1"></span>
+								<input type="file" id="uploadvdoCmntReply" accept="video/*" style="display:none;" (change)="onSelectFile(mediaTypeEnum.Video, 0)">
+							</a>
+						</li>
+					</ul>
+					<!--
+							<a href="javascript:;" class="custBtn sent_sub_comment" title="" *ngIf="objChildCommentText.length != 0 && objChildCommentText.trim() != '' "
+							(click)="replyComment(objComment.Id,objChildCommentText)">Send</a> -->
+				</div>
+				<div class="sub_comment_view clearfix" *ngFor="let objChildComments of objComment.ChildComments.reverse() ">
+					<figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objChildComments?.User?.ProfilePictureUrl?'url('+imagePath+''+objChildComments?.User?.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}"></figure>
+					<div class="content">
+						<h3 style="cursor: pointer;" (click)="userProfileRedirect(objChildComments?.User?.Id)">{{objChildComments?.User?.FullName}}
+							<small>@{{objChildComments?.User?.UserName}} - {{objChildComments.CreatedDate | date: 'hh:mm a'}}</small></h3>
+
+						<p>{{objChildComments?.Text}}.</p>
+						<div class="comments_media" *ngIf="objChildComments?.Medias">
+							<figure *ngIf="objChildComments?.Medias[0]?.Type == 1" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objChildComments?.Medias[0]?.Url"
+							 [style.background-image]="'url('+appComponent.imagePath+objChildComments?.Medias[0]?.Url+')'"></figure>
+							<figure *ngIf="objChildComments?.Medias[0]?.Type == 2" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objChildComments?.Medias[0]?.Url">
+								<video [src]="appComponent.imagePath+objChildComments?.Medias[0]?.Url"></video>
+							</figure>
+							<figure *ngIf="objChildComments?.Medias[1]?.Type == 2" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objChildComments?.Medias[1]?.Url">
+								<video [src]="appComponent.imagePath+objChildComments?.Medias[1]?.Url"></video>
+							</figure>
+						</div>
+					</div>
+					<div style="padding: 18px;"> </div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class="mainSec">
+	<div class="container clearfix">
+		<app-sidebar></app-sidebar>
+
+		<div class="activity-panel width-815">
+			<div class="clearfix">
+				<div class="activityLog_panel wid mb-0">
+					<h3>Notifications</h3>
+					<ul>
+						<ng-container *ngIf="objActivities.length>0">
+
+              <ng-container *ngFor="let objActivity of objNotificationsModel.Notifications; let i = index">
+
+							<li class="activityListing">
+								<div [ngSwitch]="objActivity.EntityType" >
+									<div *ngSwitchCase="ActivityEntityTypeEnum.LikeOnPost"><span class="icon_holder icon-thumbs-up2"></span></div>
+									<div *ngSwitchCase="ActivityEntityTypeEnum.LikeOnComment"><span class="icon_holder icon-thumbs-up2"></span></div>
+									<div *ngSwitchCase="ActivityEntityTypeEnum.Follow"><span class="icon_holder icon-group"></span></div>
+									<div *ngSwitchCase="ActivityEntityTypeEnum.CommentOnPost"><span class="icon_holder icon-Forma-11"></span></div>
+									<div *ngSwitchCase="ActivityEntityTypeEnum.ReplyOnComment"><span class="icon_holder icon-Forma-11"></span></div>
+									<div *ngSwitchCase="ActivityEntityTypeEnum.ExternalShare"><span class="icon_holder icon-Forma-14"></span></div>
+									<div *ngSwitchCase="ActivityEntityTypeEnum.ProfileImage"><span class="icon_holder icon-Forma-15"></span></div>
+									<div *ngSwitchCase="ActivityEntityTypeEnum.PrivacySettings"><span class="icon_holder icon-Forma-15"></span></div>
+									<div *ngSwitchCase="ActivityEntityTypeEnum.NotificationSettings"><span class="icon_holder icon-Forma-15"></span></div>
+									<div *ngSwitchCase="ActivityEntityTypeEnum.AccountSettings"><span class="icon_holder icon-Forma-15"></span></div>
+									<div *ngSwitchCase="ActivityEntityTypeEnum.SharePost"><span class="icon_holder icon-Forma-16"></span></div>
+									<div *ngSwitchCase="ActivityEntityTypeEnum.Post"><span class="icon_holder icon-envelope"></span></div>
+									<div *ngSwitchCase="ActivityEntityTypeEnum.BlockUser"><span class="icon_holder icon-Forma-17"></span></div>
+									<div *ngSwitchCase="ActivityEntityTypeEnum.ReportUser"><span class="icon_holder icon-Forma-18"></span></div>
+									<div *ngSwitchCase="ActivityEntityTypeEnum.ReportPost"><span class="icon_holder icon-Forma-18"></span></div>
+                  <div *ngSwitchCase="ActivityEntityTypeEnum.CreateGroup"><span class="icon_holder icon-group"></span></div>
+                  <div *ngSwitchCase="ActivityEntityTypeEnum.Group"><span class="icon_holder icon-group"></span></div>
+                  <div *ngSwitchCase="ActivityEntityTypeEnum.SendGroupRequest"><span class="icon_holder icon-group"></span></div>
+                  <div *ngSwitchCase="ActivityEntityTypeEnum.AcceptGroupRequest"><span class="icon_holder icon-group"></span></div>
+									<div *ngSwitchCase="ActivityEntityTypeEnum.ChangePassword"><span class="icon_holder icon-key"></span></div>
+
+								</div>
+								<!-- <figure class="user-img" [style.background-image]="'url('+imagePath+''+objUserSettings?.ProfilePictureUrl+')'" ></figure> -->
+								<div class="content" >
+
+									<h4 *ngIf="objActivity?.EntityType==8">
+                    <span style="color:#1bace2;cursor:pointer;text-decoration: none;" class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span>
+                    posted on your wall
+                    <span style="color:#1bace2;cursor:pointer;text-decoration: none;" class="undeline" (click)="userProfileRedirect(objActivity?.SendingUser_Id)">
+                      {{objActivity?.SendingUser?.FullName}}'s
+                    </span>
+										<span style="color:#1bace2;cursor:pointer;text-decoration: none;" class="undeline" data-fancybox="" data-src="#postdetail"
+                     (click)="commentClicked(objActivity.EntityId,$event)"> </span> </h4>
+
+									<h4 *ngIf="objActivity?.EntityType==8 && objActivity?.SendingUser == null"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> posted on {{
+										objUserSettings?.Gender == '0' ? 'his' : 'her' }} wall <span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+                     class="undeline" data-fancybox="" data-src="#postdetail"> </span> </h4>
+
+									<h4 *ngIf="objActivity?.EntityType==8 && objActivity?.SendingUser?.IsBlocked==true"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> likes <span>{{objActivity?.SendingUser?.FullName}}'s</span>
+										<span> </span> </h4>
+
+									<h4 *ngIf="objActivity?.EntityType==9 && objActivity?.SendingUser?.IsBlocked==false"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> likes <span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" (click)="userProfileRedirect(objActivity?.SendingUser?.Id)">{{objActivity?.SendingUser?.FullName}}'s</span>
+										<span style="color:#1bace2;cursor:pointer;text-decoration: none;" class="undeline" data-fancybox="" data-src="#postdetail"
+                     (click)="commentClicked(objActivity.EntityId,$event)"> post</span> </h4>
+
+									<h4 *ngIf="objActivity?.EntityType==9 && objActivity?.SendingUser?.IsBlocked==true"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> likes <span>{{objActivity?.SendingUser?.FullName}}'s</span>
+                    <span> post</span> </h4>
+
+									<h4 *ngIf="objActivity?.EntityType==9 && objActivity?.SendingUser == null"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> likes {{
+										objUserSettings?.Gender == '0' ? 'his' : 'her' }}<span> post</span> </h4>
+
+									<h4 *ngIf="objActivity?.EntityType==10 && objActivity?.SendingUser?.IsBlocked==false"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}} </span>commented on <span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" (click)="userProfileRedirect(objActivity?.SendingUser?.Id)">{{objActivity?.SendingUser?.FullName}}'s</span>
+										<span style="color:#1bace2;cursor:pointer;text-decoration: none;" class="undeline" data-fancybox="" data-src="#postdetail"
+                     (click)="commentClicked(objActivity.EntityId,$event)"> post</span> </h4>
+
+									<h4 *ngIf="objActivity?.EntityType==10 && objActivity?.SendingUser==null"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}} </span>commented on {{
+										objUserSettings?.Gender == '0' ? 'his' : 'her' }} <span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" data-fancybox="" data-src="#postdetail" (click)="commentClicked(objActivity.EntityId,$event)">
+                      post</span> </h4>
+
+									<h4 *ngIf="objActivity?.EntityType==10 && objActivity?.SendingUser?.IsBlocked==true"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}} </span>commented on <span>{{objActivity?.SendingUser?.FullName}}'s</span>
+										<span> post</span> </h4>
+
+                    <h4 *ngIf="objActivity?.EntityType==12">
+                      <span style="color:#1bace2;cursor:pointer;text-decoration: none;" class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> has created Group
+                    </h4>
+
+									<h4 *ngIf="objActivity?.EntityType==13 && objActivity?.SendingUser?.IsBlocked==false"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> followed <span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+                     class="undeline" (click)="userProfileRedirect(objActivity?.SendingUser?.Id)">{{objActivity?.SendingUser?.FullName}}</span></h4>
+
+									<h4 *ngIf="objActivity?.EntityType==13 && objActivity?.SendingUser?.IsBlocked==true"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+                     class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> followed <span>{{objActivity?.SendingUser?.FullName}}</span></h4>
+
+									<h4 *ngIf="objActivity?.EntityType==15"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+                     class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> shared a post</h4>
+
+                     <h4 *ngIf="objActivity?.EntityType==16"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+                      class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> sent you a group request.</h4>
+
+                      <h4 *ngIf="objActivity?.EntityType==17"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+                        class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> Accepted group request.</h4>
+
+									<h4 *ngIf="objActivity?.EntityType==18"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> updated {{
+                    objUserSettings?.Gender == '0' ? 'his' : 'her' }} profile picture</h4>
+
+									<h4 *ngIf="objActivity?.EntityType==19"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> updated {{
+										objUserSettings?.Gender == '0' ? 'his' : 'her' }} notification <span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+                     class="undeline" [routerLink]="['/notificationsetting']">settings</span></h4>
+
+									<h4 *ngIf="objActivity?.EntityType==20"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> updated {{
+										objUserSettings?.Gender == '0' ? 'his' : 'her' }} account <span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/account-setting']">settings</span></h4>
+									<h4 *ngIf="objActivity?.EntityType==21"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> updated {{
+										objUserSettings?.Gender == '0' ? 'his' : 'her' }} privacy <span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+                     class="undeline" [routerLink]="['/privacysetting']">settings</span></h4>
+
+									<h4 *ngIf="objActivity?.EntityType==22"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> update {{
+										objUserSettings?.Gender == '0' ? 'his' : 'her' }} password</h4>
+
+									<h4 *ngIf="objActivity?.EntityType==25"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> blocked <span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" (click)="userProfileRedirect(objActivity?.SendingUser?.Id)">{{objActivity?.SendingUser?.FullName}}</span></h4>
+
+									<h4 *ngIf="objActivity?.EntityType==26 && objActivity?.SendingUser?.IsBlocked==false"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> reported <span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" (click)="userProfileRedirect(objActivity?.SendingUser?.Id)">{{objActivity?.SendingUser?.FullName}}</span>
+									</h4>
+									<h4 *ngIf="objActivity?.EntityType==26 && objActivity?.SendingUser?.IsBlocked==true"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> reported <span>{{objActivity?.SendingUser?.FullName}}</span>
+									</h4>
+
+									<h4 *ngIf="objActivity?.EntityType==27 && objActivity?.SendingUser?.IsBlocked==false"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> reported <span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" (click)="userProfileRedirect(objActivity?.SendingUser?.Id)">{{objActivity?.SendingUser?.FullName}}'s</span>
+										<span style="color:#1bace2;cursor:pointer;text-decoration: none;" class="undeline" data-fancybox="" data-src="#postdetail"
+										 (click)="commentClicked(objActivity.EntityId,$event)"> post</span> </h4>
+									<h4 *ngIf="objActivity?.EntityType==27 && objActivity?.SendingUser?.IsBlocked==true"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> reported <span>{{objActivity?.SendingUser?.FullName}}'s</span>
+										<span> post</span> </h4>
+									<h4 *ngIf="objActivity?.EntityType==28"><span style="color:#1bace2;cursor:pointer;text-decoration: none;"
+										 class="undeline" [routerLink]="['/profile']">{{objUserSettings?.FullName}}</span> has created Group</h4>
+
+									<span class="time" *ngIf="objActivity.EntityType != 30">{{objActivity?.CreatedDate | date: 'dd MMMM yyyy '}}
+										{{objActivity?.CreatedDate | date: 'hh:mm a'}}</span>
+
+								</div>
+              </li>
+            </ng-container>
+						</ng-container>
+						<ng-container *ngIf="objActivities.length == 0">
+							<li style="border-bottom:none;">
+								<span style="position: relative;left:288px;font-size: 15px;color: #6a6a6a;top:1px;width: 170px;">You have no
+									activity right now</span>
+							</li>
+            </ng-container>
+            <div *ngIf="scrollLoader" class="div-loader-bottom-sets">
+              <i class="fa fa-spinner fa-spin"></i>
+            </div>
+
+					</ul>
+				</div>
+			</div>
+    </div>
+    <!-- <div *ngIf="scrollLoader" class="div-loader-bottom-sets">
+      <i class="fa fa-spinner fa-spin"></i>
+    </div> -->
+	</div>
+</div>

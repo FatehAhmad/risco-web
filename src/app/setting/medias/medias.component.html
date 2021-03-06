@@ -1,0 +1,215 @@
+
+
+<div class="genrel-popup createGroup clearfix" id="create-group" style="display: none;">
+	<div class="upload-gruop-img">
+		<span class="icon-camera"></span>
+		<input type="file" name="">
+	</div>
+	<form>
+		<label>Group Name</label>
+		<div class="field">
+			<input type="text" name="" value="" placeholder="Your group name here..">
+		</div>
+		<br>
+		<label>Add People</label>
+		<div class="field">
+			<input type="text" name="" value="" placeholder="Add group members..">
+			<span class="icon-group"></span>
+		</div>
+
+	</form>
+	<a href="javascript:;" class="md-close red-btn">Create Group</a>
+</div>
+
+<div class="genrel-popup reportDialog clearfix" id="report-user-dialog" style="display: none;">
+		<h3>Report {{objAccountSetting?.FullName}}?</h3>
+		<ul style="position: relative;left: 29px;">
+		  <li>
+			<label for="on11" class="custom-chck"> It's spam
+			  <input type="radio" id="on11" name="report1" (click)="getValueReporting(1)">
+			  <span class="checkmark"></span>
+			</label>
+		  </li>
+	  
+		  <li>
+			<label for="on22" class="custom-chck"> Posting inappropriate things
+			  <input type="radio" id="on22" name="report1" (click)="getValueReporting(2)">
+			  <span class="checkmark"></span>
+			</label>
+		  </li>
+	  
+		  <li>
+			  <label for="on33" class="custom-chck"> Other
+				<input type="radio" id="on33" name="report1" (click)="getValueReporting(3)">
+				<span class="checkmark"></span>
+			  </label>
+		  </li>
+		</ul>
+	  
+		<div class="text-center mt-4">
+		  <a href="javascript:;" style="position:relative;right:9px;" class="custBtn sub_report" title="" data-fancybox="" data-src="#report_user_inner" (click)="reportUser()">Submit</a>
+		  <a href="javascript:;" class="red-btn" title="" data-fancybox-close="">Cancel</a>
+		</div>
+</div>
+
+<div class="genrel-popup sub_popup clearfix" id="report_inner" style="display: none;">
+	<h3>Thanks for reporting this post</h3>
+	
+	<div class="field">
+		<p><span style=" position:  relative;
+				left: 150px;
+				top: -2px">Your feedback matters.</span> <br> <span style="  position: relative;
+				left: 71px;
+				top: -2px;"> Keep helping us in building a Risk-Free community!</span></p>
+	</div>
+</div>
+
+<div class="genrel-popup sub_popup clearfix" id="report_inner" style="display: none;">
+	<h3>Thanks for reporting this post</h3>
+	
+	<div class="field">
+		<p><span style=" position:  relative;
+				left: 150px;
+				top: -2px">Your feedback matters.</span> <br> <span style="  position: relative;
+				left: 71px;
+				top: -2px;"> Keep helping us in building a Risk-Free community!</span></p>
+	</div>
+</div>
+
+<div class="genrel-popup sub_popup clearfix" id="block_user" style="display: none;">
+		<h3>Block {{objAccountSetting?.FullName}}?</h3>
+		<p class="marginBtm">People you block will not be able to:</p>
+		<ul style="list-style: circle;">
+		  <li style="position: relative;left: 32px;padding-left: 0px;">
+			<label class="custom-chck"> see your posts </label>
+		  </li>
+	  
+		  <li style="position: relative;left: 32px;padding-left: 0px;">
+			<label class="custom-chck"> start a conversation with you </label>
+		  </li>
+	  
+		  <li style="position: relative;left: 32px;padding-left: 0px;">
+			<label class="custom-chck"> add you in a group </label>
+		  </li>
+		  <li style="position: relative;left: 32px;padding-left: 0px;">
+			<label class="custom-chck"> follow you </label>
+		  </li>  
+		</ul>
+		<p>If you're already following, blocking someone will also unfollow them.</p>
+	
+	  <div class="text-center">
+		<a href="javascript:;" style="position: relative;right:2px;" data-fancybox-close="" class="custBtn" title="" (click)="blockUser(objAccountSetting.Id)">Yes, Block!</a>
+		<a href="javascript:;" style="position: relative;left:9px;" data-fancybox-close="" class="custBtn" title="">No</a>
+	  </div>
+	
+	</div>
+	
+	<div class="genrel-popup sub_popup clearfix" id="unblock_user" style="display: none;">
+	  <h3>UnBlock {{objAccountSetting?.FullName}}?</h3>
+	  <div class="field text-center">
+		<p>They will now be able to see your posts and profile on Risco. <br> Risco won't let them know you unblocked them.</p>
+	  </div>
+	
+	  <div class="text-center">
+		<a href="javascript:;" style="position: relative;right:2px;" data-fancybox-close="" class="custBtn" title="" (click)="unBlockUser(objAccountSetting.Id)">Yes</a>
+		<a href="javascript:;" style="position: relative;left:9px;" data-fancybox-close="" class="custBtn" title="">No</a>
+	  </div>
+	
+	</div>
+
+
+<div class="mainSec">
+	<div class="container clearfix">
+
+		<div class="topSec wid clearfix">
+				<div *ngIf="(objAccountSetting !=null && objAccountSetting?.CoverPictureUrl!=null)" class="user-cover-img coverImage" [style.background-image]="'url('+imagePath+''+objAccountSetting.CoverPictureUrl+')'">
+				</div>      
+				<div *ngIf="!(objAccountSetting !=null && objAccountSetting?.CoverPictureUrl!=null)" class="user-cover-img coverImage" [style.background-image]="'url(assets/images/default-img.jpg)'" onerror="this.src='assets/images/signup-thumb.jpg'">
+				</div>
+			<div class="profile-wid">
+				<span style="background-position: 50% 50%;" *ngIf="(objAccountSetting !=null && objAccountSetting.ProfilePictureUrl!=null)" class="userImg-wid profileImage" [style.background-image]="'url('+imagePath+''+objAccountSetting.ProfilePictureUrl+')'">
+				</span>
+				<span style="background-position: 50% 50%;" *ngIf="!(objAccountSetting !=null && objAccountSetting.ProfilePictureUrl!=null )" id="er"class="userImg-wid profileImage" [style.background-image]="'url(assets/images/signup-thumb.jpg)'">
+				</span>
+				<h3 class="wid-name">{{objAccountSetting?.FullName}}</h3>
+				<ul class="counter">
+				    <li><a (click)="userProfileRedirect(ParamId)" style="cursor:pointer;"><span>{{objAccountSetting?.PostCount}}</span><p>Posts</p></a></li>
+					<li *ngIf="objAccountSetting.IsBlocked==false"><a [routerLink]="['/medias/'+objAccountSetting?.Id]"><span>{{objAccountSetting?.MediaCount}}</span><p>Media</p></a></li>				  
+					<li *ngIf="objAccountSetting.IsBlocked==true"><a><span>{{objAccountSetting?.MediaCount}}</span><p>Media</p></a></li>
+					<li><a><span>{{objAccountSetting?.FollowingCount}}</span><p>Following</p></a></li>
+				    <li><a><span>{{objAccountSetting?.FollowersCount}}</span><p>Followers</p></a></li>
+				</ul>	
+				<div class="user_btn_parent">
+						<a *ngIf="objAccountSetting?.IsMessagingAllowed == true" href="javascript:;" class="custBtn msg_btn" title="" style="position: relative;left: -9px;" (click)="messageFriendBtnClick()">
+						  <span class="icon-comment"></span> Message</a>
+						<ng-container *ngIf="objAccountSetting.IsBlocked==false">
+						  <a href="javascript:;" class="custBtn followBtn" *ngIf="objAccountSetting.IsFollowing==false" href="javascript:;" title=""
+							(click)="follow(objAccountSetting?.Id)"><span class="icon-user-plus"></span> Follow</a>
+						  <a href="javascript:;" data-fancybox="" data-src="#unfollow_popup" title="" class="custBtn followBtn following" *ngIf="objAccountSetting.IsFollowing==true"
+							href="javascript:;" title=""> Following</a>
+						</ng-container>
+			  
+						<a href="javascript:;" class="profile_more" title=""><span class="icon-menu-1"></span></a>
+						<ul class="profile_more_dropdown">
+						  <li><a href="javacsript:;" *ngIf="objAccountSetting.IsBlocked==false" data-fancybox="" data-src="#block_user"
+							  title="">Block User</a></li>
+						  <li><a href="javacsript:;" *ngIf="objAccountSetting.IsBlocked==true" data-fancybox="" data-src="#unblock_user"
+							  title="">Unblock User</a></li>
+						  <li><a href="javacsript:;" data-fancybox="" data-src="#report-user-dialog" title="" (click)="setIdInternalReportUser(objAccountSetting.Id)">Report User</a></li>
+						</ul>
+					  
+					  </div>			
+			</div>
+
+		</div>
+
+		<div class="media_parent wid">
+			<div class="media_head">
+				<div class="row">
+					<div class="col-md-6">
+						<h3><span class="icon-image-frame"></span> Media</h3>	
+					</div>
+					<div class="col-md-6 my-auto">
+						<!-- <a href="javascript:;" class="media_edit" title=""><span class="icon-pencil"></span> Edit</a> -->
+					</div>
+				</div>
+			</div>
+
+			<div class="media_container">
+				<div class="row">
+				<ng-container *ngIf="objMediaModel.MediaCount>1">
+					<div class="col-md-3" *ngFor="let objMedias of objMediaModel.Medias">
+					
+							<ng-container *ngIf="objMedias.Type==1">
+									<a [href]="imagePath+objMedias.Url" data-fancybox="" title="">
+										<figure class="media_wrap" [style.background-image]="'url('+imagePath+objMedias.Url+')'">
+										</figure>
+									</a>
+								</ng-container>
+		
+								<ng-container *ngIf="objMedias.Type==2">
+									<a [href]="imagePath+objMedias.Url" data-fancybox="" title="">
+										<div class="media_wrap">
+											<video [src]="imagePath+objMedias.Url" controls></video>
+										</div>
+									</a>
+								</ng-container>	
+						
+					</div>
+				</ng-container>
+
+				<ng-container *ngIf="objMediaModel.MediaCount==0">
+					<span style="position: relative;left:440px;font-size: 15px;color:#6a6a6a;top:-3px;width:257px;">No medias to show at the moment</span>
+				</ng-container>
+					<!-- <div class="col-md-3">
+						<a href="assets/123.mp4" data-fancybox="" title=""><div class="media_wrap">
+							<video src="assets/123.mp4" controls></video>
+						</div>
+						</a>
+					</div>					 -->
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>

@@ -1,0 +1,12 @@
+.follower-wid h4 span.set-span {
+    display: block;
+    height: auto;
+    width: auto;
+    font-size: 14px;
+    color: #b5b5b5;
+}
+
+.follower-wid li a {
+    position: relative;
+    top: 8px;
+}

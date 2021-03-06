@@ -1,0 +1,528 @@
+/*=== KAMRAN CSS ===*/
+
+/* Term & Conditions */
+.tnc_panel {
+    background: #fff;
+    padding: 20px 25px 20px 25px;
+    width: 100%;
+    float: left;
+}
+.tnc_panel h3{
+    color: #3d3d3d;
+    font-size: 17px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+}
+.tnc_panel h2{
+    color: #3d3d3d;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'Raleway', sans-serif;
+    margin: 0 0 10px 0;
+}
+.tnc_panel p{
+    font-size: 14px;
+    color: #7f7f7f;
+    line-height: 25px;
+    font-family: 'Raleway', sans-serif;
+    margin: 0 0 20px 0;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+}
+.tnc_panel p strong{
+    color: #404040;
+    font-weight: 700;
+    
+}
+.tnc_panel p strong a{
+    color: #1bace2;
+    text-decoration: underline;
+}
+.tnc_panel ul.disc{
+    font-size: 14px;
+    color: #7f7f7f;
+    margin: -10px 0px 10px 40px;
+    list-style: disc;
+    line-height: 25px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+}
+.tnc_panel ul.num{
+    color: #1bace2;
+    font-size: 15px;
+    margin: 0px;
+    list-style: decimal;
+    line-height: 25px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    padding: 0 0 0 16px;
+}
+.tnc_panel ul.num li a{
+    color: #1bace2;
+    text-decoration: underline;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+}
+
+/* Privacy Policy */
+.PrivacyPolicy_panel {
+    background: #fff;
+    padding: 20px 25px 20px 25px;
+    width: 100%;
+    float: left;
+}
+.PrivacyPolicy_panel h3{
+    color: #3d3d3d;
+    font-size: 17px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+}
+.PrivacyPolicy_panel h2{
+    color: #3d3d3d;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'Raleway', sans-serif;
+    margin: 0 0 10px 0;
+}
+.PrivacyPolicy_panel p{
+    font-size: 14px;
+    color: #7f7f7f;
+    line-height: 25px;
+    font-family: 'Raleway', sans-serif;
+    margin: 0 0 20px 0;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+}
+.PrivacyPolicy_panel p.m0{
+    margin: 0 0 0px 0;
+}
+.PrivacyPolicy_panel p strong{
+    color: #404040;
+    font-weight: 700;
+    
+}
+.PrivacyPolicy_panel p strong a{
+    color: #1bace2;
+    text-decoration: underline;
+}
+.PrivacyPolicy_panel ul.disc{
+    font-size: 14px;
+    color: #7f7f7f;
+    margin: -10px 0px 10px 40px;
+    list-style: disc;
+    line-height: 25px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+}
+.PrivacyPolicy_panel ul.num{
+    color: #1bace2;
+    font-size: 15px;
+    margin: 0px;
+    list-style: decimal;
+    line-height: 25px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    padding: 0 0 0 16px;
+}
+.PrivacyPolicy_panel ul.num li a{
+    color: #1bace2;
+    text-decoration: underline;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+}
+
+/* Privacy Setting */
+.PrivacySetting_panel {
+    background: #fff;
+    padding: 30px 25px 40px 25px;
+    width: 100%;
+    float: left;
+}
+.PrivacySetting_panel h3{
+    color: #3d3d3d;
+    font-size: 17px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+}
+.PrivacySetting_panel h2{
+    color: #3d3d3d;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'Raleway', sans-serif;
+    margin: 0 0 10px 0;
+}
+.PrivacySetting_panel p{
+    font-size: 14px;
+    color: #7f7f7f;
+    line-height: 25px;
+    font-family: 'Raleway', sans-serif;
+    margin: 10px 0 10px 0;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+}
+.PrivacySetting_panel p.m0{
+    margin: 0 0 0px 0;
+}
+.PrivacySetting_panel p strong{
+    color: #404040;
+    font-weight: 700;
+    
+}
+.PrivacySetting_panel p strong a{
+    color: #1bace2;
+    text-decoration: underline;
+}
+.PrivacySetting_panel .policy-group{
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+.PrivacySetting_panel .policy-group .form-check {
+    position: relative;
+    display: block;
+    padding-left: 0rem;
+    margin: 6px 0;
+}
+/*.PrivacySetting_panel [type="checkbox"]:not(:checked) + label:before, [type="checkbox"]:checked + label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 17px;
+    height: 17px;
+    border: 1px solid #b3b3b3;
+    background: #f8f8f8;
+    border-radius: 3px;
+    box-shadow: inset 0 0px 0px rgba(0,0,0,.1);
+    margin-top: 4px;
+}
+
+.PrivacySetting_panel [type="checkbox"]:not(:checked) + label:after, [type="checkbox"]:checked + label:after {
+    content: '✔';
+    position: absolute;
+    font-size: 12px;
+    line-height: 0.8;
+    color: #1ba1e2;
+    transition: all .2s;
+    font-family: Helvetica, Arial, sans-serif;
+    top: 9px;
+    left: 5px;
+}*/
+
+.PrivacySetting_panel .field { margin-bottom: 20px; }
+
+.PrivacySetting_panel label{
+    position: relative;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Raleway', sans-serif;
+    color: #7f7f7f;
+    font-weight: bold;
+    min-width: 190px;
+}
+
+.PrivacySetting_panel .select { width: 50%; background: url('../images/arrow.png') 95% / 3% no-repeat; }
+
+.PrivacySetting_panel input[type="text"],
+.PrivacySetting_panel input[type="email"] {
+    border:1px solid #ebeff2;
+    font-size: 14px;
+    color: #696969;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 5px;
+    width: 50%;
+
+}
+
+
+/* SignUp Create An Account */
+.CreateBlock {
+    width: 100%;
+    float: left;
+}
+.CreateBlock h3 {
+    font-weight: 600;
+    font-size: 30px;
+    color: #3d3d3d;
+    font-family: 'Raleway', sans-serif;
+}
+.CreateBlock p {
+    font-size: 15px;
+    color: #2a2a2a;
+    line-height: 24px;
+    margin: 15px 0 20px;
+    padding-right: 35px;
+}
+.CreateBlock h3:after {
+    display: block;
+    height: 1px;
+    width: 130px;
+    background: #c1c1c1;
+    margin: 10px 0;
+    content: "";
+}
+.CreateBlock form{
+    padding: 30px 40px;
+}
+
+
+/* Verification  */
+.signupSec .container .formSec.formSecVerify {
+    float: left;
+    padding: 26px 30px;
+    background: #fff;
+    width: 580px;
+    min-height: 535px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+
+/* About Us */
+.about_panel {
+    background: #fff;
+    padding: 20px 25px 20px 25px;
+    width: 100%;
+    float: left;
+}
+.about_panel h3{
+    color: #3d3d3d;
+    font-size: 17px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+}
+.about_panel h2{
+    color: #3d3d3d;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'Raleway', sans-serif;
+    margin: 0 0 10px 0;
+}
+.about_panel p{
+    font-size: 14px;
+    color: #7f7f7f;
+    line-height: 25px;
+    font-family: 'Raleway', sans-serif;
+    margin: 0 0 20px 0;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+}
+.about_panel p strong{
+    color: #404040;
+    font-weight: 700;
+    
+}
+.about_panel p strong a{
+    color: #1bace2;
+    text-decoration: underline;
+}
+.about_panel ul.disc{
+    font-size: 14px;
+    color: #7f7f7f;
+    margin: -10px 0px 10px 40px;
+    list-style: disc;
+    line-height: 25px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+}
+.about_panel ul.num{
+    color: #1bace2;
+    font-size: 15px;
+    margin: 0px;
+    list-style: decimal;
+    line-height: 25px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    padding: 0 0 0 16px;
+}
+.about_panel ul.num li a{
+    color: #1bace2;
+    text-decoration: underline;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+}
+
+
+/* Contact Us */
+.contact_panel {
+    background: #fff;
+    padding: 20px 25px 20px 25px;
+    width: 100%;
+    float: left;
+}
+.contact_panel h3{
+    color: #3d3d3d;
+    font-size: 17px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+}
+.contact_panel h2{
+    color: #3d3d3d;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'Raleway', sans-serif;
+    margin: 0 0 10px 0;
+}
+.contact_panel p{
+    font-size: 14px;
+    color: #7f7f7f;
+    line-height: 25px;
+    font-family: 'Raleway', sans-serif;
+    margin: 0 0 20px 0;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+}
+.contact_panel .message_box {
+    float: left;
+    border: 1px solid #ebeff2;
+    padding: 20px 20px;
+    width: 100%;
+    border-radius: 5px;
+    min-height: 195px;
+    resize: none;
+    margin-bottom: 20px;
+}
+
+/* Activity Log */
+.activityLog_panel {
+    background: #fff;
+    padding: 20px 0px 20px 0px;
+    width: 100%;
+    float: left;
+}
+.activityLog_panel h3{
+    color: #3d3d3d;
+    font-size: 17px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding: 0 25px;
+    float: left;
+}
+
+.activityLog_panel .custBtn { margin-right: 20px; float: right; }
+
+.activityLog_panel figure.user-img {
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    width: 44px;
+    height: 44px;
+    display: inline-block;
+    vertical-align: top;
+    border-radius: 50%;
+    background-size: cover;
+    float: left;
+}
+.activityLog_panel .content{
+    float: left;
+    width: 80%;
+}
+.activityLog_panel li {
+    border-bottom: 1px solid #ebeff2;
+    padding: 15px 25px;
+    width: 100%;
+    display: inline-block;
+}
+.activityLog_panel a span {
+    display: inline-block;
+    vertical-align: middle;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    width: 0px;
+    height: auto;
+    border-radius: 50%;
+}
+.activityLog_panel h4 {
+    color: #4a4a4a;
+    vertical-align: middle;
+    margin: 5px 0 0 15px;
+}
+.activityLog_panel li.last_child {
+    border-bottom: none;
+    padding-bottom: 0px;
+}
+.activityLog_panel li a {
+    float: right;
+    transform: rotate(90deg);
+    color: #4d5055;
+    font-size: 21px;
+    margin: -4px 0 0 0;
+}
+.activityLog_panel li span.time {
+    float: left;
+    font-size: 12px;
+    color: #909090;
+    margin: 0px 0 0 15px;
+}
+
+.activityLog_panel h5 {
+    color: #b2b2b2;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    margin: 20px 0 5px 0;
+    padding: 0 25px;
+}
+
+/* Follow  */
+.follow_panel {
+    background: #fff;
+    padding: 20px 0px 20px 0px;
+    width: 100%;
+    float: left;
+}
+.follow_panel h3{
+    color: #3d3d3d;
+    font-size: 17px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding: 0 25px;
+}
+.follow_panel figure.user-img {
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    width: 44px;
+    height: 44px;
+    display: inline-block;
+    vertical-align: top;
+    border-radius: 50%;
+    background-size: cover;
+    float: left;
+}
+.follow_panel .content{
+    float: left;
+    width: 75%;
+}
+.follow_panel li {
+    padding: 8px 25px;
+    width: 100%;
+    display: inline-block;
+}
+.follow_panel h4 {
+    color: #4a4a4a;
+    vertical-align: middle;
+    margin: 12px 0 0 15px;
+    font-size: 18px;
+    font-weight: 600;
+}
+.follow_panel .custBtn {
+    border-radius: 25px;
+    padding: 6px 40px;
+    font-size: 12px;
+    float: right;
+    min-width: 132px;
+    text-align: center;
+}
+
+
+/* Account Setting */

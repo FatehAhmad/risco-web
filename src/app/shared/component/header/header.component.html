@@ -1,0 +1,611 @@
+<div class="genrel-popup postdetail clearfix" id="postdetail-header" style="display: none;padding-top: 19px;">
+    <div class="post-cart pb-0">
+        <div (click)="closeFancy()" style="float: right; position: absolute; right: 14px; top: -15px; cursor: pointer;"> X
+        </div>
+        <div class="cart-header clearfix">
+            <div class="left">
+                <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objGetPostSettingsById && objGetPostSettingsById.User&& objGetPostSettingsById.User.ProfilePictureUrl ? 'url('+imagePath+objGetPostSettingsById.User.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}">
+                </figure>
+                <div class="dtl">
+                    <h3>{{objGetPostSettingsById?.User?.FullName}}</h3>
+                    <ul style="margin-top: 15px;">
+                        <li> Risk
+                            <span class="redtxt" *ngIf="objGetPostSettingsById.RiskLevel == 1">High</span>
+                            <span class="redtxt" *ngIf="objGetPostSettingsById.RiskLevel == 2">Medium</span>
+                            <span class="redtxt" *ngIf="objGetPostSettingsById.RiskLevel == 3">Low</span>
+                        </li>
+
+                        <li style="cursor: default;" title="{{objGetPostSettingsById.CreatedDate | date: 'dd MMMM yyyy'}} {{objGetPostSettingsById.CreatedDate | date: 'hh:mm a' }}">
+                            {{objGetPostSettingsById.CreatedDate | amTimeAgo:true }} ago
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <span *ngIf="objGetPostSettingsById.IsUserFollow==false && objGetPostSettingsById.User.Id != objUserSettings.Id" class="icon-add2 detailFollowIcon" (click)="detailPostFollow(objGetPostSettingsById.User.Id)"></span>
+
+        </div>
+
+        <div class="cart-content" style="border-bottom:none;">
+            <p class="" [innerHTML]=objGetPostSettingsById.Text></p>
+        </div>
+
+        <div *ngIf="objGetPostSettingsById?.Medias?.length>1" class="cart-img" id="multipleImages" [class.multiple]="objGetPostSettingsById?.Medias?.length>3" [class.double]="objGetPostSettingsById?.Medias?.length==2" [class.tripple]="objGetPostSettingsById?.Medias?.length==3">
+            <ng-container *ngFor="let postImgs of objGetPostSettingsById?.Medias;let j=index;">
+                <a *ngIf="postImgs.Type==1" data-fancybox="" [href]="imagePath+postImgs.Url" class="fancyImage thumb galleryImages{{objGetPostSettingsById?.Id}}" [style.background-image]="'url('+imagePath+postImgs.Url+')'" title=""></a>
+                <a *ngIf="postImgs.Type==2" data-fancybox="" [href]="imagePath+postImgs.Url" class="fancyImage thumb galleryImages{{objGetPostSettingsById?.Id}}" title=""><video
+            [src]="imagePath+postImgs.Url" controls="" controlsList="nodownload"></video></a>
+                <a *ngIf="objGetPostSettingsById?.Medias?.length>4" (click)="remainingImages(objGetPostSettingsById.Id)" class="thumb_count" style="cursor: pointer;"><span
+            style="color: #fff">{{(objGetPostSettingsById.Medias.length)-4}}+</span></a>
+            </ng-container>
+        </div>
+
+        <div class="cart-img" *ngIf="objGetPostSettingsById?.Medias?.length==1">
+            <a *ngIf="objGetPostSettingsById?.Medias[0].Type==2" data-fancybox="" [href]="imagePath+objGetPostSettingsById.Medias[0].Url" class="fancyImage thumb" title="">
+                <video [src]="imagePath+objGetPostSettingsById.Medias[0].Url" controls="" controlsList="nodownload"></video>
+            </a>
+            <a *ngIf="objGetPostSettingsById?.Medias[0].Type==1" [href]="imagePath+objGetPostSettingsById.Medias[0].Url" data-fancybox="" class=" fancyImage cart-img" [style.background-image]="'url('+imagePath+objGetPostSettingsById.Medias[0].Url+')'">
+            </a>
+        </div>
+
+        <div class="cart-content">
+            <ul class="social-counter">
+                <span *ngIf="!(objGetPostSettingsById.LikesCount==0 && objGetPostSettingsById.CommentsCount==0 && objGetPostSettingsById.ShareCount==0)">
+          <li *ngIf="objGetPostSettingsById.LikesCount==1">{{objGetPostSettingsById.LikesCount}} Like</li>
+          <li *ngIf="objGetPostSettingsById.LikesCount>1">{{objGetPostSettingsById.LikesCount}} Likes</li>
+
+          <li *ngIf="objGetPostSettingsById.CommentsCount==1">{{objGetPostSettingsById.CommentsCount}} Comment</li>
+          <li *ngIf="objGetPostSettingsById.CommentsCount>1">{{objGetPostSettingsById.CommentsCount}} Comments</li>
+
+          <li *ngIf="objGetPostSettingsById.ShareCount==1">{{objGetPostSettingsById.ShareCount}} Share</li>
+          <li *ngIf="objGetPostSettingsById.ShareCount>1">{{objGetPostSettingsById.ShareCount}} Shares</li>
+        </span>
+            </ul>
+        </div>
+        <div class="cart-footer">
+            <ul>
+                <li><a *ngIf="objGetPostSettingsById.IsLiked"><span class="icon-thumbs-up2"
+              (click)="internalStarClicked()"></span></a></li>
+                <li><a *ngIf="!objGetPostSettingsById.IsLiked"><span class="icon-thumbs-o-up"
+              (click)="internalStarClicked()"></span></a></li>
+
+                <li><a><span class="icon-comment"></span></a></li>
+                <li class="more">
+                    <a href="javascript:;" (click)="appComponent.sharePostClick(objGetPostSettingsById)"><span
+              class="icon-reply"></span></a>
+                    <!-- <div class="more-dropdown reply">
+						<ul>
+							<li (click)="rePostInternal(objGetPostSettingsById.Id,1)" class="textHover"><a href="javascript:;">Public</a></li>
+							<li (click)="rePostInternal(objGetPostSettingsById.Id,2)" class="textHover"><a href="javascript:;">Followers Only</a></li>
+							<li (click)="rePostInternal(objGetPostSettingsById.Id,3)" class="textHover"><a href="javascript:;">Only me</a></li>
+						</ul>
+					</div> -->
+                </li>
+                <li><a><span class="icon-share"></span></a></li>
+
+                <li class="more" (click)="moreClick(objGetPostSettingsById)">
+                    <a href="javascript:;" (click)="setIndexInternal(objGetPostSettingsById?.User?.Id,objGetPostSettingsById?.Id)"><span
+              class="icon-more"></span></a>
+                    <div class="more-dropdown">
+                        <ul>
+                            <li style="cursor: pointer;" *ngIf="objGetPostSettingsById?.User?.Id != objUserSettings?.Id" (click)="hidePostByIdInternal(objGetPostSettingsById.Id)" class="textHover"><a href="javascript:;" data-fancybox="" data-src="#hide_single_post">Hide Post</a></li>
+                            <li style="cursor: pointer;" *ngIf="objGetPostSettingsById?.User?.Id != objUserSettings?.Id" class="textHover"><a href="javascript:;" data-fancybox="" data-src="#hide_all_post_internal">Hide all
+                  posts by this user</a></li>
+                            <li style="cursor: pointer;" class="textHover"><a>Turn off notifications for this post</a></li>
+                            <li style="cursor: pointer;" *ngIf="objGetPostSettingsById?.User?.Id != objUserSettings?.Id" (click)="setIdInternal(objGetPostSettingsById.Id)" class="textHover"><a data-fancybox data-src="#report-dialog">Report Post</a></li>
+                            <li style="cursor: pointer;" [hidden]="objGetPostSettingsById?.User?.Id != objUserSettings?.Id" class="textHover"><a href="javascript:;" data-fancybox="" data-src="#delete_post_internal">Delete
+                  Post</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="user-comment clearfix">
+        <img *ngIf="imagePath && CommentsPicture" class="user-img" [src]="imagePath + CommentsPicture" onerror="this.src='assets/images/signup-thumb.jpg'">
+
+        <div class="content">
+            <small *ngIf="objGetPostSettingsById?.User && objGetPostSettingsById?.User?.UserName">Comment to <span
+          class="bluetxt">@{{objGetPostSettingsById?.User?.UserName}}</span></small>
+            <div class="field">
+                <!-- <emoji-input [(model)]="objCommentText" [textArea]="{cols : 2, rows : 2}"
+					[closeAfterSelection]="false" placeholder="Comment to Reply..."
+					(click)="popuuComment()"
+					id="comnt" (setPopupAction)="setPopupActionComment($event)">
+					</emoji-input>
+					<span class="icon-Shape-13 showIcon" (click)="openPopupComment()"></span> -->
+
+                <span class="icon-Shape-13 showIcon parent-comment-area" (click)="showEmojee(1)"></span>
+                <textarea id="comnt" [(ngModel)]="objCommentText" placeholder="enter comment here"></textarea>
+                <emoji-mart (emojiSelect)="addEmoji($event, 1)" [showPreview]="false" [emojiTooltip]="true" set="emojione" [hideRecent]="true">
+                </emoji-mart>
+
+                <a href="javascript:;" class="sent_btn showIcon" title="" *ngIf=" (objCommentText.length != 0 && objCommentText.trim() != '' )  || uploadedImageUrls[0] || uploadedVideoUrls[0] ">
+                    <div *ngIf="btnloader">
+                        <i class="fa fa-spinner fa-spin"></i><span class="icon-send showIcon"></span>
+                    </div>
+
+                    <div *ngIf="!btnloader">
+                        <span class="icon-send showIcon" (click)="postComment(objCommentText)"></span>
+                    </div>
+
+                </a>
+
+                <div class="comment_media">
+                    <ul>
+                        <li *ngIf="uploadedImageUrls[0]">
+                            <figure class="uploadedimg user-img" [style.background-image]="'url('+appComponent.imagePath+uploadedImageUrls[0]+')'"></figure>
+                            <span style="cursor: pointer;" class="icon-close2" (click)="onRemoveFile(mediaTypeEnum.Image,0)"></span>
+                            <li *ngIf="uploadedVideoUrls[0]">
+                                <video>
+                <source [src]="appComponent.imagePath+uploadedVideoUrls[0]" type="video/mp4" />
+              </video>
+                                <span style="cursor: pointer;" class="icon-close2" (click)="onRemoveFile(mediaTypeEnum.Video,0)"></span>
+                            </li>
+                    </ul>
+                    <img *ngIf="PostService?.showLoaderImages" style="display: block;position: relative;left: 37%;top:2px;width:64px;height:42px;border-radius: 50%;border: 3px solid transparent;" src="assets/images/Facebook-1s-200px.svg">
+                </div>
+
+            </div>
+
+            <ul class="attach-list">
+                <li>
+                    <a href="javascript:;"><span id="parent-img-header" class="icon-picture"></span>
+            <input type="file" id="uploadpicCmnt-header" accept="image/*" style="display:none;"
+              (change)="OnFileSelectionMedia(mediaTypeEnum.Image, 1)">
+          </a>
+                </li>
+                <li>
+                    <a href="javascript:;"><span id="parent-vdo-header" class="icon-Forma-1"></span>
+            <input type="file" id="uploadvdoCmnt-header" accept="video/*" style="display:none;"
+              (change)="OnFileSelectionMedia(mediaTypeEnum.Video, 1)">
+          </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="peoples-comments">
+        <div class="comment clearfix" *ngFor="let objComment of objGetPostSettingsById.Comments ; let i = index;">
+            <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objComment?.User?.ProfilePictureUrl?'url('+imagePath+''+objComment?.User?.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}">
+            </figure>
+            <div class="content">
+                <h3 (click)="userProfileRedirect(objComment?.User?.Id)" style="cursor: pointer">{{objComment?.User?.FullName}}
+                    <small>@{{objComment?.User?.UserName}}
+            - {{objComment?.CreatedDate | date: 'hh:mm a'}}</small></h3>
+                <span *ngIf="objGetPostSettingsById.User && objGetPostSettingsById?.User?.UserName">Comment to <span
+            class="bluetxt">@{{objGetPostSettingsById?.User?.UserName}}</span></span>
+                <p>{{objComment.Text}}</p>
+                <div class="comments_media" *ngIf="objComment?.Medias">
+                    <figure *ngIf="objComment?.Medias[0]?.Type == 1" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objComment?.Medias[0]?.Url" [style.background-image]="'url('+appComponent.imagePath+objComment.Medias[0].Url+')'"></figure>
+                    <figure *ngIf="objComment?.Medias[0]?.Type == 2" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objComment?.Medias[0]?.Url">
+                        <video class="comentvideoautoplaystop" [src]="appComponent.imagePath+objComment?.Medias[0]?.Url"></video>
+                    </figure>
+                    <figure *ngIf="objComment?.Medias[1]?.Type == 2" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objComment?.Medias[1]?.Url">
+                        <video class="comentvideoautoplaystop" [src]="appComponent.imagePath+objComment?.Medias[1]?.Url"></video>
+                    </figure>
+                </div>
+                <ul class="actBtns">
+                    <li>
+                        <a *ngIf="objComment.IsLiked"><span class="icon-thumbs-up2" (click)="commentStarClicked(i)"></span></a>
+                        <a *ngIf="!objComment.IsLiked"><span class="icon-thumbs-o-up" (click)="commentStarClicked(i)"></span></a>
+                    </li>
+                    <li><a href="javascript:;" class="sub_comment_btn"><span class="icon-comment"></span></a></li>
+
+                </ul>
+                <div class="sub_comment_box">
+                    <div class="field">
+
+                        <!-- <emoji-input [(model)]="objChildCommentText" [textArea]="{rows : 4}" [closeAfterSelection]="false" placeholder="Enter Comment" (click)="popuuChildComment()" id="replyText" (setPopupAction)="setPopupActionChildComment($event)">
+							</emoji-input>
+							<span class="icon-Shape-13 showIcon" (click)="openPopupChildComment()"></span> -->
+
+                        <span class="icon-Shape-13 showIcon child-comment-area" (click)="showEmojee(0)"></span>
+                        <textarea id="replyText" placeholder="enter reply here" [(ngModel)]="objChildCommentText"></textarea>
+                        <emoji-mart class="child-emoji-mart" (emojiSelect)="addEmoji($event, 0)" [showPreview]="false" [emojiTooltip]="true" [hideRecent]="true">
+                        </emoji-mart>
+
+                        <a href="javascript:;" class="sent_btn showIcon" title="" *ngIf="( objChildCommentText.length != 0 && objChildCommentText.trim() != '' ) || commentReplyImageUrls[0] || commentReplyVideoUrls[0] ">
+
+                            <div *ngIf="btnloader1">
+                                <i class="fa fa-spinner fa-spin"></i><span class="icon-send showIcon"></span>
+                            </div>
+
+                            <div *ngIf="!btnloader1">
+                                <span class="icon-send showIcon" (click)="replyComment(objComment.Id,objChildCommentText)"></span>
+
+                            </div>
+
+                        </a>
+
+                        <div class="comment_media">
+                            <ul>
+                                <li *ngIf="commentReplyImageUrls[0]">
+                                    <figure class="uploadedimg user-img" [style.background-image]="'url('+appComponent.imagePath+commentReplyImageUrls[0]+')'"></figure>
+                                    <span style="cursor: pointer;" class="icon-close2" (click)="onRemoveFile(mediaTypeEnum.Image,0)"></span>
+                                    <li *ngIf="commentReplyVideoUrls[0]">
+                                        <video>
+                    <source [src]="appComponent.imagePath+commentReplyVideoUrls[0]" type="video/mp4" />
+                  </video>
+                                        <span style="cursor: pointer;" class="icon-close2" (click)="onRemoveFile(mediaTypeEnum.Video,0)"></span>
+                                    </li>
+                            </ul>
+                            <img *ngIf="PostService.showLoaderImages" style="display: block;position: relative;left: 37%;top:2px;width:64px;height:42px;border-radius: 50%;border: 3px solid transparent;" src="assets/images/Facebook-1s-200px.svg">
+                        </div>
+                    </div>
+
+                    <ul class="actBtns">
+                        <li (click)="triggerClick('uploadpicCmntReply-header')">
+                            <a href="javascript:;"><span id="child-img-header" class="icon-picture"></span>
+                <input type="file" id="uploadpicCmntReply-header" accept="image/*" style="display:none;"
+                  (change)="OnFileSelectionMedia(mediaTypeEnum.Image, 0)">
+              </a>
+                        </li>
+                        <li (click)="triggerClick('uploadvdoCmntReply-header')">
+                            <a href="javascript:;"><span id="child-vdo-header" class="icon-Forma-1"></span>
+                <input type="file" id="uploadvdoCmntReply-header" accept="video/*" style="display:none;"
+                  (change)="OnFileSelectionMedia(mediaTypeEnum.Video, 0)">
+              </a>
+                        </li>
+                    </ul>
+
+                    <!-- <a href="javascript:;" class="custBtn sent_sub_comment" title="" *ngIf="objChildCommentText.length != 0 && objChildCommentText.trim() != '' "
+						(click)="replyComment(objComment.Id,objChildCommentText)">Send</a> -->
+                </div>
+                <div class="sub_comment_view clearfix" *ngFor="let objChildComments of objComment.ChildComments.reverse() ">
+                    <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objChildComments?.User?.ProfilePictureUrl?'url('+imagePath+''+objChildComments?.User?.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}">
+                    </figure>
+                    <div class="content">
+                        <h3 style="cursor: pointer;" (click)="userProfileRedirect(objChildComments?.User?.Id)">
+                            {{objChildComments?.User?.FullName}}
+                            <small>@{{objChildComments?.User?.UserName}} - {{objChildComments.CreatedDate | date: 'hh:mm a'}}</small>
+                        </h3>
+
+                        <p>{{objChildComments?.Text}}.</p>
+                        <div class="comments_media" *ngIf="objChildComments?.Medias">
+                            <figure *ngIf="objChildComments?.Medias[0]?.Type == 1" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objChildComments?.Medias[0]?.Url" [style.background-image]="'url('+appComponent.imagePath+objChildComments?.Medias[0]?.Url+')'"></figure>
+                            <figure *ngIf="objChildComments?.Medias[0]?.Type == 2" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objChildComments?.Medias[0]?.Url">
+                                <video [src]="appComponent.imagePath+objChildComments?.Medias[0]?.Url"></video>
+                            </figure>
+                            <figure *ngIf="objChildComments?.Medias[1]?.Type == 2" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objChildComments?.Medias[1]?.Url">
+                                <video [src]="appComponent.imagePath+objChildComments?.Medias[1]?.Url"></video>
+                            </figure>
+                        </div>
+                    </div>
+                    <div style="padding: 18px;"> </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- <div class="genrel-popup postdetail clearfix" id="group-notification" style="display: none;">
+
+</div> -->
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Group Invitaion</h4>
+                <button type="button" class="close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <p>Would you like to join this group?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" style="background-color: #03a9f4;border-color: #03a9f4;" (click)="acceptJoinRequestByUser()" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-danger" (click)="rejectJoinRequestByUser()" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Header -->
+<div class="overlay-bg" [class.show]="isMenuDisplayed" (click)="onOverlayClick()"></div>
+<noscript>
+  <div id="jqcheck"><i></i></div>
+</noscript>
+
+<header class="header">
+    <div class="container clearfix">
+
+        <div class="logoSec">
+            <a class="logo" [routerLink]="['/index']"><img src="assets/images/logo.png" alt=""></a>
+            <!-- <a class="logo" *ngIf="LoggedInUser?.getLoggedInUser()?.FullName==null"><img src="assets/images/logo.png" alt=""></a>	 -->
+
+            <div class="menuBtn">
+                <span class="icon-menu" (click)="openMenu()"></span>
+                <div class="header-dropdown menu" [hidden]="!isMenuDisplayed" style="display:block;">
+                    <ul (click)="closeMenu()">
+                        <li><a [routerLink]="['/activity-log']"><i class="icon icon1"></i> Activity Log</a></li>
+                        <li style="height: 44px;">
+                            <a [routerLink]="['/groups']"><img src="assets/images/group-icon.png" style="width:27px;height:27px;"> <span style="display: inline-block;position:relative;
+							left: 41px;
+							top: -25px;
+						">Groups</span></a>
+                        </li>
+                        <li><a [routerLink]="['/notificationsetting']"><i class="icon icon2"></i> Notifications</a></li>
+                        <li><a [routerLink]="['/account-setting']"><i class="icon icon3"></i> Account Settings</a></li>
+                        <li><a [routerLink]="['/privacysetting']"><i class="icon icon4"></i> Privacy Settings</a></li>
+                        <li><a [routerLink]="['/privacypolicy']"><i class="icon icon5"></i> Privacy Policy</a></li>
+                        <li><a [routerLink]="['/terms-and-conditions']"><i class="icon icon6"></i> Terms & Conditions</a></li>
+                        <li><a [routerLink]="['/change-password']"><i class="icon icon9"></i> Change Password</a></li>
+                        <li><a [routerLink]="['/contact']"><i class="icon icon7"></i> Contact Us</a></li>
+                        <li><a [routerLink]="['/about']"><i class="icon icon8"></i> About Us</a></li>
+                        <li><a [routerLink]="['/faq']"><i class="icon icon9"></i> FAQs</a></li>
+                        <li><a data-toggle="modal" data-target="#logout-modal"><i class="icon icon10"></i> Log Out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="searchField">
+            <input type="text" name="" id="searchInputHeader" class="input" placeholder="Search Risco..." (keyup)="search()" (focus)="search()" [(ngModel)]="searchText">
+            <button type="submit"><span class="icon-magnify"></span></button>
+            <div class="autocomplete_pnl" style="z-index:99999999;">
+                <ng-container *ngIf="objSearchModel?.Users?.length!=0 || objSearchModel?.Groups?.length!=0">
+                    <ul>
+                        <ng-container *ngIf="objSearchModel?.Users?.length>0">
+                            <h4>People</h4>
+                            <li *ngFor="let objUserSearch of objSearchModel.Users" class="hoverBackground">
+                                <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image':objUserSearch?.ProfilePictureUrl ? 'url('+imagePath+objUserSearch?.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}">
+                                </figure>
+                                <h3 class="trancate360" style="width:144px;" (click)="userProfileRedirect(objUserSearch.Id)">
+                                    {{objUserSearch?.FullName}}</h3>
+                            </li>
+                        </ng-container>
+
+                    </ul>
+                    <ng-container *ngIf="objSearchModel?.Groups?.length>0">
+                        <ul>
+
+                            <h4 *ngIf="objSearchModel?.Groups?.length<=1">Group</h4>
+                            <h4 *ngIf="objSearchModel?.Groups?.length>1">Groups</h4>
+
+                            <li *ngFor="let objGroupSearch of objSearchModel?.Groups">
+                                <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image':objGroupSearch?.ImageUrl ? 'url('+imagePath+objGroupSearch?.ImageUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}">
+                                </figure>
+                                <h3 class="trancate360" style="width:144px;" (click)="groupRedirect(objGroupSearch.Id)">
+                                    {{objGroupSearch?.Name}}</h3>
+                            </li>
+
+                        </ul>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="objSearchModel?.Users?.length==0 && objSearchModel?.Groups?.length==0">
+                    <li>
+                        <span style="position: relative;left:2px;font-size: 15px;color: #6a6a6a;top:8px;width: 170px;">No results
+              found that
+              match your search </span>
+                    </li>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="accountSetting">
+            <ul class="notiItems">
+                <li><span [routerLink]="['/index']" class="icon-Shape-1"></span></li>
+
+                <li class="dropdown-link" [class.unread]="objNotificationsModel.Notifications|isNotificationUnread">
+                    <span class="icon-bell" (click)="getNotifications();MessagingService.notificationUnread = false;"></span>
+
+                    <div class="header-dropdown nofication_msgs">
+
+                        <ng-container *ngIf="objNotificationsModel?.Notifications?.length>0">
+                            <div class="notiScrol">
+                                <!-- commentClicked(objNotification.EntityId,$event); -->
+                                <div class="noti-msg-row notfctnn" *ngFor="let objNotification of objNotificationsModel.Notifications;let i=index;" [class.unread]="objNotification.Status==0" (click)="markAsRead(objNotification?.Id,i , objNotification.EntityId ,$event)">
+                                    <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image':objNotification?.SendingUser?.ProfilePictureUrl? 'url('+imagePath+objNotification?.SendingUser?.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}">
+                                    </figure>
+                                    <ng-container *ngIf="objNotification.EntityType==8||objNotification.EntityType==9||objNotification.EntityType==10||objNotification.EntityType==11||objNotification.EntityType==15">
+                                        <div class="content">
+                                            <!-- <span class="time">{{objNotification.CreatedDate|timeAgo}}</span> -->
+                                            <h4 class="description">{{objNotification.Description}}</h4>
+
+                                            <p style="font-size: 14px; opacity: 0.5;" class="description date-notify">{{objNotification.CreatedDate | date: 'dd MMMM yyyy '}}</p>
+                                        </div>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="objNotification.EntityType==12">
+                                        <div class="content" data-toggle="modal" data-target="#myModal">
+                                            <!-- <span class="time">{{objNotification.CreatedDate|timeAgo}}</span> -->
+                                            <h4 class="description">{{objNotification.Description}}</h4>
+                                            <br>
+                                            <label style="font-size: 14px; opacity: 0.5;" class="description">{{objNotification.CreatedDate | date: 'dd MMMM yyyy '}}</label>
+                                        </div>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="objNotification.EntityType==13||objNotification.EntityType==14">
+                                        <div class="content" (click)="userProfileRedirect(objNotification.EntityId)">
+                                            <!-- <span class="time">{{objNotification.CreatedDate|timeAgo}}</span> -->
+                                            <h4 class="description">{{objNotification.Description}}</h4>
+                                            <br>
+                                            <label style="font-size: 14px; opacity: 0.5;" class="description">{{objNotification.CreatedDate | date: 'dd MMMM yyyy '}}</label>
+                                        </div>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="objNotification.EntityType==16||objNotification.EntityType==17">
+                                        <div class="content" (click)="groupRedirect(objNotification.EntityId)">
+                                            <!-- <span class="time">{{objNotification.CreatedDate|timeAgo}}</span> -->
+                                            <h4 class="description">{{objNotification.Description}}</h4>
+                                            <br>
+                                            <label style="font-size: 14px; opacity: 0.5;" class="description">{{objNotification.CreatedDate | date: 'dd MMMM yyyy '}}</label>
+                                        </div>
+                                    </ng-container>
+
+                                </div>
+                            </div>
+
+                              <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4"><h4 style="color:#1bace2;cursor:pointer;text-decoration: none; text-align: center;" (click)="seeAllNotificationsRedirect()" class="description undeline">See all</h4></div>
+                                <div class="col-md-4"></div>
+                              </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="objNotificationsModel?.Notifications?.length==0">
+                            <li>
+                                <span style="position: relative;left:2px;font-size: 15px;color: #6a6a6a;top:8px;width:199px;">You have no new
+            notifications</span>
+                            </li>
+                        </ng-container>
+
+                    </div>
+
+                </li>
+
+                <li class="dropdown-link" (click)="loadChatMessages();">
+                    <span class="icon-msg"></span>
+
+                    <div class="header-dropdown messages msgbar-dropdown">
+                        <div class="notiScrol">
+                            <h3 style="display:inline-block;">Just Now</h3>
+                            <h3 style="float:right;padding-right: 20px;color: #7db8f4;display: inline-block;"><a (click)="hideMsgBar()" routerLink="/messages">See All</a></h3>
+                            <div class="noti-msg-row msgsss" *ngFor="let item of chatList">
+                                <a [routerLink]="['/messages',item.request.sender_id,item.request.sender_username]" (click)="hideMsgBar()" style="display: block;">
+                                    <figure class="user-img" style="background-image: url('assets/images/user-img.png');"></figure>
+                                    <div class="content">
+                                        <div class="head clearfix">
+                                            <h4 class="name">{{item.request.sender_username}} <span class="time">{{item.message.date|date:'shortTime'}}</span></h4>
+                                            <small class="date">{{item.message.date|date:'dd MMM yyyy'}}</small>
+                                        </div>
+                                        <p class="multiline-tancate">{{item.message.senderUserName}}: {{item.message.message}} </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </li>
+                <!-- <li class="dropdown-link unread">
+					<span class="icon-add"></span>
+
+					<div class="header-dropdown messages">
+						<div class="notiScrol">
+							<h3>Just Now</h3>
+
+							<div class="noti-msg-row">
+								<figure class="user-img" style="background-image: url('assets/images/user-3.jpg');"></figure>
+								<div class="content">
+									<div class="head clearfix">
+										<h4 class="name">Stefan Salvatore <span>1:38 PM</span></h4>
+										<small class="date">07 Apr 2018 </small>
+									</div>
+									<p class="trancate260">A new user has started follow you.</p>
+								</div>
+							</div>
+
+							<div class="noti-msg-row unread">
+								<figure class="user-img" style="background-image: url('assets/images/user-img.jpg');"></figure>
+								<div class="content">
+									<div class="head clearfix">
+										<h4 class="name">{{HeaderComponent.objAccountSetting.FullName}} <span>1:38 PM</span></h4>
+										<small class="date">07 Apr 2018 </small>
+									</div>
+									<p class="trancate260">A new user has started follow you.</p>
+								</div>
+							</div>
+
+							<h3>earlier</h3>
+
+							<div class="noti-msg-row unread">
+								<figure class="user-img" style="background-image: url('assets/images/user-img.jpg');"></figure>
+								<div class="content">
+									<div class="head clearfix">
+										<h4 class="name">{{HeaderComponent.objAccountSetting.FullName}} <span>1:38 PM</span></h4>
+										<small class="date">07 Apr 2018 </small>
+									</div>
+									<p class="trancate260">A new user has started follow you.</p>
+								</div>
+							</div>
+
+							<div class="noti-msg-row">
+								<figure class="user-img" style="background-image: url('assets/images/user-2.jpg');"></figure>
+								<div class="content">
+									<div class="head clearfix">
+										<h4 class="name">{{HeaderComponent.objAccountSetting.FullName}} <span>1:38 PM</span></h4>
+										<small class="date">07 Apr 2018 </small>
+									</div>
+									<p class="trancate260">A new user has started follow you.</p>
+								</div>
+							</div>
+
+							<div class="noti-msg-row">
+								<figure class="user-img" style="background-image: url('assets/images/user-4.jpg');"></figure>
+								<div class="content">
+									<div class="head clearfix">
+										<h4 class="name">{{HeaderComponent.objAccountSetting.FullName}} <span>1:38 PM</span></h4>
+										<small class="date">07 Apr 2018 </small>
+									</div>
+									<p class="trancate260">A new user has started follow you.</p>
+								</div>
+							</div>
+							<div class="noti-msg-row">
+								<figure class="user-img" style="background-image: url('assets/images/user-2.jpg');"></figure>
+								<div class="content">
+									<div class="head clearfix">
+										<h4 class="name">{{HeaderComponent.objAccountSetting.FullName}} <span>1:38 PM</span></h4>
+										<small class="date">07 Apr 2018 </small>
+									</div>
+									<p class="trancate260">A new user has started follow you.</p>
+								</div>
+							</div>
+
+							<div class="noti-msg-row">
+								<figure class="user-img" style="background-image: url('assets/images/user-4.jpg');"></figure>
+								<div class="content">
+									<div class="head clearfix">
+										<h4 class="name">{{HeaderComponent.objAccountSetting.FullName}} <span>1:38 PM</span></h4>
+										<small class="date">07 Apr 2018 </small>
+									</div>
+									<p class="trancate260">A new user has started follow you.</p>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</li> -->
+            </ul>
+            <div class="header-profile">
+                <a [routerLink]="['/profile']"> <span class="width-span-name" style="width: 150px; text-overflow: ellipsis; overflow-x: hidden; white-space: nowrap;">{{HeaderComponent.objAccountSetting?.FullName}}</span></a>
+                <a>
+                    <figure [routerLink]="['/profile']" style="background-size: cover; cursor: pointer;" class="head-thumb profileImage" [ngStyle]="{'background-image':HeaderComponent.objAccountSetting?.ProfilePictureUrl? 'url('+imagePath+HeaderComponent.objAccountSetting.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}">
+                    </figure>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<!-- Modal -->
+<div class="modal fade" id="logout-modal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Warning</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure want to log out ?</p>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-success" style="background-color: #03a9f4;border-color: #03a9f4;" (click)="logout()" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>

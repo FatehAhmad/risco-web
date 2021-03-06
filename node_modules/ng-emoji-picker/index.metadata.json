@@ -1,0 +1,1 @@
+[{"__symbolic":"module","version":4,"metadata":{},"exports":[{"from":"./src/emoji.service","export":["EmojiService"]},{"from":"./src/emoji-input/emoji-input.component","export":["EmojiInputComponent"]},{"from":"./emoji-picker.module","export":["EmojiPickerModule"]}]}]

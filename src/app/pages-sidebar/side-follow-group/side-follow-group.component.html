@@ -1,0 +1,42 @@
+<div class="sideBar-follows">
+    <div class="follower-wid wid" *ngIf="sideBar!=SidebarTypeEnum.userProfileSidebar && sideBar!=SidebarTypeEnum.groupSidebar">
+        <h3 class="heading-wid">Top Followers</h3>
+        <ul class="wid_scroll">
+            <ng-container *ngIf="objTopFollowers.length>0">
+                <li *ngFor="let objTopFollwer of objTopFollowers" style="cursor: pointer;">
+                    <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objTopFollwer?.FirstUser?.ProfilePictureUrl ? 'url('+imagePath+''+objTopFollwer?.FirstUser?.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}"></figure>
+                    <h4 (click)="userProfileRedirect(objTopFollwer.FirstUser.Id)" style="cursor: pointer; width: 73%; text-overflow: ellipsis; white-space: nowrap; overflow-x: hidden;">{{objTopFollwer.FirstUser.FullName}}
+                        <span class="set-span">@{{objTopFollwer.FirstUser.UserName}}</span></h4>
+                </li>
+            </ng-container>
+
+            <ng-container *ngIf="objTopFollowers.length==0">
+                <span style="position: relative;left: 16px;font-size: 15px;color: #6a6a6a;top:8px;width: 170px;">You have no top followers</span>
+            </ng-container>
+
+        </ul>
+    </div>
+
+    <div class="follower-wid wid mb-0 " *ngIf="sideBar!=SidebarTypeEnum.userProfileSidebar && sideBar!=SidebarTypeEnum.groupSidebar">
+        <h3 class="heading-wid">Groups</h3>
+        <img *ngIf="GroupService.showGroupLoader" style="  display: block;position: relative;left: 37%;top:2px;width:64px;height:42px;border-radius: 50%;border: 3px solid transparent;" src="assets/images/Facebook-1s-200px.svg">
+
+        <ul class="wid_scroll">
+            <ng-container *ngIf="objGetGroups.MyGroupCount>0">
+                <li *ngFor="let objGroup of objGetGroups.MyGroups" (click)="groupDetailsPage(objGroup.Id)" style="cursor: pointer;">
+                    <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objGroup?.ImageUrl? 'url('+imagePath+''+objGroup?.ImageUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}"></figure>
+                    <a>
+                        <h4>{{objGroup.Name}}</h4>
+                    </a>
+                </li>
+            </ng-container>
+
+            <ng-container *ngIf="objGetGroups.MyGroupCount==0">
+                <li>
+                    <span style="position:relative;left:2px;font-size:15px;color:#6a6a6a;top:7.5px;width:198px;">You have created or joined no groups yet </span>
+                </li>
+            </ng-container>
+
+        </ul>
+    </div>
+</div>

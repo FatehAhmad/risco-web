@@ -1,0 +1,118 @@
+<div class="mainSec">
+    <div class="container clearfix">
+        <app-sidebar></app-sidebar>
+
+        
+
+      <div class="activity-panel">
+          <div class="row">
+              <div class="col-md-12">
+                <div class="group_search">
+                  <input type="text" name="" placeholder="Search" (keyup)="search()" (focus)="search()" [(ngModel)]="searchTextGroup" style="padding: 6px 42px 6px 15px;">
+                  <button type="submit" style="position: relative; top:-27px;"></button>
+                  <div class="autocomplete_pnl">
+                                  
+                    <ng-container *ngIf="objSearchModel?.SuggestedGroups?.length>0 || objSearchModel?.MyGroups?.length>0">
+                      <ng-container *ngIf="objSearchModel?.SuggestedGroups?.length>0">    
+                        <h4 *ngIf="objSearchModel?.SuggestedGroups?.length>1">Suggested Groups</h4>
+                        <h4 *ngIf="objSearchModel?.SuggestedGroups?.length==1">Suggested Group</h4>
+                        <h4 *ngIf="objSearchModel?.SuggestedGroups?.length==0">Suggested Groups</h4>
+                        
+                        <ul>
+                            <li *ngFor="let objSuggestedGroup of objSearchModel?.SuggestedGroups" class="hoverBackground">
+                                <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objSuggestedGroup?.ImageUrl ? 'url('+imagePath+''+objSuggestedGroup?.ImageUrl+'),url(assets/images/group_default.jpg)' : 'url(assets/images/group_default.jpg)'}"></figure>
+                                <h3 class="trancate360" style="width:144px;" (click)="groupDetailsPage(objSuggestedGroup.Id)">{{objSuggestedGroup?.Name}}</h3>
+                            </li>
+                        </ul>
+                        </ng-container>
+                        <ng-container *ngIf="objSearchModel?.MyGroups?.length>0">
+                            <h4 *ngIf="objSearchModel?.MyGroups?.length>1">Groups</h4>
+                            <h4 *ngIf="objSearchModel?.MyGroups?.length==1">Group</h4>
+                            <h4 *ngIf="objSearchModel?.MyGroups?.length==0">Groups</h4>
+
+                            <ul>
+                              <li *ngFor="let objMyGroup of objSearchModel?.MyGroups">
+                                  <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objMyGroup?.ImageUrl ? 'url('+imagePath+''+objMyGroup?.ImageUrl+'),url(assets/images/group_default.jpg)' : 'url(assets/images/group_default.jpg)'}"></figure>
+                                  <h3 class="trancate360" style="width:144px;" (click)="groupDetailsPage(objMyGroup.Id)">{{objMyGroup?.Name}}</h3>
+                              </li>
+                              
+                            </ul>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-container *ngIf="objSearchModel?.SuggestedGroups?.length==0 && objSearchModel?.MyGroups?.length==0">
+                        <li>
+                          <span style="position: relative;left:2px;font-size: 15px;color: #6a6a6a;top:8px;width: 170px;">No results found that match your search </span>							
+                        </li>
+                    </ng-container>
+                                
+                  </div>
+                </div>					
+              </div>
+            </div>
+        <!-- <div class="group_search">
+            <input type="text" name="" placeholder="Search">
+            <button type="submit"></button>
+        </div> -->
+
+        <div class="group_panel clearfix mb-3">
+            <h3 *ngIf="objGetGroups?.MyGroups?.length>1">Groups</h3>
+            <h3 *ngIf="objGetGroups?.MyGroups?.length==1">Group</h3>
+            <h3 *ngIf="objGetGroups?.MyGroups?.length==0">Groups</h3>
+  
+            <ul>
+              <ng-container  *ngIf="objGetGroups?.MyGroups?.length>0">
+                  <li *ngFor="let objMyGroup of objGetGroups?.MyGroups">
+                      <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objMyGroup?.ImageUrl ? 'url('+imagePath+''+objMyGroup?.ImageUrl+'),url(assets/images/group_default.jpg)' : 'url(assets/images/group_default.jpg)'}"></figure>
+                  <div class="content">
+                     <a (click)="groupDetailsPage(objMyGroup.Id)" style="cursor: pointer;"> <h4>{{objMyGroup.Name}}</h4> </a>             
+                      <p><span class="icon-groups"></span> {{objMyGroup.MembersCount +1}}  Members</p>
+                    </div>
+                    <!-- <a  class="setBtn" title=""><span class="icon-settings"></span></a> -->
+                  </li> 
+              </ng-container>
+  
+              <ng-container  *ngIf="objGetGroups?.MyGroups?.length==0">               
+                      <li style="width:63%;border-right: none;">
+                          <span style="position: relative;left:2px;font-size: 15px;color: #6a6a6a;top:-5px;width: 170px;">You have created or joined no groups yet</span>
+                      </li>                
+              </ng-container>
+              
+            </ul>
+          </div>
+          
+        <div class="group_panel clearfix mb-4">
+          <h3 *ngIf="objGetGroups.SuggestedGroupCount>1">Suggested Groups</h3>
+          <h3 *ngIf="objGetGroups.SuggestedGroupCount==1">Suggested Group</h3>
+          <h3 *ngIf="objGetGroups.SuggestedGroupCount==0">Suggested Groups</h3>
+          
+          <ul>
+              <ng-container *ngIf="objGetGroups.SuggestedGroupCount>0">
+                <li *ngFor="let objSuggestedGroup of objGetGroups.SuggestedGroups;let k=index;">
+                    <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objSuggestedGroup?.ImageUrl ? 'url('+imagePath+''+objSuggestedGroup?.ImageUrl+'),url(assets/images/group_default.jpg)' : 'url(assets/images/group_default.jpg)'}"></figure>
+                  <div class="content">
+                  <a (click)="groupDetailsPage(objSuggestedGroup.Id)" style="cursor: pointer;"> <h4>{{objSuggestedGroup.Name}}</h4> </a>
+                    <p><span class="icon-groups"></span> {{objSuggestedGroup.MembersCount+1}}  Members</p>
+                  </div>
+                                   
+                  <a *ngIf="objSuggestedGroup.Status==1 || objSuggestedGroup.Status==4 || objSuggestedGroup.Status==5 || objSuggestedGroup.Status==6 || objSuggestedGroup.Status==7" href="javascript:;" class="custBtn join_btn" title="" (click)="joinGroup(objSuggestedGroup.Id,k)" style="cursor: pointer;">Join</a>
+                  <a *ngIf="objSuggestedGroup.Status==2" href="javascript:;" class="custBtn join_btn" title="" (click)="cancelJoinRequest(objSuggestedGroup.Id,k)" style="cursor: pointer;">Cancel</a>
+                
+                </li>
+              </ng-container>
+
+              <ng-container *ngIf="objGetGroups.SuggestedGroupCount==0">
+                <li style="width:63%;border-right: none;">
+                    <span style="position: relative;left:2px;font-size: 15px;color: #6a6a6a;top:-5px;width: 170px;">No suggestions for you right now, kindly add or update your <span [routerLink]="['/account-setting']" style="cursor: pointer;color: #1bace2;">interests.</span></span>
+                </li>
+              </ng-container>
+  
+          </ul>
+        </div>
+  
+        
+  
+      </div>
+    </div>
+  </div>
+  

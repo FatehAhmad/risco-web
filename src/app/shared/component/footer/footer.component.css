@@ -1,0 +1,12 @@
+@media(max-width:508px) {
+    .btmSection p {
+        text-align: center;
+        width: 100%;
+    }
+    .btmSection ul li {
+        display: inline-block;
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+    }
+}

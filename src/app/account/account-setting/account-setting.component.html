@@ -1,0 +1,362 @@
+<!--------------------- POPUP START ---------------------->
+<div class="genrel-popup sub_popup clearfix" id="deactivateAccount" style="display: none;">
+    <h3>Are you sure you want to deactivate your account?</h3>
+    <div class="field text-center">
+        <p>Your profile and posts will no longer be visible to others, however you can come back anytime by logging in.</p>
+    </div>
+
+    <div class="text-center">
+        <a href="javascript:;" style="position: relative;right:2px;" data-fancybox-close="" class="custBtn" title="" (click)="confirmDeactivateAccountBtnClick()">Yes</a>
+        <a href="javascript:;" style="position: relative;left:9px;" data-fancybox-close="" class="custBtn" title="">No</a>
+    </div>
+</div>
+<!---------------------- POPUP END ----------------------->
+
+<div class="mainSec">
+    <div class="container clearfix">
+        <app-sidebar></app-sidebar>
+
+        <div class="activity-panel width-815">
+            <div class="clearfix">
+                <div class="PrivacySetting_panel wid mb-0">
+                    <h3>Account Settings</h3>
+                    <p *ngIf="SuccessVisible" class="success-message">Account settings updated successfully. </p>
+                    <form #AccountForm="ngForm">
+                        <div class="field">
+                            <label for="username">Fullname</label>
+                            <input required type="text" ngModel="FullName" #FullName="ngModel" name="FullName" [(ngModel)]="objAccountSetting.FullName">
+                            <div class="invalid-text" *ngIf="(FullName.dirty && !FullName.valid) ||(isSaveButtonClick && !FullName.valid)">
+                                <div *ngIf="FullName.errors.required"> This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="username">Username</label>
+                            <input type="text" ngModel="UserName" #UserName="ngModel" name="username" [(ngModel)]="objAccountSetting.UserName" disabled>
+                        </div>
+
+                        <div class="field">
+                            <label for="username">Phone Number</label>
+                            <input type="text" ngModel="PhoneNumber" #PhoneNumber="ngModel" name="PhoneNumber" [(ngModel)]="objAccountSetting.Phone" disabled>
+                        </div>
+
+
+                        <div class="field">
+                            <label for="email">Email</label>
+                            <input type="email" required ngModel="email" #email="ngModel" name="email" pattern="[a-zA-Z0-9_.-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_.-]{2,}" [(ngModel)]="objAccountSetting.Email" [class.invalid]="isSaveButtonClick && !email.valid">
+                            <div class="invalid-text" *ngIf="(email.dirty && !email.valid) ||(isSaveButtonClick && !email.valid)">
+                                <div *ngIf="email.errors.required">This field is required.</div>
+                                <div *ngIf="email.errors.pattern">Email is invalid.</div>
+                            </div>
+                            <!-- <input type="email" name="{{Email}}" disabled [(ngModel)]="objAccountSetting.Email"> -->
+                        </div>
+
+                        <!-- <div class="field">
+              <label for="email">Language</label>
+              <select required class="select" ngModel="language" name="language" #language="ngModel"
+                [(ngModel)]="objAccountSetting.Language">
+                <option value="Eng">English</option>
+              </select>
+              <div class="invalid-text"
+                *ngIf="(language.dirty && !language.valid) ||(isSaveButtonClick && !language.valid)">
+                <div *ngIf="language.errors.required">This field is required.</div>
+              </div>
+            </div> -->
+
+                        <!-- <div class="field">
+                <label for="email">Time Zone</label>
+                <select class="select" ngModel="timeZone" name="timeZone" #timeZone="ngModel" [(ngModel)]="objAccountSetting.Language">
+                  <option value="">(GMT-07:00) Pacific Time (US)</option>
+                </select>
+              </div> -->
+
+                        <!-- <div class="field">
+                <label for="email">Login Verification</label>
+                <select class="select" ngModel="loginVerification" name="loginVerification" #loginVerification="ngModel" [(ngModel)]="objAccountSetting.IsLoginVerification">
+                  <option value="true">Yes</option>
+                  <option value="false">No</option>
+
+                </select>
+              </div> -->
+
+                        <!-- <div class="field">
+                <label for="email">Password Reset Verification</label>
+                <select class="select" ngModel="passwordVerification" name="passwordVerification" #passwordVerification="ngModel" [(ngModel)]="objAccountSetting.IsPasswordResetVerification">
+                  <option value="true">Yes</option>
+                  <option value="false">No</option>
+                </select>
+              </div> -->
+
+                        <div class="field">
+                            <label for="email">Country</label>
+                            <select class="select" name="country" #country="ngModel" required [(ngModel)]="objAccountSetting.CountryCode">
+                <option value="" selected="selected">Select Country</option>
+                <option value="{{country.callingCode}}" *ngFor="let country of countries">
+                  {{country.name}}
+                </option>
+              </select>
+                        </div>
+
+                        <!-- <div class="field">
+                <label for="email">Autoplay videos</label>
+                <select class="select" ngModel="videoPlay" name="videoPlay" #videoPlay="ngModel" [(ngModel)]="objAccountSetting.IsVideoAutoPlay">
+                  <option value="true">Yes</option>
+                  <option value="false">No</option>
+                </select>
+              </div> -->
+
+                        <div class="field">
+                            <label style="position: relative;top: -70px;" for="about">About Me</label>
+                            <textarea required class="textBox" rows="5" cols="42" ngModel="about" #about="ngModel" name="about" [(ngModel)]="objAccountSetting.AboutMe">
+
+                </textarea>
+                            <div class="invalid-text" *ngIf="(about.dirty && !about.valid) ||(isSaveButtonClick && !about.valid)">
+                                <div *ngIf="about.errors.required"> This field is required.</div>
+                            </div>
+                            <!-- <input required type="text" ngModel="about" #about="ngModel" name="about" [(ngModel)]="objAccountSetting.FullName"> -->
+                        </div>
+
+                        <div class="field">
+                            <label>Deactivate Account</label>
+                            <a class="custBtn danger-btn" (click)="deactivateAccountBtnClick()">Deactivate</a>
+                        </div>
+
+                        <!-- <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Interests</strong></p>
+
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Lanugages</strong></p>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6" style="max-height: 500px;
+              overflow: auto;">
+                                <div class="policy-group flex-container">
+                                    <div class="form-check" *ngFor="let interest of (objAccountSetting != null && objAccountSetting.BasketSettings != null && objAccountSetting.BasketSettings.Interests != null && objAccountSetting.BasketSettings.Interests.length > 0) ? objAccountSetting.BasketSettings.Interests : [];let i = index;">
+
+                                        <label class="custom-chck">{{interest?.Name}}
+                      <input type="checkbox" [ngModelOptions]="{standalone: true}" [value]="interest?.Id"
+                        id="{{interest?.Id}}" [(ngModel)]="objAccountSetting.BasketSettings.Interests[i].Checked"
+                        id="{{interest?.Id}}">
+                      <span class="checkmark"></span>
+                    </label>
+
+                                        <input type="hidden" name="hdnIntrestId" value="interest?.Id" [(ngModel)]="objAccountSetting.BasketSettings.Interests[i].Id">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div> -->
+
+
+                        <div class="height-topics">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-6">
+                                    <h4 class="topics-heading">
+                                        Topics
+                                    </h4>
+                                    <div id="accordion" class="topics-cards">
+                                        <div class="box-topics">
+                                            <button class="btn btn-link collapsed" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                      Sports
+                                       <span>  <i class="fa" aria-hidden="true"></i></span>
+                                      </button>
+                                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <form>
+                                                    <div class="interest-box">
+                                                        <div (click)="setInterests(childInterest)" *ngFor="let childInterest of sportsInterests?.ChildInterests" [ngClass]="childInterest?.Selected ? 'span-set selected' : 'span-set'">
+                                                            <span>{{childInterest.Name}}</span>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="box-topics">
+                                            <button class="btn btn-link collapsed" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+
+                                              Technology
+              <span>  <i class="fa" aria-hidden="true"></i></span>
+            </button>
+                                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                                <form>
+                                                    <div class="interest-box">
+                                                      <div (click)="setInterests(childInterest)" *ngFor="let childInterest of technologyInterests?.ChildInterests" [ngClass]="childInterest?.Selected ? 'span-set selected' : 'span-set'">
+                                                        <span>{{childInterest.Name}}</span>
+                                                      </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="box-topics">
+                                            <button class="btn btn-link collapsed" id="headingThree" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                              Media
+              <span>  <i class="fa" aria-hidden="true"></i></span>
+            </button>
+                                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                                <form>
+                                                    <div class="interest-box">
+                                                      <div (click)="setInterests(childInterest)" *ngFor="let childInterest of mediaInterests?.ChildInterests" [ngClass]="childInterest?.Selected ? 'span-set selected' : 'span-set'">
+                                                        <span>{{childInterest.Name}}</span>
+                                                      </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="box-topics">
+                                            <button class="btn btn-link collapsed" id="headingfour" data-toggle="collapse" data-target="#collapsefour" aria-expanded="true" aria-controls="collapseOne">
+                                              Information Security
+                                       <span>  <i class="fa" aria-hidden="true"></i></span>
+                                      </button>
+                                            <div id="collapsefour" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <form>
+                                                    <div class="interest-box">
+                                                      <div (click)="setInterests(childInterest)" *ngFor="let childInterest of informationSecurityInterests?.ChildInterests" [ngClass]="childInterest?.Selected ? 'span-set selected' : 'span-set'">
+                                                        <span>{{childInterest.Name}}</span>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="box-topics">
+                                            <button class="btn btn-link collapsed" id="headingfive" data-toggle="collapse" data-target="#collapsefive" aria-expanded="false" aria-controls="collapseTwo">
+
+                                              Medical
+              <span>  <i class="fa" aria-hidden="true"></i></span>
+            </button>
+                                            <div id="collapsefive" class="collapse" aria-labelledby="headingfive" data-parent="#accordion">
+                                                <form>
+                                                    <div class="interest-box">
+                                                      <div (click)="setInterests(childInterest)" *ngFor="let childInterest of medicalInterests?.ChildInterests" [ngClass]="childInterest?.Selected ? 'span-set selected' : 'span-set'">
+                                                        <span>{{childInterest.Name}}</span>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="box-topics">
+                                            <button class="btn btn-link collapsed" id="headingsix" data-toggle="collapse" data-target="#collapsesix" aria-expanded="false" aria-controls="collapseThree">
+                                              Natural
+              <span>  <i class="fa" aria-hidden="true"></i></span>
+            </button>
+                                            <div id="collapsesix" class="collapse" aria-labelledby="headingsix" data-parent="#accordion">
+                                                <form>
+                                                    <div class="interest-box">
+                                                      <div (click)="setInterests(childInterest)" *ngFor="let childInterest of naturalInterests?.ChildInterests" [ngClass]="childInterest?.Selected ? 'span-set selected' : 'span-set'">
+                                                        <span>{{childInterest.Name}}</span>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="box-topics">
+                                            <button class="btn btn-link collapsed" id="headingseven" data-toggle="collapse" data-target="#collapseseven" aria-expanded="false" aria-controls="collapseTwo">
+                                              News
+              <span>  <i class="fa" aria-hidden="true"></i></span>
+            </button>
+                                            <div id="collapseseven" class="collapse" aria-labelledby="headingseven" data-parent="#accordion">
+                                                <form>
+                                                    <div class="interest-box">
+                                                      <div (click)="setInterests(childInterest)" *ngFor="let childInterest of newsInterests?.ChildInterests" [ngClass]="childInterest?.Selected ? 'span-set selected' : 'span-set'">
+                                                        <span>{{childInterest.Name}}</span>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="box-topics">
+                                            <button class="btn btn-link collapsed" id="headingeight" data-toggle="collapse" data-target="#collapseeight" aria-expanded="false" aria-controls="collapseThree">
+                                              Natural
+              <span>  <i class="fa" aria-hidden="true"></i></span>
+            </button>
+                                            <div id="collapseeight" class="collapse" aria-labelledby="headingeight" data-parent="#accordion">
+                                                <form>
+                                                    <div class="interest-box">
+
+                                                      <div (click)="setInterests(childInterest)" *ngFor="let childInterest of tourismInterests?.ChildInterests" [ngClass]="childInterest?.Selected ? 'span-set selected' : 'span-set'">
+                                                        <span>{{childInterest.Name}}</span>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-6">
+                                    <h4 class="topics-heading">
+                                        Languages
+                                    </h4>
+                                    <div class="topics-cards">
+                                        <div class="list-lang-toggle" *ngFor="let language of objAccountSetting.AllLanguages; let i = index;">
+                                            <p>{{language.Name}}</p>
+                                            <div class="toggle-topics">
+                                                <label class="switch">
+                                                  <input type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="language.Selected">
+                                                  <span class="slider round"></span>
+                                                </label>
+                                                <input type="hidden" name="hdnIntrestId">
+                                            </div>
+                                        </div>
+                                        <!-- <div class="list-lang-toggle">
+                                            <p>Arbic</p>
+                                            <div class="toggle-topics">
+                                                <label class="switch">
+                  <input type="checkbox" checked>
+                  <span class="slider round"></span>
+                </label>
+                                            </div>
+                                        </div>
+                                        <div class="list-lang-toggle">
+                                            <p>Burmase</p>
+                                            <div class="toggle-topics">
+                                                <label class="switch">
+                  <input type="checkbox" >
+                  <span class="slider round"></span>
+                </label>
+                                            </div>
+                                        </div>
+                                        <div class="list-lang-toggle">
+                                            <p>Basque</p>
+                                            <div class="toggle-topics">
+                                                <label class="switch">
+                  <input type="checkbox" >
+                  <span class="slider round"></span>
+                </label>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+<br>
+<br>
+
+
+                        <a class="custBtn" id="profileButton" (click)="onSaveClick()" style="position: relative;
+            cursor: pointer;
+            margin-top: 9px;
+            top: 15px;">
+                            <div *ngIf="btnloader">
+                                <i class="fa fa-spinner fa-spin"></i>Loading
+                            </div>
+
+                            <div *ngIf="!btnloader">
+                                Save Changes
+                            </div>
+
+
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

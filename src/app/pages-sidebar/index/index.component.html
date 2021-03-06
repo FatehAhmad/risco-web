@@ -1,0 +1,1259 @@
+<!-- <meta property="og:image" name="og:image" content="">
+<meta property="og:description" content="testing">
+<meta property="og:type" content="website" /> -->
+<div class="genrel-popup sub_popup clearfix" id="hide_single_post" style="display: none;">
+    <h3>Hide Post</h3>
+
+    <div class="field">
+        <p style="
+			padding-left: 54px;
+			position:  relative;
+			top: -4px;
+		"> This post has been hidden. You won't see it on your wall.</p>
+    </div>
+    <div class="text-center">
+        <a href="javascript:;" data-fancybox-close="" class="custBtn" title="" (click)="refresh()">OK</a>
+    </div>
+</div>
+
+<div class="genrel-popup sub_popup clearfix groupPopup" id="groups_popup" style="display: none;">
+    <h3>Groups</h3>
+    <div class="field text-center">
+        <input type="text" name="searchGroup" placeholder="Search Group" (keyup)="searchGroup()" (focus)="searchGroup()" [(ngModel)]="searchTextGroup">
+    </div>
+    <ul>
+        <li *ngFor="let objGroup of (objGetGroups.MyGroups |  searchFilterGroup:searchTextGroup) ">
+            <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objGroup?.ImageUrl?'url('+imagePath+''+objGroup?.ImageUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}">
+            </figure>
+            <h3>{{objGroup.Name}}</h3>
+        </li>
+    </ul>
+    <div class="text-center">
+        <a href="javascript:;" data-fancybox-close="" class="custBtn" title="" (click)="groupShare()">Share</a>
+    </div>
+</div>
+
+<div class="genrel-popup sub_popup clearfix" id="hide_all_post" style="display: none;">
+    <h3>Hide all Posts</h3>
+
+    <div class="field">
+        <p style="
+				position:  relative;
+				left: 83px;
+			"> <span style="position: relative; left:10px">You won't see
+        posts from this user anymore.</span><br><span style="
+				position:  relative;
+				left: 2px;
+			"> They won't know
+        you've hidden their posts from</span> <br><span style="
+				position:  relative;
+				left: 110px;
+			"> your wall.
+      </span></p>
+    </div>
+    <div class="text-center">
+        <a href="javascript:;" style="position: relative;right: 2px;" data-fancybox-close="" class="custBtn" title="" (click)="hideAllPosts(hideAllPostExternalIndex)">Yes,
+      hide them!</a>
+        <a href="javascript:;" style="position: relative;left: 1px;" data-fancybox-close="" class="custBtn" title="">Cancel</a>
+    </div>
+</div>
+
+<!-- hide_all_post_internal -->
+<div class="genrel-popup sub_popup clearfix" id="hide_all_post_internal" style="display: none;">
+    <h3>Hide all Posts</h3>
+
+    <div class="field">
+        <p style="
+		position:  relative;
+		left: 83px;
+	"> <span style="position: relative; left:10px">You won't see posts
+        from this user anymore.</span><br><span style="
+		position:  relative;
+		left: 2px;
+	"> They won't know you've
+        hidden their posts from</span> <br><span style="
+		position:  relative;
+		left: 110px;
+	"> your wall. </span></p>
+    </div>
+    <div class="text-center">
+        <a href="javascript:;" style="position: relative;right: 2px;" data-fancybox-close="" class="custBtn" title="" (click)="hideAllPostsInternal(hideAllPostInternalIndex)">Yes,
+      hide them!</a>
+        <a href="javascript:;" style="position: relative;left: 9px;" data-fancybox-close="" class="custBtn" title="">Cancel</a>
+    </div>
+</div>
+
+<div class="genrel-popup sub_popup clearfix" id="report_inner" style="display: none;">
+    <h3>Thanks for reporting this post</h3>
+
+    <div class="field">
+        <p><span style=" position:  relative;
+			left: 150px;
+			top: -2px">Your feedback matters.</span> <br> <span style="  position: relative;
+			left: 71px;
+			top: -2px;">
+        Keep helping us in building a Risk-Free community!</span></p>
+    </div>
+</div>
+
+
+<div class="genrel-popup createGroup clearfix" id="create-group" style="display: none;">
+
+    <div class="upload-gruop-img groupImage" [style.background-image]="'url()'">
+        <span class="icon-camera"> </span>
+        <input type="file" #inPictureGroup id="imgupload" name="fileGroup" accept="image/*" (change)="onFileChangeGroup($event)">
+    </div>
+    <form #CreateGroupForm="ngForm">
+
+        <label>Group Name</label>
+        <div class="field">
+            <input type="text" required #groupName="ngModel" ngModel name="groupName" value="" placeholder="Your group name here.." [(ngModel)]="objCreateGroup.Name">
+            <div class="invalid-text" *ngIf="(groupName.dirty && !groupName.valid) ||(isSaveButtonClick && !groupName.valid)">
+                <div *ngIf="groupName.errors.required"> This field is required.</div>
+            </div>
+        </div>
+        <br>
+        <label>Group Description</label>
+        <div class="field" style="width: 400px;">
+            <textarea #groupDescription="ngModel" required ngModel name="description" placeholder="" rows="3" [(ngModel)]="objCreateGroup.Description"></textarea>
+            <div class="invalid-text" *ngIf="(groupDescription.dirty && !groupDescription.valid) ||(isSaveButtonClick && !groupDescription.valid)">
+                <div *ngIf="groupDescription.errors.required"> This field is required.</div>
+            </div>
+        </div>
+        <br>
+        <!-- <label>Group Interests</label>
+
+    <div class="field">
+      <label class="custom-chck">Political
+        <input type="radio" name="interest" id="int1" [value]="1" [(ngModel)]="objCreateGroup.Interest_Id">
+        <span class="checkmark"></span>
+      </label>
+
+      <label class="custom-chck">Social
+        <input type="radio" name="interest" id="int2" [value]="2" [(ngModel)]="objCreateGroup.Interest_Id">
+        <span class="checkmark"></span>
+      </label>
+
+      <label class="custom-chck">Environmental
+        <input type="radio" name="interest" id="int3" [value]="3" [(ngModel)]="objCreateGroup.Interest_Id">
+        <span class="checkmark"></span>
+      </label>
+
+      <label class="custom-chck">Economical
+        <input type="radio" name="interest" id="int4" [value]="4" [(ngModel)]="objCreateGroup.Interest_Id">
+        <span class="checkmark"></span>
+      </label>
+
+      <label class="custom-chck">Geographical
+        <input type="radio" name="interest" id="int5" [value]="5" [(ngModel)]="objCreateGroup.Interest_Id">
+        <span class="checkmark"></span>
+      </label>
+
+      <label class="custom-chck">News
+        <input type="radio" name="interest" id="int6" [value]="6" [(ngModel)]="objCreateGroup.Interest_Id">
+        <span class="checkmark"></span>
+      </label>
+    </div> -->
+
+
+        <br>
+        <label>Group Members</label>
+        <div class="field">
+            <div class="input">
+                <ul class="selected_user">
+
+                    <li *ngFor="let imageUrl of groupMembersImageUrlsArray">
+                        <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': imageUrl?'url('+imagePath+imageUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}">
+                        </figure>
+                    </li>
+                </ul>
+
+            </div>
+            <span *ngIf="checkGroupMembers && groupMembersImageUrlsArray.length == 0" style="color: #a74747;margin-top: 5px;margin-left: 3px;">Please add at least one
+        follower to your group.</span>
+            <span class="icon-group"></span>
+            <div class="add_people_pnl">
+                <div class="head clearfix">
+                    <a href="javascript:;" title="" class="current">Members</a>
+                    <div class="people_search">
+                        <input type="text" name="searchCreateGroup" class="input" placeholder="Search" (keyup)="search()" (focus)="search()" [(ngModel)]="searchTextCreateGroup">
+                        <span class="icon-magnify"></span>
+                    </div>
+                </div>
+
+                <img *ngIf="UserService.showAllUsersLoader" style="  display: block;position: relative;left: 37%;top:111px;width:64px;height:42px;border-radius: 50%;border: 3px solid transparent;" src="assets/images/Facebook-1s-200px.svg">
+
+                <ul class="clearfix list">
+                    <ng-container *ngIf="objFollowers.length>0">
+                        <li *ngFor="let objFollower of (objFollowers | searchFilter:searchTextCreateGroup ); let i=index;" (click)="selectGroupMembers(objFollower?.FirstUser?.Id , objFollower?.FirstUser?.ProfilePictureUrl , i)" [ngClass]="{ 'selected' : (objFollower?.isChecked == true) }">
+                            <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objFollower?.FirstUser && objFollower?.FirstUser?.ProfilePictureUrl?'url('+imagePath+imageUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}">
+                            </figure>
+
+                            <h3 [title]="objFollower?.FirstUser?.FullName" style="width: 125px; text-overflow: ellipsis; white-space: nowrap; overflow-x: hidden;">
+                                {{objFollower?.FirstUser?.FullName}}</h3>
+                        </li>
+                    </ng-container>
+
+                    <ng-container *ngIf="objFollowers.length==0">
+                        <li>
+                            <span style="position: relative;left:2px;font-size: 15px;color: #6a6a6a;top:8px;width:199px;">Currently no
+                memebers are avaialabe</span>
+                        </li>
+                    </ng-container>
+                </ul>
+            </div>
+        </div>
+
+    </form>
+    <a href="javascript:;" id="createGrp" class="md-close red-btn" (click)="createGroup()">
+        <div *ngIf="btnloader">
+            <i class="fa fa-spinner fa-spin"></i>Loading
+        </div>
+
+        <div *ngIf="!btnloader">
+            Create Group
+        </div>
+
+
+    </a>
+</div>
+
+<!--VIEW POST-->
+<div class="genrel-popup reportDialog clearfix" id="report-dialog" style="display: none;">
+    <h3>Report</h3>
+    <ul style="position: relative;left: 10px;">
+        <li>
+            <label for="on1" class="custom-chck">Spam or scam
+        <input type="radio" id="on1" name="report1" (click)="getValue(1)">
+        <span class="checkmark"></span>
+      </label>
+
+        </li>
+
+        <li>
+            <label for="on2" class="custom-chck">Contains hate speech or attacks an individual
+        <input type="radio" id="on2" name="report1" (click)="getValue(2)">
+        <span class="checkmark"></span>
+      </label>
+        </li>
+
+        <li>
+            <label for="on3" class="custom-chck">Violence or harmful behavior
+        <input type="radio" id="on3" name="report1" (click)="getValue(3)">
+        <span class="checkmark"></span>
+      </label>
+
+            <!-- <div class="form-check">
+					<input type="radio" id="on3" name="report1" (click)="getValue(3)">
+					<label for="on3"> Violence or harmful behavior</label>
+				</div> -->
+        </li>
+
+        <li>
+            <label for="on4" class="custom-chck">Duplicate, fake, or miscategorized Page
+        <input type="radio" id="on4" name="report1" (click)="getValue(4)">
+        <span class="checkmark"></span>
+      </label>
+
+            <!-- <div class="form-check">
+					<input type="radio" id="on4" name="report1" (click)="getValue(4)">
+					<label for="on4"> Duplicate, fake, or miscategorized Page</label>
+				</div> -->
+        </li>
+
+        <!-- <li>
+				<div class="form-check">
+					<input type="radio" id="on5" name="report1">
+					<label for="on5"> Other</label>
+				</div>
+			</li> -->
+    </ul>
+
+    <textarea class="input" name="msg" id="reportText" ngModel #message="ngModel" placeholder="Enter Message" rows="5" [(ngModel)]="objReportModel.Text"></textarea>
+
+    <div class="text-center mt-4">
+        <a href="javascript:;" style="position:relative;right:9px;" class="custBtn sub_report" title="" data-fancybox="" data-src="#report_inner" (click)="reportPost()">Submit</a>
+        <!-- <a  href="javascript:;" class="custBtn" title="" data-fancybox-close="" (click)="reportPost()">Submit</a> -->
+        <a href="javascript:;" class="red-btn" title="" data-fancybox-close="">Cancel</a>
+    </div>
+</div>
+
+<div class="genrel-popup postdetail clearfix" id="postdetail" style="display: none;">
+    <div class="post-cart pb-0">
+        <div class="cart-header clearfix">
+            <div class="left">
+                <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objGetPostSettingsById && objGetPostSettingsById?.User && objGetPostSettingsById?.User?.ProfilePictureUrl?'url('+imagePath+objGetPostSettingsById?.User?.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}">
+                </figure>
+                <div class="dtl">
+                    <h3>{{objGetPostSettingsById?.User?.FullName}}</h3>
+                    <ul>
+                        <li *ngIf="objGetPostSettingsById.RiskLevel != 0"> Risk
+                            <span class="redtxt" *ngIf="objGetPostSettingsById.RiskLevel == 1">High</span>
+                            <span class="redtxt" *ngIf="objGetPostSettingsById.RiskLevel == 2">Medium</span>
+                            <span class="redtxt" *ngIf="objGetPostSettingsById.RiskLevel == 3">Low</span>
+                        </li>
+
+                        <li style="cursor: default;" title="{{objGetPostSettingsById.CreatedDate | date: 'dd MMMM yyyy'}} {{objGetPostSettingsById.CreatedDate | date: 'hh:mm a' }}">
+                            {{objGetPostSettingsById.CreatedDate | amTimeAgo:true }} ago
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <!-- <span *ngIf="objGetPostSettingsById.IsUserFollow==false && objGetPostSettingsById.User.Id != objUserSettings.Id" class="icon-add2 detailFollowIcon" (click)="detailPostFollow(objGetPostSettingsById.User.Id)"></span> -->
+
+        </div>
+
+        <div class="cart-content" style="border-bottom:none;">
+            <p [innerHTML]=objGetPostSettingsById.Text></p>
+        </div>
+
+
+
+
+        <div *ngIf="objGetPostSettingsById?.Medias?.length>1" class="cart-img" id="multipleImages" [class.multiple]="objGetPostSettingsById?.Medias?.length>3" [class.double]="objGetPostSettingsById?.Medias?.length==2" [class.tripple]="objGetPostSettingsById?.Medias?.length==3">
+            <ng-container *ngFor="let postImgs of objGetPostSettingsById?.Medias;let j=index;">
+                <a *ngIf="postImgs.Type==1" data-fancybox="" [href]="imagePath+postImgs.Url" class="fancyImage thumb galleryImages{{objGetPostSettingsById?.Id}}" [style.background-image]="'url('+imagePath+postImgs.Url+')'" title=""></a>
+                <a *ngIf="postImgs.Type==2" data-fancybox="" [href]="imagePath+postImgs.Url" class="fancyImage thumb galleryImages{{objGetPostSettingsById?.Id}}" title=""><video
+            [src]="imagePath+postImgs.Url" controls="" controlsList="nodownload"></video></a>
+                <a *ngIf="objGetPostSettingsById?.Medias?.length>4" (click)="remainingImages(objGetPostSettingsById.Id)" class="thumb_count" style="cursor: pointer;"><span
+            style="color: #fff">{{(objGetPostSettingsById.Medias.length)-4}}+</span></a>
+            </ng-container>
+        </div>
+
+        <div class="cart-img" *ngIf="objGetPostSettingsById?.Medias?.length==1">
+            <a *ngIf="objGetPostSettingsById?.Medias[0].Type==2" data-fancybox="" [href]="imagePath+objGetPostSettingsById.Medias[0].Url" class="fancyImage thumb" title="">
+                <video [src]="imagePath+objGetPostSettingsById.Medias[0].Url" controls="" controlsList="nodownload"></video>
+            </a>
+            <a *ngIf="objGetPostSettingsById?.Medias[0].Type==1" [href]="imagePath+objGetPostSettingsById.Medias[0].Url" data-fancybox="" class=" fancyImage cart-img" [style.background-image]="'url('+imagePath+objGetPostSettingsById.Medias[0].Url+')'">
+            </a>
+        </div>
+
+
+
+        <div class="cart-content" style="position: relative;bottom: -19px;">
+            <ul class="social-counter">
+
+
+            </ul>
+        </div>
+        <div class="cart-footer" style="visibility:hidden;">
+            <ul>
+                <span class="label-count" *ngIf="!(objGetPostSettingsById.LikesCount==0 && objGetPostSettingsById.CommentsCount==0 && objGetPostSettingsById.ShareCount==0)">
+                <p *ngIf="objGetPostSettingsById.LikesCount==1">{{objGetPostSettingsById.LikesCount}}</p>
+                <p *ngIf="objGetPostSettingsById.LikesCount>1">{{objGetPostSettingsById.LikesCount}} </p>
+           </span>
+                <li style="cursor:pointer;"><a *ngIf="objGetPostSettingsById.IsLiked" id="likeInternal"><span
+              class="icon-thumbs-up2" (click)="internalStarClicked()"></span></a></li>
+                <li style="cursor:pointer;"><a *ngIf="!objGetPostSettingsById.IsLiked" id="unlikeInternal"><span
+              class="icon-thumbs-o-up" (click)="internalStarClicked()"></span></a></li>
+                <span class="label-count" *ngIf="!(objGetPostSettingsById.LikesCount==0 && objGetPostSettingsById.CommentsCount==0 && objGetPostSettingsById.ShareCount==0)">
+                <p *ngIf="objGetPostSettingsById.CommentsCount==1">{{objGetPostSettingsById.CommentsCount}} </p>
+                <p *ngIf="objGetPostSettingsById.CommentsCount>1">{{objGetPostSettingsById.CommentsCount}} </p>
+          </span>
+                <li style="cursor:pointer;"><a><span class="icon-comment"></span></a></li>
+                <span class="label-count" *ngIf="!(objGetPostSettingsById.LikesCount==0 && objGetPostSettingsById.CommentsCount==0 && objGetPostSettingsById.ShareCount==0)">
+                  <p *ngIf="objGetPostSettingsById.ShareCount==1">{{objGetPostSettingsById.ShareCount}}</p>
+                  <p *ngIf="objGetPostSettingsById.ShareCount>1">{{objGetPostSettingsById.ShareCount}}</p>
+                </span>
+                <li class="more" style="cursor:pointer;">
+                    <a href="javascript:;" (click)="pagesSidebarComponent.sharePostClick(objGetPostSettingsById)"><span
+              class="icon-reply"></span></a>
+                    <!-- <div class="more-dropdown reply">
+						<ul>
+							<li (click)="rePostInternal(objGetPostSettingsById.Id,1)" class="textHover"><a href="javascript:;">Public</a></li>
+							<li (click)="rePostInternal(objGetPostSettingsById.Id,2)" class="textHover"><a href="javascript:;">Followers
+									Only</a></li>
+							<li (click)="getMyGroupsInternal(objGetPostSettingsById.Id)" class="textHover"><a href="javascript:;" data-fancybox="" data-src="#groups_popup">Groups</a></li>
+							<li (click)="rePostInternal(objGetPostSettingsById.Id,3)" class="textHover"><a href="javascript:;">Only me</a></li>
+						</ul>
+					</div> -->
+                </li>
+
+                <li class="more" style="cursor:pointer;" (click)="moreClick(objGetPostSettingsById)">
+                    <a href="javascript:;"><span class="icon-share"></span></a>
+                    <div class="more-dropdown">
+                        <ul>
+                            <li style="cursor:pointer;" class="fb" (click)="facebookShare(objGetPostSettingsById.Id)"><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//risco.ingicweb.com/%23/post/{{objGetPostSettingsById.Id}}" target="_blank"><span class="socialIocon icon-facebook" style="padding: 7px;"></span> Facebook</a>
+                            </li>
+                            <li style="cursor:pointer;" class="tw" (click)="twitterShare(objGetPostSettingsById.Id)"><a href="https://twitter.com/home?status=https%3A//risco.ingicweb.com/%23/post/{{objGetPostSettingsById.Id}}" target="_blank"><span class="socialIocon icon-twitter" style="padding: 7px;"></span>
+                  Twitter</a></li>
+                            <li style="cursor:pointer;" class="go" (click)="googlePlusShare(objGetPostSettingsById.Id)"><a href="https://plus.google.com/share?url=https%3A//risco.ingicweb.com/%23/post/{{objGetPostSettingsById.Id}}" target="_blank"><span class="socialIocon icon-google-plus" style="padding: 7px;"></span> Google </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="more" (click)="moreClick(objGetPostSettingsById)">
+                    <a href="javascript:;" (click)="setIndexInternal(objGetPostSettingsById?.User?.Id,objGetPostSettingsById?.Id)"><span
+              class="icon-more"></span></a>
+                    <div class="more-dropdown">
+                        <ul>
+
+                            <li style="cursor: pointer;" *ngIf="objGetPostSettingsById?.User?.Id != objUserSettings?.Id" (click)="hidePostByIdInternal(objGetPostSettingsById.Id)" class="textHover"><a href="javascript:;" data-fancybox="" data-src="#hide_single_post">Hide Post</a></li>
+                            <li style="cursor: pointer;" *ngIf="objGetPostSettingsById?.User?.Id != objUserSettings?.Id" class="textHover"><a href="javascript:;" data-fancybox="" data-src="#hide_all_post_internal">Hide all
+                  posts by this user</a></li>
+                            <li style="cursor: pointer;" class="textHover"><a>Turn off notifications for this post</a></li>
+                            <li style="cursor: pointer;" *ngIf="objGetPostSettingsById?.User?.Id != objUserSettings?.Id" (click)="setIdInternal(objGetPostSettingsById.Id)" class="textHover"><a data-fancybox data-src="#report-dialog">Report Post</a></li>
+                            <li style="cursor: pointer;" [hidden]="objGetPostSettingsById?.User?.Id != objUserSettings?.Id" class="textHover"><a href="javascript:;" data-fancybox="" data-src="#delete_post_internal">Delete
+                  Post</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="user-comment clearfix">
+        <img *ngIf="imagePath && CommentsPicture" class="user-img" [src]="imagePath + CommentsPicture" onerror="this.src='assets/images/signup-thumb.jpg'">
+
+        <div class="content">
+            <small *ngIf="objGetPostSettingsById?.User && objGetPostSettingsById?.User?.UserName">
+        Comment to
+        <span class="bluetxt">
+          @{{objGetPostSettingsById?.User?.UserName}}
+        </span>
+
+      </small>
+            <div class="field">
+                <!-- <emoji-input [(model)]="objCommentText" [textArea]="{cols : 2, rows : 2}"
+				[closeAfterSelection]="false" placeholder="Comment to Reply..."
+				(click)="popuuComment()"
+				id="comnt" (setPopupAction)="setPopupActionComment($event)">
+				</emoji-input> -->
+
+                <span class="icon-Shape-13 showIcon parent-comment-area" (click)="showEmojee(1)"></span>
+                <textarea id="comnt" [(ngModel)]="objCommentText" placeholder="enter comment here"></textarea>
+                <emoji-mart (emojiSelect)="addEmoji($event, 1)" [showPreview]="false" [emojiTooltip]="true" set="emojione" [hideRecent]="true">
+                </emoji-mart>
+
+                <!-- <span class="icon-Shape-13 showIcon" (click)="openPopupComment()"></span> -->
+                <a href="javascript:;" class="sent_btn showIcon" title="" *ngIf=" (objCommentText.length != 0 && objCommentText.trim() != '' )  || uploadedImageUrls[0] || uploadedVideoUrls[0] ">
+                    <div *ngIf="btnloader1">
+                        <i class="fa fa-spinner fa-spin"></i><span class="icon-send showIcon"></span>
+                    </div>
+
+                    <div *ngIf="!btnloader1">
+                        <span class="icon-send showIcon" (click)="postComment(objCommentText)"></span>
+                    </div>
+                </a>
+
+                <div class="comment_media">
+                    <ul>
+                        <li *ngIf="uploadedImageUrls[0]">
+                            <figure class="uploadedimg user-img" [style.background-image]="'url('+appComponent.imagePath+uploadedImageUrls[0]+')'"></figure>
+                            <span style="cursor: pointer;" class="icon-close2" (click)="onRemoveFile(mediaTypeEnum.Image,0)"></span>
+                            <li *ngIf="uploadedVideoUrls[0]">
+                                <video>
+                <source [src]="appComponent.imagePath+uploadedVideoUrls[0]" type="video/mp4" />
+              </video>
+                                <span style="cursor: pointer;" class="icon-close2" (click)="onRemoveFile(mediaTypeEnum.Video,0)"></span>
+                            </li>
+                    </ul>
+                    <img *ngIf="PostService.showLoaderImages" style="display: block;position: relative;left: 37%;top:2px;width:64px;height:42px;border-radius: 50%;border: 3px solid transparent;" src="assets/images/Facebook-1s-200px.svg">
+                </div>
+
+            </div>
+
+            <ul class="attach-list">
+                <li>
+                    <a href="javascript:;"><span id="parent-img" class="icon-picture"></span>
+            <input type="file" id="uploadpicCmnt" accept="image/*" style="display:none;"
+              (change)="onSelectFile(mediaTypeEnum.Image, 1)">
+          </a>
+                </li>
+                <li>
+                    <a href="javascript:;"><span id="parent-vdo" class="icon-Forma-1"></span>
+            <input type="file" id="uploadvdoCmnt" accept="video/*" style="display:none;"
+              (change)="onSelectFile(mediaTypeEnum.Video, 1)">
+          </a>
+                </li>
+                <li>
+                    <span *ngIf="commentTextCheck && !objCommentText" style="color: red; margin-left: 12px; font-size: 11px;">
+            Comment
+            Required* </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="peoples-comments">
+        <div class="comment clearfix" *ngFor="let objComment of objGetPostSettingsById.Comments ; let i = index;">
+            <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objComment?.User?.ProfilePictureUrl?'url('+imagePath+''+objComment?.User?.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}">
+            </figure>
+            <div class="content">
+                <h3 (click)="userProfileRedirect(objComment?.User?.Id)" style="cursor: pointer">{{objComment?.User?.FullName}}
+                    <small>@{{objComment?.User?.UserName}}
+            - {{objComment?.CreatedDate | date: 'hh:mm a'}}</small></h3>
+                <span *ngIf="objGetPostSettingsById.User && objGetPostSettingsById?.User?.UserName">
+          Comment to
+          <span class="bluetxt">
+            @{{objGetPostSettingsById?.User?.UserName}}
+          </span>
+                </span>
+                <p>{{objComment.Text}}</p>
+                <div class="comments_media" *ngIf="objComment?.Medias">
+                    <figure *ngIf="objComment?.Medias[0]?.Type == 1" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objComment?.Medias[0]?.Url" [style.background-image]="'url('+appComponent.imagePath+objComment.Medias[0].Url+')'"></figure>
+                    <figure *ngIf="objComment?.Medias[0]?.Type == 2" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objComment?.Medias[0]?.Url">
+                        <video class="comentvideoautoplaystop" [src]="appComponent.imagePath+objComment?.Medias[0]?.Url"></video>
+                    </figure>
+                    <figure *ngIf="objComment?.Medias[1]?.Type == 2" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objComment?.Medias[1]?.Url">
+                        <video class="comentvideoautoplaystop" [src]="appComponent.imagePath+objComment?.Medias[1]?.Url"></video>
+                    </figure>
+                </div>
+                <ul class="actBtns">
+                    <li>
+                        <a *ngIf="objComment.IsLiked"><span class="icon-thumbs-up2" (click)="commentStarClicked(i)"></span></a>
+                        <a *ngIf="!objComment.IsLiked"><span class="icon-thumbs-o-up" (click)="commentStarClicked(i)"></span></a>
+                    </li>
+                    <li><a href="javascript:;" class="sub_comment_btn"><span class="icon-comment"></span></a></li>
+
+                </ul>
+                <div class="sub_comment_box">
+                    <div class="field">
+
+                        <!-- <emoji-input [(model)]="objChildCommentText" [textArea]="{rows : 4}" [closeAfterSelection]="false" placeholder="Enter Comment" (click)="popuuChildComment()" id="replyText" (setPopupAction)="setPopupActionChildComment($event)">
+						</emoji-input>
+						<span class="icon-Shape-13 showIcon" (click)="openPopupChildComment()"></span> -->
+                        <span class="icon-Shape-13 showIcon child-comment-area" (click)="showEmojee(0)"></span>
+                        <textarea id="replyText" placeholder="enter reply here" [(ngModel)]="objChildCommentText"></textarea>
+                        <emoji-mart class="child-emoji-mart" (emojiSelect)="addEmoji($event, 0)" [showPreview]="false" [emojiTooltip]="true" [hideRecent]="true">
+                        </emoji-mart>
+
+                        <a href="javascript:;" class="sent_btn showIcon" title="" *ngIf="( objChildCommentText.length != 0 && objChildCommentText.trim() != '' ) || commentReplyImageUrls[0] || commentReplyVideoUrls[0] ">
+                            <div *ngIf="btnloader2">
+                                <i class="fa fa-spinner fa-spin"></i><span class="icon-send showIcon"></span>
+                            </div>
+
+                            <div *ngIf="!btnloader2">
+                                <span class="icon-send showIcon" (click)="replyComment(objComment.Id,objChildCommentText)"></span>
+                            </div>
+                        </a>
+                        <div class="comment_media">
+                            <ul>
+                                <li *ngIf="commentReplyImageUrls[0]">
+                                    <figure class="uploadedimg user-img" [style.background-image]="'url('+appComponent.imagePath+commentReplyImageUrls[0]+')'"></figure>
+                                    <span style="cursor: pointer;" class="icon-close2" (click)="onRemoveFile(mediaTypeEnum.Image,0)"></span>
+                                    <li *ngIf="commentReplyVideoUrls[0]">
+                                        <video>
+                    <source [src]="appComponent.imagePath+commentReplyVideoUrls[0]" type="video/mp4" />
+                  </video>
+                                        <span style="cursor: pointer;" class="icon-close2" (click)="onRemoveFile(mediaTypeEnum.Video,0)"></span>
+                                    </li>
+                            </ul>
+                            <img *ngIf="PostService.showLoaderImages" style="display: block;position: relative;left: 37%;top:2px;width:64px;height:42px;border-radius: 50%;border: 3px solid transparent;" src="assets/images/Facebook-1s-200px.svg">
+                        </div>
+                    </div>
+
+                    <ul class="actBtns">
+                        <li (click)="triggerClick('uploadpicCmntReply')">
+                            <a href="javascript:;"><span id="child-img" class="icon-picture"></span>
+                <input type="file" id="uploadpicCmntReply" accept="image/*" style="display:none;"
+                  (change)="onSelectFile(mediaTypeEnum.Image, 0)">
+              </a>
+                        </li>
+                        <li (click)="triggerClick('uploadvdoCmntReply')">
+                            <a href="javascript:;"><span id="child-vdo" class="icon-Forma-1"></span>
+                <input type="file" id="uploadvdoCmntReply" accept="video/*" style="display:none;"
+                  (change)="onSelectFile(mediaTypeEnum.Video, 0)">
+              </a>
+                        </li>
+                        <li>
+                            <span *ngIf="commentChildTextCheck && !objChildCommentText" style="color: red; margin-left: 12px; font-size: 11px;">
+                Comment Required* </span>
+                        </li>
+                    </ul>
+
+                    <!-- <a href="javascript:;" class="custBtn sent_sub_comment" title="" *ngIf="objChildCommentText.length != 0 && objChildCommentText.trim() != ''"
+					(click)="replyComment(objComment.Id,objChildCommentText)">Send</a> -->
+                </div>
+                <div class="sub_comment_view clearfix" *ngFor="let objChildComments of objComment.ChildComments ">
+                    <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objChildComments?.User?.ProfilePictureUrl?'url('+imagePath+''+objChildComments?.User?.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}">
+                    </figure>
+                    <div class="content">
+                        <h3 style="cursor: pointer;" (click)="userProfileRedirect(objChildComments?.User?.Id)">
+                            {{objChildComments?.User?.FullName}}
+                            <small>@{{objChildComments?.User?.UserName}} - {{objChildComments.CreatedDate | date: 'hh:mm a'}}</small>
+                        </h3>
+
+                        <p>{{objChildComments?.Text}}.</p>
+                        <div class="comments_media" *ngIf="objChildComments?.Medias">
+                            <figure *ngIf="objChildComments?.Medias[0]?.Type == 1" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objChildComments?.Medias[0]?.Url" [style.background-image]="'url('+appComponent.imagePath+objChildComments?.Medias[0]?.Url+')'"></figure>
+                            <figure *ngIf="objChildComments?.Medias[0]?.Type == 2" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objChildComments?.Medias[0]?.Url">
+                                <video class="comentvideoautoplaystop" [src]="appComponent.imagePath+objChildComments?.Medias[0]?.Url"></video>
+                            </figure>
+                            <figure *ngIf="objChildComments?.Medias[1]?.Type == 2" data-fancybox="coment_media" [attr.href]="appComponent.imagePath+objChildComments?.Medias[1]?.Url">
+                                <video class="comentvideoautoplaystop" [src]="appComponent.imagePath+objChildComments?.Medias[1]?.Url"></video>
+                            </figure>
+                        </div>
+                    </div>
+                    <div style="padding: 18px;"> </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="genrel-popup sub_popup clearfix" id="delete_post" style="display: none;">
+    <h3>Delete Post</h3>
+    <div class="field text-center">
+        <p>Are you sure you want to delete this post?</p>
+    </div>
+
+    <div class="text-center">
+        <a href="javascript:;" style="position: relative;right:2px;" data-fancybox-close="" class="custBtn" title="" (click)="deletePost(hideAllPostExternalIndex)">Yes</a>
+        <a href="javascript:;" style="position: relative;left:9px;" data-fancybox-close="" class="custBtn" title="">No</a>
+    </div>
+
+</div>
+
+<div class="genrel-popup sub_popup clearfix" id="delete_post_internal" style="display: none;">
+    <h3>Delete Post</h3>
+    <div class="field text-center">
+        <p>Are you sure you want to delete this post?</p>
+    </div>
+
+    <div class="text-center">
+        <a href="javascript:;" style="position: relative;right:2px;" data-fancybox-close="" class="custBtn" title="" (click)="deletePost(internalPostId)">Yes</a>
+        <a href="javascript:;" style="position: relative;left:9px;" data-fancybox-close="" class="custBtn" title="">No</a>
+    </div>
+
+</div>
+
+
+<div class="mainSec">
+    <div class="container clearfix">
+        <app-sidebar [sideBar]="SidebarTypeEnum.indexSidebar"></app-sidebar>
+
+        <div class="activity-panel width-panel">
+            <div class="polling-page">
+                <div class="status-panel clearfix">
+                    <create-post-popup [postPanelClass]="'post-panel wid mb-0'" (onPopupOpen)="onCreatePostPopupOpen()" (onPostCreated)="onPostCreated($event)" (onPopupClose)="onCreatePostPopupClose()">
+                    </create-post-popup>
+                    <div class="setting-buttons">
+                        <a data-fancybox="" id="createGroupIndex" style="cursor: pointer;" data-src="#create-group" style="cursor: pointer;" (click)="groupInterestClick()"><span class="icon-group"></span> Create Group</a>
+                        <a [routerLink]="['/privacysetting']" class="privacy-btn mb-0"><span class="icon-setting"></span> Privacy
+              Settings</a>
+                    </div>
+                </div>
+                <div class="cards-panel card-follow">
+                    <article class="grid">
+                        <!-- <div  style="position: absolute;
+						left: 27%;
+						top: 100px;
+						z-index: 900;" *ngIf="loader">
+							<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div> -->
+
+
+
+
+                        <div *ngIf="!postLoaded">
+                            <div class="card-sets">
+                                <div class="ph-item">
+                                    <div class="ph-col-12">
+                                        <div class="ph-row">
+                                            <div class="col-2 my-2 imager-loader"></div>
+                                            <span class="col-md-9">
+                        <div class="col-4 myset-name top-name-loader"></div>
+                        <div class="col-4 myset-name"></div>
+                        <div class="col-4 myset-name"></div>
+                      </span>
+                                            <span class="bdr-top-set"></span>
+                                            <div class="col-12 my-2 set-ploader"></div>
+
+                                            <span class="bdr-top-set"></span>
+                                            <div class="col-12 my-2 set-ploader"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-sets">
+                                <div class="ph-item">
+                                    <div class="ph-col-12">
+                                        <div class="ph-row">
+                                            <div class="col-2 my-2 imager-loader"></div>
+                                            <span class="col-md-9">
+                        <div class="col-4 myset-name top-name-loader"></div>
+                        <div class="col-4 myset-name"></div>
+                        <div class="col-4 myset-name"></div>
+                      </span>
+                                            <span class="bdr-top-set"></span>
+                                            <div class="col-12 my-2 set-ploader"></div>
+
+                                            <span class="bdr-top-set"></span>
+                                            <div class="col-12 my-2 set-ploader"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-sets">
+                                <div class="ph-item">
+                                    <div class="ph-col-12">
+                                        <div class="ph-row">
+                                            <div class="col-2 my-2 imager-loader"></div>
+                                            <span class="col-md-9">
+                        <div class="col-4 myset-name top-name-loader"></div>
+                        <div class="col-4 myset-name"></div>
+                        <div class="col-4 myset-name"></div>
+                      </span>
+                                            <span class="bdr-top-set"></span>
+                                            <div class="col-12 my-2 set-ploader"></div>
+
+                                            <span class="bdr-top-set"></span>
+                                            <div class="col-12 my-2 set-ploader"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-sets">
+                                <div class="ph-item">
+                                    <div class="ph-col-12">
+                                        <div class="ph-row">
+                                            <div class="col-2 my-2 imager-loader"></div>
+                                            <span class="col-md-9">
+                        <div class="col-4 myset-name top-name-loader"></div>
+                        <div class="col-4 myset-name"></div>
+                        <div class="col-4 myset-name"></div>
+                      </span>
+                                            <span class="bdr-top-set"></span>
+                                            <div class="col-12 my-2 set-ploader"></div>
+
+                                            <span class="bdr-top-set"></span>
+                                            <div class="col-12 my-2 set-ploader"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-sets">
+                                <div class="ph-item">
+                                    <div class="ph-col-12">
+                                        <div class="ph-row">
+                                            <div class="col-2 my-2 imager-loader"></div>
+                                            <span class="col-md-9">
+                        <div class="col-4 myset-name top-name-loader"></div>
+                        <div class="col-4 myset-name"></div>
+                        <div class="col-4 myset-name"></div>
+                      </span>
+                                            <span class="bdr-top-set"></span>
+                                            <div class="col-12 my-2 set-ploader"></div>
+
+                                            <span class="bdr-top-set"></span>
+                                            <div class="col-12 my-2 set-ploader"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <!-- posts ngfor -->
+                        <ng-container *ngFor="let objPost of objGetPostSettings.Posts; let i = index;">
+
+                            <div class="post-cart wid pb-0" [ngClass]="objPost.ExtendedPostList != null && objPost.ExtendedPostList.length > 0 ? 'remove-margin-bottom border-bottom-custom extended-post-indication' : ''">
+
+                                <div class="cart-header clearfix">
+                                    <div class="left">
+                                        <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objPost?.User?.ProfilePictureUrl ? 'url('+imagePath+objPost?.User?.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}">
+                                        </figure>
+                                        <div class="dtl">
+                                            <h3 (click)="userProfileRedirect(objPost.User.Id)" id="profileNameRedirect" style="color:#1bace2;cursor:pointer;">
+                                                <span style="color: #1bace2; cursor: pointer; width: 100%; display: initial; text-overflow: ellipsis; overflow-x: hidden; white-space: nowrap;" [title]=" objPost.User.FullName ">
+                          {{objPost.User.FullName}} </span>
+                                                <span>@{{objPost?.User?.UserName}}</span></h3>
+
+                                            <ul style="width: 100%;margin-top: 25px;">
+                                                <li *ngIf="objPost.RiskLevel != 0"> Risk
+                                                    <span class="redtxt" *ngIf="objPost.RiskLevel == 1">High</span>
+                                                    <span class="redtxt" *ngIf="objPost.RiskLevel == 2">Medium</span>
+                                                    <span class="redtxt" *ngIf="objPost.RiskLevel == 3">Low</span>
+                                                </li>
+                                                <li *ngIf="objPost?.Location" style="text-overflow: ellipsis; white-space: nowrap; overflow-x: hidden; vertical-align: middle;" [title]="objPost?.Location">{{ objPost?.Location }}</li>
+                                                <li style="cursor: default;" title="{{objPost.CreatedDate | date: 'dd MMMM yyyy'}} {{objPost.CreatedDate | date: 'hh:mm a' }}">
+                                                    {{objPost.CreatedDate | amTimeAgo:true }} ago </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <span *ngIf="objPost.IsUserFollow==false && objPost.User.Id!=objUserSettings.Id" class="icon-add2" (click)="follow(i)"></span>
+                                </div>
+                                <hr>
+                                <div class="cart-content filter-email-box">
+                                    <p style="cursor:pointer;" (click)="redirectToPostDetail(objPost.Id)" *ngIf="objPost.Text && objPost.IsPoll==false" class="trancate360" [innerHTML]=objPost.Text></p>
+                                    <h4 style="cursor:pointer;" (click)="redirectToPostDetail(objPost.Id)" *ngIf="objPost.IsPoll" class="poll_ques trancate360" [innerHTML]=objPost.Text></h4>
+                                    <!-- <p style="cursor:pointer;" (click)="redirectToPostDetail(objPost.Id)" *ngIf="objPost.Text.length > 100" id="showmore" myaction="1" onclick="ShowDetail(this)" style="color: #1bace2; cursor:pointer">Read More</p> -->
+
+                                    <!------------------DISPLAY POLL OPTIONS----------------------->
+                                    <div class="poll-content" *ngIf="objPost.IsPoll">
+                                        <div class="poll-block">
+                                            <ul>
+                                                <ng-container *ngIf="!objPost?.PollOptions[0]?.MediaUrl">
+                                                    <li style="cursor:pointer;" *ngFor="let option of objPost.PollOptions" [class.selected]="option.IsVoted" (click)="votePollOptionClick(option , objPost)">
+                                                        <input type="radio" [name]="'opt'+objPost.Id" [checked]="option.IsVoted" [disabled]="option.IsVoted">
+                                                        <img src="assets/images/poll-tick.jpg" alt="" class="tick">
+                                                        <h3 class="quest_name">{{option.Title}}</h3>
+                                                        <div class="prog_parent" *ngIf="option.Percentage>0" [hidden]="!option.IsVoted">
+                                                            <div class="prog_inner" [style.width.%]="option.Percentage">
+                                                                <span class="prog_count">{{option.Percentage}}%</span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="objPost?.PollOptions[0]?.MediaUrl">
+                                                    <li style="cursor:pointer;" *ngFor="let option of objPost.PollOptions" [class.selected]="option.IsVoted" [class.mediaPoll]="option.MediaUrl" (click)="votePollOptionClick(option , objPost)">
+                                                        <figure [style.background-image]="'url('+imagePath + option.MediaUrl+')'" *ngIf="option.MediaUrl"></figure>
+                                                        <div class="progress" [hidden]="!option.IsVoted">
+                                                            <div class="progress-bar" role="progressbar" [style.width.%]="option.Percentage" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">{{option.Percentage}}%</div>
+                                                        </div>
+                                                        <h5 class="ans_name trancate170" *ngIf="option.MediaUrl">{{option.Title}}</h5>
+                                                    </li>
+                                                </ng-container>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <h3 class="poll_end" *ngIf="objPost.IsPoll && !objPost.IsExpired">This Poll end {{ objPost?.PollExpiryTime | remainingtime }}</h3>
+                                    <!-- <h3 class="poll_end" *ngIf="objPost.IsPoll && !objPost.IsExpired">This Poll end in {{ objPost?.PollExpiryTime | amDifference: currentDate : 'days' : true | roundoffhtmlnumber }} day </h3> -->
+
+                                    <h3 class="poll_end" *ngIf="objPost.IsPoll && objPost.IsExpired">This Poll has been ended</h3>
+                                    <!------------------------------------------------------------->
+
+                                    <!-- <ul class="social-counter" *ngIf="!(objPost.LikesCount==0 && objPost.CommentsCount==0 && objPost.ShareCount==0)">
+                                        <span>
+                      <li *ngIf="objPost.LikesCount==1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                        (click)="commentClicked(i,$event)" style="cursor: pointer;">{{objPost.LikesCount}} Like</li>
+                      <li *ngIf="objPost.LikesCount>1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                        (click)="commentClicked(i,$event)" style="cursor: pointer;">{{objPost.LikesCount}} Likes</li>
+
+                      <li *ngIf="objPost.CommentsCount==1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                        (click)="commentClicked(i,$event)" style="cursor: pointer;">{{objPost.CommentsCount}} Comment
+                      </li>
+                      <li *ngIf="objPost.CommentsCount>1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                        (click)="commentClicked(i,$event)" style="cursor: pointer;">{{objPost.CommentsCount}} Comments
+                      </li>
+
+                      <li *ngIf="objPost.ShareCount==1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                        (click)="commentClicked(i,$event)" style="cursor: pointer;">{{objPost.ShareCount}} Share</li>
+                      <li *ngIf="objPost.ShareCount>1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                        (click)="commentClicked(i,$event)" style="cursor: pointer;">{{objPost.ShareCount}} Shares</li>
+                    </span>
+                                        <span *ngIf="(objPost.LikesCount==0 && objPost.CommentsCount==0 && objPost.ShareCount==0)">
+                      <li></li>
+                      <li></li>
+                      <li></li>
+                    </span>
+                                    </ul> -->
+
+
+
+                                    <!------------------DISPLAY SHARED POST----------------------->
+
+
+                                    <div class="share_body user_share m-0" *ngIf="objPost.SharedParent">
+                                        <div class="post-cart pb-0">
+                                            <div class="cart-header clearfix">
+                                                <div class="left">
+                                                    <figure class="user-img" [style.background-image]="(objPost?.SharedParent?.User?.ProfilePictureUrl ? 'url(' + imagePath + objPost?.SharedParent?.User?.ProfilePictureUrl + ')' : 'url(assets/images/signup-thumb.jpg)')">
+                                                    </figure>
+                                                    <div class="dtl">
+                                                        <!-- <h3>{{objPost?.SharedParent?.User?.FullName}}
+                              <span>@{{objPost?.SharedParent?.User?.UserName}}</span></h3> -->
+
+
+                                                        <h3 (click)="userProfileRedirect(objPost?.SharedParent?.User?.Id)" id="profileNameRedirect" style="color:#1bace2;cursor:pointer;">
+                                                            <span style="color: #1bace2; cursor: pointer; width: 100%;
+                            display: initial;
+                            text-overflow: ellipsis; overflow-x: hidden; white-space: nowrap;" [title]=" objPost?.SharedParent?.User?.FullName ">
+                                {{objPost?.SharedParent?.User?.FullName}} </span>
+                                                            <span>@{{objPost?.SharedParent?.User?.FullName}}</span></h3>
+
+
+
+
+                                                        <ul style="width: 100%;margin-top: 25px;">
+                                                            <li *ngIf="objPost.RiskLevel != 0" [ngSwitch]="objPost?.SharedParent?.RiskLevel">Risk
+                                                                <span class="redtxt" *ngSwitchCase="1">High</span>
+                                                                <span class="redtxt" *ngSwitchCase="2">Medium</span>
+                                                                <span class="redtxt" *ngSwitchCase="3">Low</span>
+                                                            </li>
+                                                            <li>{{objPost?.SharedParent?.Location }}</li>
+                                                            <li style="cursor: default;" title="{{objPost.SharedParent.CreatedDate | date: 'dd MMMM yyyy'}} {{objPost.SharedParent.CreatedDate | date: 'hh:mm a' }}">
+                                                                {{objPost.SharedParent.CreatedDate | amTimeAgo:true }} ago</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div *ngIf="objPost.SharedParent.Medias.length>1" class="cart-img" id="multipleImages" [class.multiple]="objPost.SharedParent.Medias.length>3" [class.double]="objPost.SharedParent.Medias.length==2" [class.tripple]="objPost.SharedParent.Medias.length==3">
+                                                <ng-container *ngFor="let postImgs of objPost.SharedParent.Medias;let j=index;">
+                                                    <a *ngIf="postImgs.Type==1" data-fancybox="" [href]="imagePath+postImgs.Url" class="fancyImage thumb galleryImages{{objPost.Id}}" [style.background-image]="'url('+imagePath+''+postImgs.Url+')'" title=""></a>
+                                                    <a *ngIf="postImgs.Type==2" data-fancybox="" [href]="imagePath+postImgs.Url" class="fancyImage thumb galleryImages{{objPost.Id}}" title=""><video [src]="imagePath+postImgs.Url" controls="" controlsList="nodownload"></video></a>
+                                                    <a *ngIf="objPost.Medias.length>4" (click)="remainingImages(objPost.Id)" class="thumb_count" style="cursor: pointer;"><span
+                              style="color: #fff">{{(objPost.Medias.length)-4}}+</span></a>
+                                                </ng-container>
+                                            </div>
+
+
+                                            <!-- <a *ngFor="let media of objPost.SharedParent.Medias" href="javascript:;" class="cart-img"
+                        [ngStyle]="{ 'background-image': 'url(' + imagePath + media.Url +'),url(assets/images/not-available.jpg)' }"></a> -->
+
+                                            <div class="cart-content">
+                                                <p class="trancate360" [innerHTML]="objPost.SharedParent.Text"></p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <!------------------------------------------------------------>
+
+
+
+
+                                </div>
+
+                                <div *ngIf="objPost.Medias.length>1" class="cart-img" id="multipleImages" [class.multiple]="objPost.Medias.length>3" [class.double]="objPost.Medias.length==2" [class.tripple]="objPost.Medias.length==3">
+                                    <ng-container *ngFor="let postImgs of objPost.Medias;let j=index;">
+                                        <a *ngIf="postImgs.Type==1" data-fancybox="" [href]="imagePath+postImgs.Url" class="fancyImage thumb galleryImages{{objPost.Id}}" [style.background-image]="'url('+imagePath+postImgs.Url+')'" title=""></a>
+                                        <a *ngIf="postImgs.Type==2 && objUserSettings.IsVideoAutoPlay==false" data-fancybox="" [href]="imagePath+postImgs.Url" class="fancyImage thumb galleryImages{{objPost.Id}}" title=""><video [src]="imagePath+postImgs.Url" controls="" controlsList="nodownload"></video></a>
+                                        <a *ngIf="postImgs.Type==2 && objUserSettings.IsVideoAutoPlay==true" data-fancybox="" [href]="imagePath+postImgs.Url" class="fancyImage thumb galleryImages{{objPost.Id}}" title=""><video [src]="imagePath+postImgs.Url" controls="" controlsList="nodownload"></video></a>
+
+                                        <a *ngIf="objPost.Medias.length>4" (click)="remainingImages(objPost.Id)" class="thumb_count" style="cursor: pointer;"><span style="color: #fff">{{(objPost.Medias.length)-4}}+</span></a>
+                                    </ng-container>
+                                </div>
+
+                                <div class="cart-img" *ngIf="objPost.Medias.length==1">
+                                    <a *ngIf="objPost.Medias[0].Type==2" data-fancybox="" [href]="imagePath+objPost.Medias[0].Url" class="fancyImage thumb" title="">
+                                        <video [src]="imagePath+objPost.Medias[0].Url" controls="" controlsList="nodownload"></video>
+                                    </a>
+                                    <a *ngIf="objPost.Medias[0].Type==1" [href]="imagePath+objPost.Medias[0].Url" data-fancybox="" class=" fancyImage cart-img" [style.background-image]="'url('+imagePath+objPost.Medias[0].Url+')'">
+                                    </a>
+                                </div>
+
+
+                                <div class="cart-footer">
+                                    <ul>
+
+                                        <span class="label-count" *ngIf="!(objPost.LikesCount==0 && objPost.CommentsCount==0 && objPost.ShareCount==0)">
+                                        <p *ngIf="objPost.LikesCount==1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                                          (click)="commentClicked(undefined, objPost.Id,$event)" style="cursor: pointer;">{{objPost.LikesCount}}</p>
+                                        <p *ngIf="objPost.LikesCount>1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                                          (click)="commentClicked(undefined, objPost.Id,$event)" style="cursor: pointer;">{{objPost.LikesCount}}</p>
+                                      </span>
+                                        <li *ngIf="objPost.IsLiked" style="cursor:pointer;">
+                                            <a id="likeExternal"><span
+                          class="icon-thumbs-up2" (click)="starClicked(i, undefined, false)"></span></a></li>
+                                        <li *ngIf="!objPost.IsLiked" style="cursor:pointer;"><a id="unlikeExternal"><span
+                          class="icon-thumbs-o-up" (click)="starClicked(i, undefined, false)"></span></a></li>
+                                        <span class="label-count" *ngIf="!(objPost.LikesCount==0 && objPost.CommentsCount==0 && objPost.ShareCount==0)">
+
+                            <p *ngIf="objPost.CommentsCount==1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                              (click)="commentClicked(undefined, objPost.Id,$event)" style="cursor: pointer;">{{objPost.CommentsCount}}
+                          </p>
+                            <p *ngIf="objPost.CommentsCount>1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                              (click)="commentClicked(undefined, objPost.Id,$event)" style="cursor: pointer;">{{objPost.CommentsCount}}
+                            </p>
+</span>
+                                        <li *ngIf="!objPost?.IsPoll" style="cursor:pointer;">
+                                            <a data-fancybox="" data-src="#postdetail" (click)="commentClicked(undefined, objPost.Id,$event)"><span
+                          class="icon-comment"></span></a>
+                                        </li>
+                                        <span class="label-count" *ngIf="!(objPost.LikesCount==0 && objPost.CommentsCount==0 && objPost.ShareCount==0)">
+
+                                          <p *ngIf="objPost.ShareCount==1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                                            (click)="commentClicked(undefined, objPost.Id,$event)" style="cursor: pointer;">{{objPost.ShareCount}}</p>
+                                          <p *ngIf="objPost.ShareCount>1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                                            (click)="commentClicked(undefined, objPost.Id,$event)" style="cursor: pointer;">{{objPost.ShareCount}}</p>
+                                        </span>
+                                        <li *ngIf="!objPost?.IsPoll" class="more">
+                                            <a href="javascript:;" (click)="pagesSidebarComponent.sharePostClick(objPost)"><span
+                          class="icon-reply"></span></a>
+                                        </li>
+                                        <li class="more" style="cursor:pointer;" (click)="moreClick(objPost)">
+                                            <a href="javascript:;"><span class="icon-share"></span></a>
+                                            <div class="more-dropdown">
+                                                <ul>
+                                                    <li style="cursor:pointer;" class="fb" (click)="facebookShare(objPost.Id)"><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//risco.ingicweb.com/%23/post/{{objPost.Id}}" target="_blank"><span class="socialIocon icon-facebook"></span> Facebook</a></li>
+                                                    <li style="cursor:pointer;" class="tw" (click)="twitterShare(objPost.Id)"><a href="https://twitter.com/home?status=https%3A//risco.ingicweb.com/%23/post/{{objPost.Id}}" target="_blank"><span class="socialIocon icon-twitter"></span> Twitter</a></li>
+                                                    <li style="cursor:pointer;" (click)="googlePlusShare(objPost.Id)"><a href="https://plus.google.com/share?url=https%3A//risco.ingicweb.com/%23/post/{{objPost.Id}}" target="_blank"><span class="socialIocon icon-google-plus"></span> Google </a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li class="more" (click)="moreClick(objPost)">
+                                            <a href="javascript:;" (click)="setIndex(i)"><span class="icon-more"></span></a>
+                                            <div class="more-dropdown">
+                                                <ul>
+                                                    <li style="cursor: pointer;" (click)="hidePostById(i)" *ngIf="objPost?.User?.Id != objUserSettings.Id" class="textHover"><a href="javascript:;" data-fancybox="" data-src="#hide_single_post">Hide Post</a></li>
+                                                    <li style="cursor: pointer;" *ngIf="objPost?.User?.Id != objUserSettings.Id" class="textHover"><a href="javascript:;" data-fancybox="" data-src="#hide_all_post">Hide all
+                              posts by this user</a></li>
+                                                    <li style="cursor: pointer;" class="textHover"><a>Turn off notifications for this post</a>
+                                                    </li>
+                                                    <li style="cursor: pointer;" *ngIf="objPost?.User?.Id != objUserSettings.Id" class="textHover"><a data-fancybox data-src="#report-dialog">Report Post</a></li>
+                                                    <li style="cursor: pointer;" *ngIf="objPost?.User?.Id == objUserSettings?.Id" class="textHover"><a href="javascript:;" data-fancybox="" data-src="#delete_post">Delete
+                              post</a></li>
+
+                                                    <!-- (click)="deletePost(objPost?.Id)" -->
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- extended/children posts ngfor -->
+                            <ng-container *ngIf="objPost.ExtendedPostList != null && objPost.ExtendedPostList.length > 0">
+
+                                <div *ngFor="let extendedPost of objPost.ExtendedPostList; let j = index;" class="post-cart wid pb-0 extended-post-indication top-border" [ngClass]="j != objPost.ExtendedPostList.length - 1 ? 'rremove-margin-bottom border-bottom-custom' : ''">
+
+                                    <div class="cart-header clearfix">
+                                        <div class="left">
+                                            <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': extendedPost?.User?.ProfilePictureUrl ? 'url('+imagePath+extendedPost?.User?.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}">
+                                            </figure>
+                                            <div class="dtl">
+                                                <h3 (click)="userProfileRedirect(extendedPost.User.Id)" id="profileNameRedirect" style="color:#1bace2;cursor:pointer;">
+                                                    <span style="color: #1bace2; cursor: pointer; width: 100%; display: initial; text-overflow: ellipsis; overflow-x: hidden; white-space: nowrap;" [title]=" extendedPost.User.FullName ">
+                        {{extendedPost.User.FullName}} </span>
+                                                    <span>@{{extendedPost?.User?.UserName}}</span></h3>
+
+                                                <ul style="width: 100%;margin-top: 25px;">
+                                                    <li *ngIf="extendedPost.RiskLevel != 0"> Risk
+                                                        <span class="redtxt" *ngIf="extendedPost.RiskLevel == 1">High</span>
+                                                        <span class="redtxt" *ngIf="extendedPost.RiskLevel == 2">Medium</span>
+                                                        <span class="redtxt" *ngIf="extendedPost.RiskLevel == 3">Low</span>
+                                                    </li>
+                                                    <li *ngIf="extendedPost?.Location" style="text-overflow: ellipsis; white-space: nowrap; overflow-x: hidden; vertical-align: middle;" [title]="extendedPost?.Location">{{ extendedPost?.Location }}</li>
+                                                    <li style="cursor: default;" title="{{objPost.CreatedDate | date: 'dd MMMM yyyy'}} {{objPost.CreatedDate | date: 'hh:mm a' }}">
+                                                        {{objPost.CreatedDate | amTimeAgo:true }} ago </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <span *ngIf="extendedPost.IsUserFollow==false && extendedPost.User.Id!=objUserSettings.Id" class="icon-add2" (click)="follow(i)"></span>
+                                    </div>
+                                    <hr>
+                                    <div style="cursor:pointer;" (click)="redirectToPostDetail(extendedPost.Id)" class="cart-content filter-email-box">
+                                        <p *ngIf="extendedPost.Text && extendedPost.IsPoll==false" class="trancate360" [innerHTML]=extendedPost.Text></p>
+                                        <h4 *ngIf="extendedPost.IsPoll" class="poll_ques trancate360" [innerHTML]=extendedPost.Text></h4>
+                                        <p *ngIf="extendedPost.Text.length > 100" id="showmore" myaction="1" onclick="ShowDetail(this)" style="color: #1bace2; cursor:pointer">Read More
+                                        </p>
+
+                                        <!------------------DISPLAY POLL OPTIONS----------------------->
+                                        <div class="poll-content" *ngIf="extendedPost.IsPoll">
+                                            <div class="poll-block">
+                                                <ul>
+                                                    <ng-container *ngIf="!extendedPost?.PollOptions[0]?.MediaUrl">
+                                                        <li style="cursor:pointer;" *ngFor="let option of extendedPost.PollOptions" [class.selected]="option.IsVoted" (click)="votePollOptionClick(option , extendedPost)">
+                                                            <input type="radio" [name]="'opt'+extendedPost.Id" [checked]="option.IsVoted" [disabled]="option.IsVoted">
+                                                            <img src="assets/images/poll-tick.jpg" alt="" class="tick">
+                                                            <h3 class="quest_name">{{option.Title}}</h3>
+                                                            <div class="prog_parent" *ngIf="option.Percentage>0" [hidden]="!option.IsVoted">
+                                                                <div class="prog_inner" [style.width.%]="option.Percentage">
+                                                                    <span class="prog_count">{{option.Percentage}}%</span>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ng-container>
+
+                                                    <ng-container *ngIf="extendedPost?.PollOptions[0]?.MediaUrl">
+                                                        <li style="cursor:pointer;" *ngFor="let option of extendedPost.PollOptions" [class.selected]="option.IsVoted" [class.mediaPoll]="option.MediaUrl" (click)="votePollOptionClick(option , extendedPost)">
+                                                            <figure [style.background-image]="'url('+imagePath + option.MediaUrl+')'" *ngIf="option.MediaUrl"></figure>
+                                                            <div class="progress" [hidden]="!option.IsVoted">
+                                                                <div class="progress-bar" role="progressbar" [style.width.%]="option.Percentage" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">{{option.Percentage}}%</div>
+                                                            </div>
+                                                            <h5 class="ans_name trancate170" *ngIf="option.MediaUrl">{{option.Title}}</h5>
+                                                        </li>
+                                                    </ng-container>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <h3 class="poll_end" *ngIf="extendedPost.IsPoll && !extendedPost.IsExpired">This Poll end {{ extendedPost?.PollExpiryTime | remainingtime }}</h3>
+                                        <!-- <h3 class="poll_end" *ngIf="extendedPost.IsPoll && !extendedPost.IsExpired">This Poll end in {{ extendedPost?.PollExpiryTime | amDifference: currentDate : 'days' : true | roundoffhtmlnumber }} day </h3> -->
+
+                                        <h3 class="poll_end" *ngIf="extendedPost.IsPoll && extendedPost.IsExpired">This Poll has been ended</h3>
+                                        <!------------------------------------------------------------->
+
+                                        <!-- <ul class="social-counter" *ngIf="!(extendedPost.LikesCount==0 && extendedPost.CommentsCount==0 && extendedPost.ShareCount==0)">
+                                        <span *ngIf="!(extendedPost.LikesCount==0 && extendedPost.CommentsCount==0 && extendedPost.ShareCount==0)">
+                    <li *ngIf="extendedPost.LikesCount==1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                      (click)="commentClicked(i,$event)" style="cursor: pointer;">{{extendedPost.LikesCount}} Like</li>
+                    <li *ngIf="extendedPost.LikesCount>1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                      (click)="commentClicked(i,$event)" style="cursor: pointer;">{{extendedPost.LikesCount}} Likes</li>
+
+                    <li *ngIf="extendedPost.CommentsCount==1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                      (click)="commentClicked(i,$event)" style="cursor: pointer;">{{extendedPost.CommentsCount}} Comment
+                    </li>
+                    <li *ngIf="extendedPost.CommentsCount>1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                      (click)="commentClicked(i,$event)" style="cursor: pointer;">{{extendedPost.CommentsCount}} Comments
+                    </li>
+
+                    <li *ngIf="extendedPost.ShareCount==1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                      (click)="commentClicked(i,$event)" style="cursor: pointer;">{{extendedPost.ShareCount}} Share</li>
+                    <li *ngIf="extendedPost.ShareCount>1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                      (click)="commentClicked(i,$event)" style="cursor: pointer;">{{extendedPost.ShareCount}} Shares</li>
+                  </span>
+                                        <span *ngIf="(extendedPost.LikesCount==0 && extendedPost.CommentsCount==0 && extendedPost.ShareCount==0)">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                  </span>
+                                    </ul> -->
+                                        <div class="share_body user_share m-0" *ngIf="extendedPost.SharedParent">
+                                            <div class="post-cart pb-0">
+                                                <div class="cart-header clearfix">
+                                                    <div class="left">
+                                                        <figure class="user-img" [style.background-image]="(extendedPost?.SharedParent?.User?.ProfilePictureUrl ? 'url(' + imagePath + extendedPost?.SharedParent?.User?.ProfilePictureUrl + ')' : 'url(assets/images/signup-thumb.jpg)')">
+                                                        </figure>
+                                                        <div class="dtl">
+                                                            <!-- <h3>{{extendedPost?.SharedParent?.User?.FullName}}
+                            <span>@{{extendedPost?.SharedParent?.User?.UserName}}</span></h3> -->
+
+
+                                                            <h3 (click)="userProfileRedirect(extendedPost.SharedParent.User.Id)" id="profileNameRedirect" style="color:#1bace2;cursor:pointer;">
+                                                                <span style="color: #1bace2; cursor: pointer; width: 100%;
+                          display: initial;
+                          text-overflow: ellipsis; overflow-x: hidden; white-space: nowrap;" [title]=" extendedPost.SharedParent.User.FullName ">
+                              {{extendedPost.SharedParent.User.FullName}} </span>
+                                                                <span>@{{extendedPost.SharedParent?.User?.UserName}}</span></h3>
+
+
+
+
+                                                            <ul style="width: 100%;margin-top: 25px;">
+                                                                <li *ngIf="extendedPost.RiskLevel != 0" [ngSwitch]="extendedPost?.SharedParent?.RiskLevel">Risk
+                                                                    <span class="redtxt" *ngSwitchCase="1">High</span>
+                                                                    <span class="redtxt" *ngSwitchCase="2">Medium</span>
+                                                                    <span class="redtxt" *ngSwitchCase="3">Low</span>
+                                                                </li>
+                                                                <li>{{extendedPost?.SharedParent?.Location }}</li>
+                                                                <li style="cursor: default;" title="{{extendedPost.SharedParent.CreatedDate | date: 'dd MMMM yyyy'}} {{extendedPost.SharedParent.CreatedDate | date: 'hh:mm a' }}">
+                                                                    {{extendedPost.SharedParent.CreatedDate | amTimeAgo:true }} ago</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <a *ngFor="let media of extendedPost.SharedParent.Medias" href="javascript:;" class="cart-img" [ngStyle]="{ 'background-image': 'url(' + imagePath + media.Url +'),url(assets/images/not-available.jpg)' }"></a>
+
+                                                <div class="cart-content">
+                                                    <p class="trancate360" [innerHTML]="extendedPost.SharedParent.Text"></p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="extendedPost.Medias.length>1" class="cart-img" id="multipleImages" [class.multiple]="extendedPost.Medias.length>3" [class.double]="extendedPost.Medias.length==2" [class.tripple]="extendedPost.Medias.length==3">
+                                        <ng-container *ngFor="let postImgs of extendedPost.Medias;let j=index;">
+                                            <a *ngIf="postImgs.Type==1" data-fancybox="" [href]="imagePath+postImgs.Url" class="fancyImage thumb galleryImages{{extendedPost.Id}}" [style.background-image]="'url('+imagePath+postImgs.Url+')'" title=""></a>
+                                            <a *ngIf="postImgs.Type==2 && objUserSettings.IsVideoAutoPlay==false" data-fancybox="" [href]="imagePath+postImgs.Url" class="fancyImage thumb galleryImages{{extendedPost.Id}}" title=""><video [src]="imagePath+postImgs.Url" controls="" controlsList="nodownload"></video></a>
+                                            <a *ngIf="postImgs.Type==2 && objUserSettings.IsVideoAutoPlay==true" data-fancybox="" [href]="imagePath+postImgs.Url" class="fancyImage thumb galleryImages{{extendedPost.Id}}" title=""><video [src]="imagePath+postImgs.Url" controls="" controlsList="nodownload"></video></a>
+
+                                            <a *ngIf="extendedPost.Medias.length>4" (click)="remainingImages(extendedPost.Id)" class="thumb_count" style="cursor: pointer;"><span style="color: #fff">{{(extendedPost.Medias.length)-4}}+</span></a>
+                                        </ng-container>
+                                    </div>
+
+                                    <div class="cart-img" *ngIf="extendedPost.Medias.length==1">
+                                        <a *ngIf="extendedPost.Medias[0].Type==2" data-fancybox="" [href]="imagePath+extendedPost.Medias[0].Url" class="fancyImage thumb" title="">
+                                            <video [src]="imagePath+extendedPost.Medias[0].Url" controls="" controlsList="nodownload"></video>
+                                        </a>
+                                        <a *ngIf="extendedPost.Medias[0].Type==1" [href]="imagePath+extendedPost.Medias[0].Url" data-fancybox="" class=" fancyImage cart-img" [style.background-image]="'url('+imagePath+extendedPost.Medias[0].Url+')'">
+                                        </a>
+                                    </div>
+
+                                    <div class="cart-footer">
+                                        <ul>
+                                            <span class="label-count" *ngIf="!(extendedPost.LikesCount==0 && extendedPost.CommentsCount==0 && extendedPost.ShareCount==0)">
+                                        <p *ngIf="extendedPost.LikesCount==1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                                          (click)="commentClicked(objPost.Id, extendedPost.Id,$event)" style="cursor: pointer;">{{extendedPost.LikesCount}}</p>
+                                        <p *ngIf="extendedPost.LikesCount>1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                                          (click)="commentClicked(objPost.Id, extendedPost.Id,$event)" style="cursor: pointer;">{{extendedPost.LikesCount}}</p>
+                             </span>
+                                            <li *ngIf="extendedPost.IsLiked" style="cursor:pointer;"><a id="likeExternal"><span
+                        class="icon-thumbs-up2" (click)="starClicked(i, j, true)"></span></a></li>
+                                            <li *ngIf="!extendedPost.IsLiked" style="cursor:pointer;"><a id="unlikeExternal"><span
+                        class="icon-thumbs-o-up" (click)="starClicked(i, j, true)"></span></a></li>
+                                            <span class="label-count" *ngIf="!(extendedPost.LikesCount==0 && extendedPost.CommentsCount==0 && extendedPost.ShareCount==0)">
+                          <p *ngIf="extendedPost.CommentsCount==1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                            (click)="commentClicked(objPost.Id, extendedPost.Id,$event)" style="cursor: pointer;">{{extendedPost.CommentsCount}}
+                          </p>
+                          <p *ngIf="extendedPost.CommentsCount>1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                            (click)="commentClicked(objPost.Id, extendedPost.Id,$event)" style="cursor: pointer;">{{extendedPost.CommentsCount}}
+                          </p>
+               </span>
+                                            <li *ngIf="!extendedPost?.IsPoll" style="cursor:pointer;">
+                                                <a data-fancybox="" data-src="#postdetail" (click)="commentClicked(objPost.Id, extendedPost.Id,$event)"><span
+                        class="icon-comment"></span></a>
+                                            </li>
+                                            <span class="label-count" *ngIf="!(extendedPost.LikesCount==0 && extendedPost.CommentsCount==0 && extendedPost.ShareCount==0)">
+                                          <p *ngIf="extendedPost.ShareCount==1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                                            (click)="commentClicked(objPost.Id, extendedPost.Id,$event)" style="cursor: pointer;">{{extendedPost.ShareCount}} </p>
+                                          <p *ngIf="extendedPost.ShareCount>1" class="socialCounter" data-fancybox="" data-src="#postdetail"
+                                            (click)="commentClicked(objPost.Id, extendedPost.Id,$event)" style="cursor: pointer;">{{extendedPost.ShareCount}} </p>
+                                        </span>
+
+                                            <li *ngIf="!extendedPost?.IsPoll" class="more">
+                                                <a href="javascript:;" (click)="pagesSidebarComponent.sharePostClick(extendedPost)"><span
+                        class="icon-reply"></span></a>
+                                            </li>
+                                            <li class="more" style="cursor:pointer;" (click)="moreClick(extendedPost)">
+                                                <a href="javascript:;"><span class="icon-share"></span></a>
+                                                <div class="more-dropdown">
+                                                    <ul>
+                                                        <li style="cursor:pointer;" class="fb" (click)="facebookShare(extendedPost.Id)"><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//risco.ingicweb.com/%23/post/{{extendedPost.Id}}" target="_blank"><span class="socialIocon icon-facebook"></span> Facebook</a></li>
+                                                        <li style="cursor:pointer;" class="tw" (click)="twitterShare(extendedPost.Id)"><a href="https://twitter.com/home?status=https%3A//risco.ingicweb.com/%23/post/{{extendedPost.Id}}" target="_blank"><span class="socialIocon icon-twitter"></span> Twitter</a></li>
+                                                        <li style="cursor:pointer;" (click)="googlePlusShare(extendedPost.Id)"><a href="https://plus.google.com/share?url=https%3A//risco.ingicweb.com/%23/post/{{extendedPost.Id}}" target="_blank"><span class="socialIocon icon-google-plus"></span> Google </a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li class="more" (click)="moreClick(extendedPost)">
+                                                <a href="javascript:;" (click)="setIndex(i)"><span class="icon-more"></span></a>
+                                                <div class="more-dropdown">
+                                                    <ul>
+                                                        <li style="cursor: pointer;" (click)="hidePostById(i)" *ngIf="extendedPost?.User?.Id != objUserSettings.Id" class="textHover"><a href="javascript:;" data-fancybox="" data-src="#hide_single_post">Hide Post</a></li>
+                                                        <li style="cursor: pointer;" *ngIf="extendedPost?.User?.Id != objUserSettings.Id" class="textHover"><a href="javascript:;" data-fancybox="" data-src="#hide_all_post">Hide all
+                            posts by this user</a></li>
+                                                        <li style="cursor: pointer;" class="textHover"><a>Turn off notifications for this post</a>
+                                                        </li>
+                                                        <li style="cursor: pointer;" *ngIf="extendedPost?.User?.Id != objUserSettings.Id" class="textHover"><a data-fancybox data-src="#report-dialog">Report Post</a></li>
+                                                        <li style="cursor: pointer;" *ngIf="extendedPost?.User?.Id == objUserSettings?.Id" class="textHover"><a href="javascript:;" data-fancybox="" data-src="#delete_post">Delete
+                            post</a></li>
+
+                                                        <!-- (click)="deletePost(extendedPost?.Id)" -->
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+
+                                </div>
+
+
+                            </ng-container>
+
+                        </ng-container>
+                        <div *ngIf="scrollLoader" class="div-loader-bottom-sets">
+                            <i class="fa fa-spinner fa-spin"></i>
+                        </div>
+                        <div style="height: 25px;"></div>
+                    </article>
+                </div>
+                <app-side-follow-group></app-side-follow-group>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" [(ngModel)]="objPostSettings.Location" />

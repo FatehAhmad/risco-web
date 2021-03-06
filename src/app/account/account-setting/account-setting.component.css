@@ -1,0 +1,70 @@
+.textBox{
+    border: 1px solid #ebeff2;
+    font-size: 14px;
+    color: #696969;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 5px;
+    width: 50%;
+}
+/* 
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .flex-container > div {
+  flex: 1, 0;
+  width:25%;
+  text-align:center;
+  } */
+
+.invalid-text{
+    color:#a74747;
+    margin-top: 5px;
+    position: relative;
+    left: 194px;
+}
+
+.success-message{
+    color: #468847;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    padding:10px;
+}
+
+.error-message{
+    color: #a74747;
+    position: relative;
+    top: -12px;
+    height:10px;
+    font-size: 14px;
+    padding:10px;
+}
+
+#profileButton:hover {
+    background: #fff;
+    color: #1bace2 !important;
+    border: 1px solid #1bace2;
+}
+#profileButton {
+    background: #1bace2;
+    color:  #fff !important;
+    border: 1px solid #1bace2;
+}
+
+.danger-btn{
+    background: #ff0200 !important;
+    color: white !important;
+    cursor: pointer;
+}
+
+.danger-btn:hover{
+    background: #fff !important;
+    color: #ff0200 !important;
+    border: #ff0200 1px solid !important;
+}
+
+.sub_popup {
+    max-width: 750px !important;
+}

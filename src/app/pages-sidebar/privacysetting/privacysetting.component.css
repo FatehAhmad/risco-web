@@ -1,0 +1,46 @@
+.success-message{
+    color: #468847;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    padding:10px;
+}
+
+.error-message{
+    color: #a74747;
+    position: relative;
+    top: -12px;
+    height:10px;
+    font-size: 14px;
+    padding:10px;
+}
+.PrivacySetting_panel input{
+
+    width: unset !important;
+}
+[type="radio"]:not(:checked) + label:after, [type="radio"]:checked + label:after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #1ba1e2;
+    top: 6px;
+    left: 5px;
+    bottom: 0;
+    font-size: 12px;
+    line-height: 0.8;
+    color: #1ba1e2;
+    transition: all .2s;
+    font-family: Helvetica, Arial, sans-serif;
+    border-radius: 3px;
+}
+
+#buttonCustom {
+    background: #1bace2;
+    color: #fff !important;
+    border: 1px solid #1bace2;
+}
+#buttonCustom:hover {
+    background: #fff;
+    color: #1bace2 !important;
+    border: 1px solid #1bace2;
+}

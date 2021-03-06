@@ -1,0 +1,253 @@
+<section class="signupSec custom-form">
+    <div class="container clearfix">
+        <!-- <div class="img-wrap" style="background-image: url('assets/images/signup-img.jpg');"></div> -->
+        <div class="formSec custom-interest-modal">
+            <div class="row">
+                <div class="col-md-10">
+
+                    <p style="text-align:justify;">Great news, one step closer to Risco World. </p>
+                    <p style="text-align:justify;">Select the topics that interest to connect with all users of the world for this topic Select up to four languages you can speak to connect you with all the world speakers for your chosen language </p>
+                </div>
+                <div class="col-md-2">
+                    <!-- <div class="btn-skip-interest">
+              <a>
+                Skip
+              </a>
+            </div> -->
+                </div>
+            </div>
+
+            <!-- <div class="row mt-2">
+  <div class="col-md-12">
+    <div class="search-input-interest">
+      <input class="form-control" type="text" placeholder="Search">
+    </div>
+  </div>
+</div> -->
+
+            <div class="height-topics">
+                <div class="row">
+                    <div class="col-md-12 col-lg-6">
+                        <h4 class="topics-heading">
+                            Topics
+                        </h4>
+                        <div id="accordion" class="topics-cards">
+                            <div class="box-topics">
+                                <button class="btn btn-link collapsed" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Sports
+                             <span>  <i class="fa" aria-hidden="true"></i></span>
+                            </button>
+                                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                    <form>
+                                        <div class="interest-box">
+                                            <div (click)="setInterests(childInterest)" *ngFor="let childInterest of sportsInterests?.ChildInterests" [ngClass]="childInterest.Selected ? 'span-set selected' : 'span-set'">
+                                                <span>
+                                                  {{childInterest.Name}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="box-topics">
+                                <button class="btn btn-link collapsed" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+
+                                    Technology
+    <span>  <i class="fa" aria-hidden="true"></i></span>
+  </button>
+                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                    <form>
+                                        <div class="interest-box">
+                                            <div (click)="setInterests(childInterest)" *ngFor="let childInterest of technologyInterests?.ChildInterests" [ngClass]="childInterest.Selected ? 'span-set selected' : 'span-set'">
+                                                <span>
+                            {{childInterest.Name}}
+                          </span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="box-topics">
+                                <button class="btn btn-link collapsed" id="headingThree" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Media
+    <span>  <i class="fa" aria-hidden="true"></i></span>
+  </button>
+                                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                    <form>
+                                        <div class="interest-box">
+
+                                            <div (click)="setInterests(childInterest)" *ngFor="let childInterest of mediaInterests?.ChildInterests" [ngClass]="childInterest.Selected ? 'span-set selected' : 'span-set'">
+                                                <span>
+                            {{childInterest.Name}}
+                          </span>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                            <div class="box-topics">
+                                <button class="btn btn-link collapsed" id="headingfour" data-toggle="collapse" data-target="#collapsefour" aria-expanded="true" aria-controls="collapseOne">
+                                    Information Security
+                             <span>  <i class="fa" aria-hidden="true"></i></span>
+                            </button>
+                                <div id="collapsefour" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                    <form>
+                                        <div class="interest-box">
+                                            <div (click)="setInterests(childInterest)" *ngFor="let childInterest of sportsInterests?.ChildInterests" [ngClass]="childInterest.Selected ? 'span-set selected' : 'span-set'">
+                                                <span>
+          {{childInterest.Name}}
+        </span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="box-topics">
+                                <button class="btn btn-link collapsed" id="headingfive" data-toggle="collapse" data-target="#collapsefive" aria-expanded="false" aria-controls="collapseTwo">
+
+                                    Medical
+    <span>  <i class="fa" aria-hidden="true"></i></span>
+  </button>
+                                <div id="collapsefive" class="collapse" aria-labelledby="headingfive" data-parent="#accordion">
+                                    <form>
+                                        <div class="interest-box">
+                                            <div (click)="setInterests(childInterest)" *ngFor="let childInterest of medicalInterests?.ChildInterests" [ngClass]="childInterest.Selected ? 'span-set selected' : 'span-set'">
+                                                <span>
+                                {{childInterest.Name}}
+                              </span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="box-topics">
+                                <button class="btn btn-link collapsed" id="headingsix" data-toggle="collapse" data-target="#collapsesix" aria-expanded="false" aria-controls="collapseThree">
+                                    Natural
+    <span>  <i class="fa" aria-hidden="true"></i></span>
+  </button>
+                                <div id="collapsesix" class="collapse" aria-labelledby="headingsix" data-parent="#accordion">
+                                    <form>
+                                        <div class="interest-box">
+
+                                            <div (click)="setInterests(childInterest)" *ngFor="let childInterest of naturalInterests?.ChildInterests" [ngClass]="childInterest.Selected ? 'span-set selected' : 'span-set'">
+                                                <span>
+                                {{childInterest.Name}}
+                              </span>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                            <div class="box-topics">
+                                <button class="btn btn-link collapsed" id="headingseven" data-toggle="collapse" data-target="#collapseseven" aria-expanded="false" aria-controls="collapseTwo">
+                                    News
+    <span>  <i class="fa" aria-hidden="true"></i></span>
+  </button>
+                                <div id="collapseseven" class="collapse" aria-labelledby="headingseven" data-parent="#accordion">
+                                    <form>
+                                        <div class="interest-box">
+                                            <div (click)="setInterests(childInterest)" *ngFor="let childInterest of newsInterests?.ChildInterests" [ngClass]="childInterest.Selected ? 'span-set selected' : 'span-set'">
+                                                <span>
+                                {{childInterest.Name}}
+                              </span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="box-topics">
+                                <button class="btn btn-link collapsed" id="headingeight" data-toggle="collapse" data-target="#collapseeight" aria-expanded="false" aria-controls="collapseThree">
+                                    Natural
+    <span>  <i class="fa" aria-hidden="true"></i></span>
+  </button>
+                                <div id="collapseeight" class="collapse" aria-labelledby="headingeight" data-parent="#accordion">
+                                    <form>
+                                        <div class="interest-box">
+
+
+                                            <div (click)="setInterests(childInterest)" *ngFor="let childInterest of tourismInterests?.ChildInterests" [ngClass]="childInterest.Selected ? 'span-set selected' : 'span-set'">
+                                                <span>
+                    {{childInterest.Name}}
+                  </span>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6">
+                        <h4 class="topics-heading">
+                            Languages
+                        </h4>
+                        <div class="topics-cards">
+
+
+                            <div class="list-lang-toggle" *ngFor="let language of Languages; let i = index;">
+                              <p>{{language.Name}}</p>
+                              <div class="toggle-topics">
+                                  <!-- <label class="switch"><input type="checkbox" ><span class="slider round"></span></label> -->
+
+                                  <label class="switch">
+                                    <input type="checkbox" (click)="setLanguages(language)" [(ngModel)]="language.Selected">
+                                    <span class="slider round"></span>
+                                  </label>
+                                  <input type="hidden" name="hdnIntrestId">
+                              </div>
+                          </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <br>
+            <br>
+            <br>
+
+            <div class="row">
+                <div class="col-md-10">
+                </div>
+                <div class="col-md-2 text-left">
+
+                    <a href="javascript:;" class="custBtn" style="cursor:pointer; float: right;" (click)="updateUserInterests()">
+
+                        <div *ngIf="btnloader">
+                            <i class="fa fa-spinner fa-spin"></i>Loading
+                        </div>
+
+                        <div *ngIf="!btnloader">
+                            Next
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>

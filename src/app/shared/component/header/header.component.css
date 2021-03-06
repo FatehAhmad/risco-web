@@ -1,0 +1,42 @@
+.hoverBackground:hover{
+    background-color: #deeff5;
+}
+
+.notfctnn:hover{
+    background: #5ab8f5;
+    transition: all 0.5s;
+}
+
+.notfctnn:hover .time{
+    color:#fff;
+}
+
+.notfctnn:hover .description{
+    color:#fff;
+}
+
+
+.msgsss:hover{
+    background: #5ab8f5;
+    transition: all 0.5s;
+}
+
+.msgsss:hover .name{
+    color:#fff;
+}
+
+.msgsss:hover .date{
+    color:#fff;
+}
+
+.msgsss:hover .time{
+    color:#fff;
+}
+
+.msgsss:hover .multiline-tancate{
+    color:#fff;
+}
+.noti-msg-row:last-child {
+    border-bottom: none;
+    padding-bottom: 11px;
+}

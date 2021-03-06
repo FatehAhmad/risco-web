@@ -1,0 +1,48 @@
+<div class="genrel-popup sub_popup clearfix unfollow" id="unfollow_popup" style="display: none;">
+    <figure style="background-size: cover; background-position: 50% 50%;" class="user-img profileImage" *ngIf="(objAccountSetting?.ProfilePictureUrl!=null)" [style.background-image]="'url('+imagePath+''+objAccountSetting?.ProfilePictureUrl+')'"></figure>
+    <figure style="background-size: cover; background-position: 50% 50%;" class="user-img profileImage" *ngIf="(objAccountSetting?.ProfilePictureUrl==null)" [style.background-image]="'url(assets/images/signup-thumb.jpg)'"></figure>
+    <div class="field text-center">
+        <p>Unfollow <span>@{{objAccountSetting?.UserName}}?</span></p>
+    </div>
+
+    <a href="javascript:;" data-fancybox-close="" class="unfollow_btn" title="" (click)="unFollow(followingIndex)">Unfollow</a>
+    <a href="javascript:;" data-fancybox-close="" title="">Cancel</a>
+
+</div>
+
+<div class="mainSec">
+    <div class="container clearfix">
+        <app-sidebar></app-sidebar>
+
+        <div class="activity-panel followings ">
+            <div class="group_search">
+                <input type="text" name="" placeholder="Search" (keyup)="followingsSearch()" (focus)="search()" [(ngModel)]="searchTextFollowings" style="padding: 6px 42px 6px 15px;" g-keydown="followingsSearch()">
+                <button type="submit" style="position: relative; top:-27px;"></button>
+            </div>
+            <div class="clearfix ">
+                <div class="follow_panel wid mb-0">
+                    <div [hidden]="objUserSettings?.FollowingCount!=0" class="content">
+                        <h4 style="color: #1bace2;">You’re not following anyone. Tap on Follow button and Get Started, today! </h4>
+                    </div>
+                    <span [hidden]="objUserSettings?.FollowingCount==0" style="color: #1bace2;font-size: 26px; font-weight: 600;position: relative;left: 24px;bottom: 11px;">Followings</span>
+
+                    <ul class="following_scroll">
+
+                        <li *ngFor="let objFollowing of objFollowings; let i=index;">
+                            <!-- <figure class="user-img" [style.background-image]="'url('+imagePath+''+objFollowing.SecondUser.ProfilePictureUrl+')'" onerror="this.src='assets/images/signup-thumb.jpg'"></figure> -->
+                            <figure *ngIf="(objFollowing?.SecondUser!=null && objFollowing?.SecondUser?.ProfilePictureUrl!=null)" class="user-img" [style.background-image]="'url('+imagePath+''+objFollowing?.SecondUser?.ProfilePictureUrl+')'"></figure>
+                            <figure *ngIf="!(objFollowing?.SecondUser!=null && objFollowing?.SecondUser?.ProfilePictureUrl!=null)" class="user-img" [style.background-image]="'url(assets/images/signup-thumb.jpg)'"></figure>
+                            <div class="content">
+                                <h4 (click)="userProfileRedirect(objFollowing?.SecondUser?.Id)" style="cursor: pointer;" id="profileNameRedirect">{{objFollowing?.SecondUser?.FullName}}</h4>
+                            </div>
+                            <a href="javascript:;" data-fancybox="" data-src="#unfollow_popup" title="" class="custBtn followBtn following" *ngIf="objFollowing?.IsUserFollow==true" id="unFollowButton" (click)="setIndex(i)" style="cursor:pointer;">Following</a>
+                            <a href="javascript:;" class="custBtn followBtn" *ngIf="objFollowing?.IsUserFollow==false" id="followButton" class="custBtn" (click)="follow(i)" style="cursor:pointer;">Follow</a>
+                        </li>
+                        <li *ngIf="objFollowings.length<1">No Followings Found. </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

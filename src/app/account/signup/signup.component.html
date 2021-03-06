@@ -1,0 +1,132 @@
+<body class="signupPage">
+    <section class="signupSec">
+        <div class="container clearfix">
+            <!-- <div class="img-wrap" style="background-image: url('assets/images/signup-img.jpg');"></div> -->
+            <div class="formSec ">
+                <h2>Create <span class="bluetxt">An Account </span></h2>
+                <p style="text-align:justify;">Welcome to Risco your direct connection to the latest happenings and significant event around you. Connect with your friends and family or other interesting people. Get in-the-moment updates on the things that interest you. And watch events
+                    that reveal in real time from every angle. With Risco you will never be out of loop. <br><br> Sign up now and get the latest updates or create your account. </p>
+                <form #SignUpForm="ngForm">
+                    <p *ngIf="SuccessVisible" class="success-message">Congratulaions! Your account has been created. </p>
+                    <p *ngIf="ErrorVisible" class="error-message">{{ErrorMessage}}</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Full Name</label>
+                            <input type="text" required ngModel name="fullName" #fullName="ngModel" [(ngModel)]="objSignUp.FullName">
+                            <div class="invalid-text" *ngIf="(fullName.dirty && !fullName.valid) ||(isSaveButtonClick && !fullName.valid)">
+                                <div *ngIf="fullName.errors.required"> This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>User Name</label>
+                            <input type="text" required ngModel name="userName" #userName="ngModel" [(ngModel)]="objSignUp.UserName">
+                            <div class="invalid-text" *ngIf="(userName.dirty && !userName.valid) ||(isSaveButtonClick && !userName.valid)">
+                                <div *ngIf="userName.errors.required"> This field is required.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Country</label>
+
+                            <select class="select" name="country" #country="ngModel" required [(ngModel)]="_countrySelected" (change)="selectedCountry()">
+								<option [ngValue]="undefined" selected disabled>Select Country</option>
+								<option class="selectedContry" value="{{country.name}}" *ngFor = "let country of countries">
+									{{country.name}}
+									</option>
+						</select>
+                            <div class="invalid-text" *ngIf="(country.dirty && !country.valid) ||(isSaveButtonClick && !country.valid)">
+                                <div *ngIf="country.errors.required"> Please select country.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Email Address</label>
+                            <input type="text" required ngModel name="email" #email="ngModel" pattern="[a-zA-Z0-9_.-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_.-]{2,}" [(ngModel)]="objSignUp.Email">
+                            <div class="invalid-text" *ngIf="(email.dirty && !email.valid) ||(isSaveButtonClick && !email.valid)">
+                                <div *ngIf="email.errors.required">This field is required.</div>
+                                <div *ngIf="email.errors.pattern">Email is invalid.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Phone Number</label>
+                            <div class="intl-tel-input allow-dropdown separate-dial-code iti-sdc-3">
+                                <div class="flag-container">
+                                    <div class="selected-flag" tabindex="0">
+                                        <div class="selected-dial-code">{{objSignUp.CountryCode}}</div>
+                                    </div>
+                                </div>
+                                <input type="text" #num="ngModel" knifeOnlyNumbers ngModel minlength="5" maxlength="15" required name="num" class="number required pncode" [(ngModel)]="objSignUp.PhoneNumber" pattern="^(0|[+]?[1-9][0-9]*)$">
+                            </div>
+                            <div class="invalid-text" *ngIf="(num.dirty && !num.valid) ||(isSaveButtonClick && !num.valid)">
+                                <div *ngIf="num.errors.required">This field is required.</div>
+                                <div *ngIf="num.errors.minlength">Please enter a valid phone number.</div>
+                                <!-- <div *ngIf="num.errors.maxlength">Please enter a valid phonemm number.</div>							 -->
+                                <div *ngIf="num.errors.pattern">Value should be a number.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Password</label>
+                            <input type="password" (input)="ConfirmPassword.control.updateValueAndValidity()" required ngModel id="ps" name="password" #password="ngModel" minlength="6" [(ngModel)]="objSignUp.Password">
+                            <div class="invalid-text" *ngIf="(password.dirty && !password.valid) ||(isSaveButtonClick && !password.valid)">
+                                <div *ngIf="password.errors.required">This field is required.</div>
+                                <div *ngIf="password.errors.minlength">Password should must be of atleast 6 characters</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Confirm Password</label>
+                            <input id="confirmPassword" appConfirmEqualValidator="password" type="password" required ngModel name="ConfirmPassword" #ConfirmPassword="ngModel" minlength="6" [(ngModel)]="objSignUp.ConfirmPassword">
+                            <div class="invalid-text" *ngIf="(ConfirmPassword.dirty && !ConfirmPassword.valid) ||(isSaveButtonClick && !ConfirmPassword.valid)">
+                                <div *ngIf="ConfirmPassword.errors?.required">This field is required.</div>
+                                <div *ngIf="ConfirmPassword.errors?.minlength">Password should must be of atleast 6 characters</div>
+                                <div *ngIf="!ConfirmPassword.errors?.minlength && ConfirmPassword.errors.notEqual">Confirm password and password fields do not match</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Gender</label>
+                            <select class="select" #gender="ngModel" required name="gender" [(ngModel)]="objSignUp.Gender">
+							<option [ngValue]="undefined" selected>Select Gender</option>
+							<option value="1">Male</option>
+							<option value="2">Female</option>
+						</select>
+                            <div class="invalid-text" *ngIf="(gender.dirty && !gender.valid) ||(isSaveButtonClick && !gender.valid)">
+                                <div *ngIf="gender.errors.required"> Please select gender.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <div class="form-check ">
+                                <label class="custom-chck">I agree to the Terms and Conditions
+								<input type="checkbox"  id="remember" (click)="agreeToTerms()">
+								<span class="checkmark"></span>
+							</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6" style="cursor:pointer;">
+                            <a class="custBtn" id="createGroupIndex" [hidden]="IsAgreeToTerms == false" (click)="register()">
+                                <span *ngIf="btnloader">
+              <i class="fa fa-spinner fa-spin"></i>          Registering
+            </span>
+
+                                <span *ngIf="!btnloader">
+                Register Now
+            </span>
+
+
+
+                            </a>
+                        </div>
+                        <div class="col-md-6 text-right"><a [routerLink]="['/signin']" class="bluetxt link">Already Have An Account? <strong>Sign in Now</strong></a></div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </section>
+</body>

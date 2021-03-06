@@ -1,0 +1,74 @@
+<style>
+	.onlineDot {
+		height: 18px;
+		position: relative;
+		bottom: -36px;
+		right: -37px;
+		filter: drop-shadow(0px 0px 15px #000);
+		display: none;
+	}
+	.pointer{
+		cursor: pointer;
+	}
+</style>
+<div class="mainSec">
+	<div class="container clearfix">
+		<app-sidebar></app-sidebar>
+		<div id="chatContainer">
+			<div class="conversation-panel wid">
+				<div class="head">
+					<figure class="user-img selectedUserImage backgroundImg pointer"></figure>
+					<h3 class="selectedUsername pointer"></h3>
+				</div>
+
+				<div class="msg_container" style="height: 383px;">
+
+				</div>
+
+				<div class="convo-textbox clearfix">
+					<p class="userTyping"></p>
+					<div class="inputBox clearfix">
+						<!-- <textarea class="messageTextInput" [(ngModel)]="objChatText" placeholder="Type a message..."></textarea> -->
+						<textarea id="comnt" class="messageTextInput" [(ngModel)]="objChatText" placeholder="Type a message..." ></textarea>
+						<a class="custBtn sendMessageBtn" id="buttonCustom" style="cursor:pointer" (click)="sendMessage()">Send</a>
+					</div>
+					<div class="attach_files clearfix uploadAttachmentContainer">
+
+					</div>
+					<ul class="emoji-list">
+						<li style="display:none;"><a><span class="icon-Forma-12"></span><p>Camera</p></a></li>
+						<li style="display:none;"><a><img src="assets/images/rico-icon.png" alt=""><p>Add Risco#</p></a></li>
+						<li style="display:none;"><a><img src="assets/images/rico-icon2.png" alt=""><p>Risk Level</p></a></li>
+						<li style="cursor:pointer;">
+							<a href="javascript:;" (click)="showEmojees(1)">
+								<span class="icon-Shape-13 showIcon parent-comment-area" ></span>
+								<p>Emoji</p>
+							</a>
+							<emoji-mart (emojiSelect)="addEmojis($event, 1)" 
+								[showPreview]="false"
+								[emojiTooltip]="true"
+								set="emojione"
+								[hideRecent]="true" 
+								class="msg-emoji">
+							</emoji-mart>
+						</li>
+						<li style="cursor:pointer;"><a (click)="fileInputClick()"><span class="icon-Forma-13"></span><p>GIF</p></a></li>
+						<li style="cursor:pointer;"><a (click)="fileInputClick()"><span class="icon-Shape-12"></span><p>Photo</p></a></li>
+						<li style="cursor:pointer;"><a (click)="fileInputClick()"><span class="icon-Forma-1"></span><p>Video</p></a></li>
+					</ul>
+					<input class="uploadAttachmentBtn" type="file" style="display:none" multiple />
+				</div>
+				
+				<!-- <textarea id="comnt" [(ngModel)]="objCommentText" placeholder="enter comment here" ></textarea> -->
+				
+			</div>
+			
+			
+			<div class="msgSidebar wid">
+				<ul class="wid_scroll friendList" style="height: 598px;">
+
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,41 @@
+#buttonCustom {
+    background: #1bace2;
+    color: #fff !important;
+    border: 1px solid #1bace2;
+}
+
+#buttonCustom:hover {
+    background: #fff;
+    color: #1bace2 !important;
+    border: 1px solid #1bace2;
+}
+
+.emoji-list li a {
+    width: 124.5px;
+}
+
+div#chatContainer {
+    display: inline-block !important;
+}
+
+[_nghost-c5] .emoji-search[_ngcontent-c5] input[_ngcontent-c5] {
+    font-size: 10px;
+    padding: 4px 8px;
+    margin: 0;
+    height: 30px;
+    border: noe;
+    border: none;
+    width: 100%;
+}
+
+[_nghost-c5] .emoji-search[_ngcontent-c5] .emojis-container[_ngcontent-c5] {
+    border-radius: 0 0 4px 4px;
+    max-height: 130px !important;
+    padding: 5px 12px;
+    overflow: auto;
+    overflow-x: hidden;
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}

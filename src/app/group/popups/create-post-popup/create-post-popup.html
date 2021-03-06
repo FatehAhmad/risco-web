@@ -1,0 +1,338 @@
+<div [class]="postPanelClass">
+    <div class="set-pading">
+        <div data-toggle="modal" data-target="#exampleModal">
+            <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': appComponent.loggedInUser?.ProfilePictureUrl?'url('+appComponent.imagePath+appComponent.loggedInUser.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}"></figure>
+            <h4 class="placeholder">What’s new?</h4>
+            <span class="icon-img"></span>
+        </div>
+    </div>
+</div>
+
+<div class="update_status wid clearfix modal-custom modal-width" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <button type="button " class="close btn-model-cancel" data-dismiss="modal" aria-label="Close" #closeBtn>
+  <span aria-hidden="true">&times;</span>
+</button>
+    <div class="status_parent">
+        <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': appComponent.loggedInUser?.ProfilePictureUrl?'url('+appComponent.imagePath+''+appComponent.loggedInUser?.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}"></figure>
+        <div class="content">
+            <!-- <textarea id="postTextarea" [(ngModel)]="postObj.Text"></textarea> -->
+            <!-- <emoji-input [(model)]="postObj.Text" [textArea]="{cols : 2, rows : 2}" [closeAfterSelection]="false" (click)="popuu()" (keyup)="shareButtonState()" (emojiClick)="shareButtonState()" (setPopupAction)="setPopupAction($event)" id="whatsNew" style="width: 100%;border: none;resize: none;font-size:15px;color:#4a4a4a;">
+                  </emoji-input> -->
+
+            <ng-container *ngFor="let threadedPost of threadedPosts.Posts; let i = index; trackBy:trackByFn">
+                <!-- row1 for text area -->
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <span class="icon-Shape-13 showIcon parent-comment-area-{{i}} d-none" style="float: right;" (click)="showEmojee(1, i)"></span>
+                        <textarea (keyup)="postTextChanged(threadedPost.Text)" id="comnt" [(ngModel)]="threadedPost.Text" placeholder="What’s new?">
+          </textarea>
+                        <emoji-mart (emojiSelect)="addEmoji($event, 1, i)" [showPreview]="false" [emojiTooltip]="true" set="emojione" [hideRecent]="true">
+                        </emoji-mart>
+                    </div>
+                    <!-- <div *ngIf="i == 0" class="col-md-2"><span class="icon-Shape-13 showIcon parent-comment-area" (click)="showEmojee(1)" style="float: right !important;"></span></div>
+                              <div *ngIf="i > 0" class="col-md-2"><span class="icon-close" (click)="removeThreadedPost(i)" style="float: right !important;opacity: 46%;"></span></div> -->
+                    <!-- <emoji-mart (emojiSelect)="addEmoji($event, 1)"
+                              [showPreview]="false"
+                              [emojiTooltip]="true"
+                              set="emojione"
+                              [hideRecent]="true" >
+                              </emoji-mart> -->
+                </div>
+
+                <!-- //row2 for buttons below text area -->
+                <div class="row">
+                    <div class="col-md-11">
+                        <div class="icons-post-create">
+                            <ul>
+                                <!-- *ngIf="!postObj?.IsPoll" -->
+                                <ng-container>
+                                    <input type="file" id="uploadpic-create-popup-{{i}}" accept="image/*" style="display:none;" (change)="onSelectFile(MediaTypeEnum.Image, i)" multiple />
+                                    <li (click)="triggerClick('uploadpic-create-popup-' + i)">
+                                        <img src="assets/images/Capture.PNG" alt="">
+                                    </li>
+                                    <!-- <li>
+                                      <img src="assets/images/gif.PNG" alt="">
+                                  </li> -->
+                                    <li (click)="showEmojee(1, i)">
+                                        <img src="assets/images/emoji.PNG" alt="">
+                                    </li>
+                                    <li [class.click]="postObj.IsPoll" class="poll_btn" (click)="togglePoll()">
+                                        <img src="assets/images/polle2.PNG" alt="">
+                                    </li>
+                                    <input type="file" id="uploadvdo-create-popup-{{i}}" accept="video/*" style="display:none;" (change)="onSelectFile(MediaTypeEnum.Video, i)" multiple />
+                                    <li (click)="triggerClick('uploadvdo-create-popup-' + i)">
+                                        <img src="assets/images/video.png" alt="">
+                                    </li>
+
+                                    <li>
+                                        <div (click)="toggleDisplay()" (click)="clickEvent()" [ngClass]="status ? 'success' : 'danger'">
+                                            <img src="assets/images/incident.png" alt="">
+                                        </div>
+                                    </li>
+                                </ng-container>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-1">
+
+                        <div *ngIf="i > 0">
+                            <span class="icon-close" style="
+                          opacity: 65%;
+                          position: relative;
+                          right: 14px; cursor: pointer;" (click)="removeThreadedPost(i)"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <!-- //row3 -->
+                <div class="row">
+                  <div class="upload_images clearfix">
+                      <img *ngIf="PostService.showLoaderImages" style="display: block;position: relative;left: 37%;top:2px;width:64px;height:42px;border-radius: 50%;border: 3px solid transparent;" src="assets/images/Facebook-1s-200px.svg" />
+                      <div class="img-wrap" *ngFor="let url of threadedPost.ImageUrlList;let k=index;">
+                          <figure id="uploadedimg" [style.background-image]="'url('+appComponent.imagePath+url+')'"></figure>
+                          <span class="icon-close2" (click)="onRemoveFile(MediaTypeEnum.Image,k)"></span>
+                      </div>
+
+                      <div class="img-wrap" *ngFor="let url of threadedPost.VideoUrlList;let k=index;">
+                          <video>
+              <source [src]="appComponent.imagePath+url" type="video/mp4" />
+            </video>
+                          <span class="icon-close2" (click)="onRemoveFile(MediaTypeEnum.Video,k)"></span>
+                      </div>
+                  </div>
+              </div>
+            </ng-container>
+            <div class="plusbutton text-right">
+                <div class="incident mr-2">
+                    <a *ngIf="!postObj.IsPoll" (click)="addThreadedPost()" class="add-btn">
+                        <img src="assets/images/plus.png" alt="">
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!--------------CREATE POLL------------->
+
+        <div class="polling_parent" *ngIf="postObj?.IsPoll">
+            <div class="uploaded_wrap">
+                <div class="box" [class.withImg]="postObj.PollType == PollTypeEnum.Media" *ngFor="let option of postObj.PollOptions;index as i;">
+                    <figure *ngIf="postObj.PollType == PollTypeEnum.Media" [title]="option.MediaUrl?'Poll Image '+ (i+1):'No file chosen'" class="user-img" [style.background-image]="option.MediaUrl?'url('+appComponent.imagePath+option.MediaUrl+')':'url(assets/images/poll_default_image.png)'">
+                        <input type="file" name="" (change)="onPollImageChange(i)" />
+                        <span *ngIf="option.MediaUrl" class="icon-close2" (click)="removeMediaFromOption(option)"></span>
+                    </figure>
+                    <input type="text" name="" placeholder="Title here" [(ngModel)]="option.Title" maxlength="100" />
+                    <span *ngIf="postObj.PollType == PollTypeEnum.Text" class="icon-picture">
+          <input type="file" name="" (change)="onPollImageChange(i)" />
+        </span>
+                    <span *ngIf="postObj.PollOptions.length > 2" class="icon-close2" (click)="removePollOptionOnIndex(i)"></span>
+                </div>
+            </div>
+            <div class="ques_row_append"></div>
+            <div class="poll_control">
+                <div class="poll_date">
+                    <p>Poll Length</p>
+                    <label>Hours</label>
+                    <select [(ngModel)]="pollLengthHours" (change)="pollExpiryTimeChanged()">
+          <option
+            *ngIf="pollLengthWeekHours + pollLengthDayHours"
+            [ngValue]="0"
+            >0 Hr</option
+          >
+          <option
+            *ngFor="let num of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]"
+            [ngValue]="num"
+            >{{num}} Hr{{num>1?'s':''}}</option
+          >
+        </select>
+                    <label>Days</label>
+                    <select [(ngModel)]="pollLengthDayHours" (change)="pollExpiryTimeChanged()">
+          <option *ngFor="let num of [0,1,2,3,4,5,6]" [ngValue]="num*24"
+            >{{num}} Day{{num>1?'s':''}}</option
+          >
+        </select>
+                    <label>Weeks</label>
+                    <select [(ngModel)]="pollLengthWeekHours" (change)="pollExpiryTimeChanged()">
+          <option *ngFor="let num of [0,1,2,3,4]" [ngValue]="num*24*7"
+            >{{num}} Week{{num>1?'s':''}}</option
+          >
+        </select>
+                </div>
+                <!-- <div class="select_parent">
+                          <span class="icon-clock"></span>
+                          <select [(ngModel)]="postObj.ExpireAfterHours">
+                              <option [value]="168">1 Week</option>
+                              <option [value]="336">2 Weeks</option>
+                              <option [value]="504">3 Weeks</option>
+                              <option [value]="672">4 Weeks</option>
+                          </select>
+                      </div> -->
+                <a *ngIf="postObj.PollOptions.length < 3" href="javscript:;" class="custBtn" title="" (click)="addPollOption()">Add</a
+      >
+    </div>
+  </div>
+  <!---------------------------------- -->
+
+
+  <div class="permission_block">
+    <ul>
+      <li>
+        <span *ngIf="postObj.Visibility == 1" class="icon-globe"></span>
+        <span *ngIf="postObj.Visibility == 2" class="icon-users"></span>
+        <!-- <span *ngIf="postObj.Visibility == 3" class="icon-locked"></span> -->
+        <select name="visibility_status" [(ngModel)]="postObj.Visibility">
+          <option [ngValue]="undefined" disabled>Visibility</option>
+          <option value="1">Public</option>
+          <option value="2">Followers only</option>
+          <!-- <option value="3">Only me</option> -->
+        </select>
+      </li>
+      <li [hidden]="!isIncident">
+        <p [ngSwitch]="postObj.RiskLevel">
+          Risk
+          <span class="redtxt" *ngSwitchCase="2">Medium</span>
+          <span class="redtxt" *ngSwitchCase="3">Low</span>
+          <span class="redtxt" *ngSwitchDefault>High</span>
+        </p>
+      </li>
+      <li [hidden]="!isIncident">
+        <div class="post_location">
+          <span class="icon-marker"></span>
+          <input
+            id="locationSearchInput"
+            type="text"
+            name=""
+            placeholder="Type Location here"
+            [hidden]="postLocationProvided"
+            [(ngModel)]="postObj.Location"
+          />
+          <div class="tag" *ngIf="postLocationProvided">
+            {{postObj.Location}}
+            <span class="icon-close2" (click)="setLocationValue()"></span>
+          </div>
+        </div>
+      </li>
+      <!-- <li>
+        <span class="icon-review"></span>
+        <select *ngIf="userInterestList && userInterestList.length">
+          <option
+            [value]="interest.Id"
+            *ngFor="let interest of userInterestList"
+            >{{interest.Name}}</option
+          >
+        </select>
+        <p
+          *ngIf="!userInterestList || userInterestList.length == 0 "
+          style="width: 140px;"
+        >
+          update your
+          <span
+            [routerLink]="['/account-setting']"
+            style="cursor: pointer; color: #1bace2;"
+            ><b>interests.</b></span
+          >
+        </p>
+      </li> -->
+      <!-- <li>
+        <span (click)="addThreadedPost()" class="icon-add2"></span>
+      </li> -->
+      <li>
+        <span
+          style="color: red;margin-left: 36%;"
+          *ngIf="threadedPosts.Posts[threadedPosts.Posts.length - 1].Text.length > 259">{{280 - threadedPosts.Posts[threadedPosts.Posts.length - 1].Text.length}}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="status_footer clearfix">
+
+
+  <div class="row">
+    <div class="col-md-12 text-right">
+      <ul>
+        <!-- <ng-container *ngIf="!postObj?.IsPoll">
+                          <input type="file" id="uploadpic" accept="image/*"  style="display:none;" (change)="onSelectFile(MediaTypeEnum.Image)" multiple>
+                          <li (click)="triggerClick('uploadpic')"><span class="icon-picture"></span></li>
+
+                          <input type="file" id="uploadvdo" accept="video/*"  style="display:none;" (change)="onSelectFile(MediaTypeEnum.Video)" multiple>
+                          <li (click)="triggerClick('uploadvdo')"><span class="icon-Forma-1"></span></li>
+                      </ng-container> -->
+
+        <li class="dropdown">
+          #
+          <select (change)="onTrendSelected()">
+            <option [ngValue]="undefined" selected disabled>Trending</option>
+            <option
+              *ngFor="let objTrend of allTrendsList"
+              class="tt"
+              [value]="objTrend.Text"
+              >{{objTrend.Text}}</option
+            >
+          </select>
+        </li>
+        <li
+        [hidden]="!isIncident" style="position: relative;left:-6px;" class="dropdown">
+          <img src="assets/images/rico-icon2.png" width="15" alt="" />
+          <select name="risk_level" [(ngModel)]="postObj.RiskLevel">
+            <option [ngValue]="undefined" selected disabled>Risk Level</option>
+            <option value="1">High</option>
+            <option value="2">Medium</option>
+            <option value="3">Low</option>
+          </select>
+        </li>
+        <!-- <li
+          [class.click]="postObj.IsPoll"
+          class="poll_btn"
+          (click)="togglePoll()"
+        >
+          <span class="icon-poll"></span>Poll
+        </li> -->
+
+
+        <!-- <li>
+                          <div class="post_location">
+                              <span class="icon-marker"></span>
+                              <input id="locationSearchInput" type="text" name="" placeholder="Type Location here" [hidden]="postLocationProvided" [(ngModel)]="postObj.Location">
+                              <div class="tag" *ngIf="postLocationProvided">{{postObj.Location}} <span class="icon-close2" (click)="setLocationValue()"></span></div>
+                          </div>
+                      </li> -->
+      </ul>
+      <!-- <div class="incident mr-2" (click)="toggleDisplay()"(click)="clickEvent()"
+      [ngClass]="status ? 'success' : 'danger'">
+        <p class="span">
+          Incident
+        </p>
+      </div> -->
+      <!-- <span (click)="addThreadedPost()" class="icon-add2"></span> -->
+    <!-- <div class="incident mr-2">
+      <a *ngIf="!postObj.IsPoll" (click)="addThreadedPost()" class="add-btn">
+        <img src="../../../../assets/images/add.png" />
+      </a>
+            </div> -->
+
+            <button type="button" class="btn custBtn shareBtn" (click)="createPost()" [disabled]="!allTextLength">
+      <div *ngIf="btnloader">
+      <i class="fa fa-spinner fa-spin"></i>Sharing
+    </div>
+
+      <div *ngIf="!btnloader">
+        Share
+    </div>
+      </button>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- [disabled]="!allTextLength && postObj.Texts[postObj.Texts.length - 1] > 280">Share</button> -->
+
+<!-- postObj.Texts[postObj.Texts.length - 1] > 280 -->
+<!-- postObj.Texts.every((text) => text.length > 0) ||  -->
+<!-- array1.every(isBelowThreshold) -->

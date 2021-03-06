@@ -1,0 +1,118 @@
+#textcomplete-dropdown-1,
+.alert-danger,
+.alert-info {
+    z-index: 9999 !important;
+}
+
+.content {
+    border-radius: 6px;
+}
+
+.update_status .permission_block .icon-marker {
+    margin-right: 4px;
+}
+
+.pac-container {
+    z-index: 9999 !important;
+}
+
+.modal-width {
+    min-width: 680px;
+}
+
+.top-12per {
+    margin-top: 11.4%;
+}
+
+
+/*---Emojione----*/
+
+.emojionearea {
+    border: none;
+    box-shadow: none;
+}
+
+.emojionearea.focused {
+    box-shadow: none;
+}
+
+.modal-custom {
+    display: none;
+}
+
+.emojionearea .emojionearea-editor:empty:before {
+    top: -4px;
+    position: relative;
+    font-size: 20px;
+}
+
+.emojionearea .emojionearea-editor {
+    min-height: 4em;
+    max-height: 6em;
+}
+
+
+/*--------------*/
+
+a.add-btn {
+    cursor: pointer;
+}
+
+a.add-btn img {
+    width: 28px;
+    margin-top: 2px;
+    opacity: 1.5;
+}
+
+.incident p {
+    cursor: pointer;
+    font-size: 12px;
+    position: relative;
+    top: 0px;
+    font-weight: 500;
+    font-family: sans-serif;
+    color: #545454;
+    border: 1px solid gray;
+    text-align: center;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 1px 7px;
+}
+
+.incident {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.incident.success {
+    background: #1bace2;
+}
+
+.incident.success p {
+    color: white;
+    border: 1px solid #1bace2;
+}
+
+.icons-post-create ul li {
+    display: inline-block;
+    width: auto;
+    padding: 0 9px;
+}
+
+.icons-post-create li img {
+    width: 28px;
+    position: relative;
+    cursor: pointer;
+}
+
+.permission_block ul li .width-10 {
+    position: relative !important;
+    font-size: 15px;
+    margin: 0;
+    display: inline-block;
+}
+
+select.width-90 {
+    width: 90% !important;
+    display: inline-block;
+}

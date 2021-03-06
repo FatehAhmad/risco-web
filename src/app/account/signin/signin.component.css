@@ -1,0 +1,64 @@
+.error-message{
+    color: #a74747;
+    height:10px;
+    font-size: 18px;   
+    display: block;
+    height: auto;
+}
+@media (max-width: 991px) {
+.container {
+    max-width:98% !important;
+}
+.loginSec {
+    margin: 60px 0 70px !important;
+    padding: 35px 20px 25px !important;
+}
+}
+@media (max-width: 767px) {
+    .setting-buttons ,  .setting-buttons  a{
+        width: 100% !important;
+    }
+    .setting-buttons a {
+    margin-bottom: 0 !important;
+    padding: 10px 10px !important;
+        margin-top: 15px !important;
+    }
+    .home-page .post-panel {
+        width: 100% !important;
+    }
+    .container {
+        max-width: 95% !important;
+    }
+    .loginBlock {
+        width: 100% !important;
+    }
+    .loginBlock.wid {
+        margin-top: 15px !important;
+        padding: 20px 20px !important;
+    }
+    
+    
+    }
+.invalid{
+    border:1px solid #a74747;
+}
+.invalid-text{
+    color: #a74747;
+    margin-top: 5px;
+}
+.custBtn {
+    border-radius: 5px;
+    padding: 6px 20px;
+    background: #1bace2;
+    color: #fff !important;
+    font-size: 14px;
+    border: 1px solid transparent;
+    display: inline-block;
+    cursor: pointer;
+}
+@media (max-width: 991px)
+{
+.loginSec {
+    margin: 30px 0 35px !important;
+}
+}

@@ -1,0 +1,27 @@
+.textAlignCenter {
+    text-align: center;
+}
+
+.more-dropdown ul li a:hover {
+    color: #fff !important;
+    background: #1bace3;
+}
+
+.about-wid p {
+    font-size: 14px;
+    color: #6a6a6a;
+    margin-bottom: 5px;
+    transition: 0.5s;
+    word-break: break-all;
+}
+
+.noEvents {
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+    color: black;
+}
+
+.cart-header.clearfix .left {
+    margin-bottom: 10px;
+}

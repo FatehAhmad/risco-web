@@ -1,0 +1,82 @@
+<div class="mainSec">
+    <div class="container clearfix">
+      
+        <app-sidebar></app-sidebar>
+
+      <div class="activity-panel width-815">
+        <div class="status-panel clearfix">
+          <div class="PrivacySetting_panel wid mb-0">
+            <h3>Privacy Settings</h3>
+            <p *ngIf="SuccessVisible" class="success-message">Privacy settings updated successfully. </p>
+            
+            <form #PrivacySettingForm="ngForm">
+              <div class="policy-group">
+                <p><strong>Post Location</strong></p>
+                <label class="custom-chck">On
+                  <input type="radio" name="IsPostLocation" [value]="true"  id="on" [(ngModel)]= "objPrivacySettings.IsPostLocation">
+                  <span class="checkmark"></span>
+                </label>
+               
+                <label class="custom-chck">Off
+                  <input type="radio" name="IsPostLocation" [value]="false"  id="off" [(ngModel)]= "objPrivacySettings.IsPostLocation">
+                  <span class="checkmark"></span>
+                </label>
+               
+              </div>
+  
+           
+  
+                <div class="policy-group">
+                  <p><strong>Discoverability</strong></p>
+                  <label class="custom-chck">Let others find you by your email address
+                    <input type="checkbox" name="email" id="Discover1" [(ngModel)]= " this.objPrivacySettings.FindByEmail" (click)="MuteDiscoverability('FindByEmail')">
+                    <span class="checkmark"></span>
+                  </label>
+    
+                  <label class="custom-chck">Let others find you by your phone number
+                    <input type="checkbox" id="Discover2"  name="phone" [(ngModel)]= " this.objPrivacySettings.FindByPhone"  (click)="MuteDiscoverability('FindByPhone')">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+
+             
+
+                  <div class="policy-group">
+                    <p><strong>Direct messages</strong></p>
+                    <label class="custom-chck">Allow anyone to send me direct message
+                      <input type="radio" id="Direct1" [value]="1"  name="DirectMessages" [(ngModel)]="objPrivacySettings.MessagePrivacy">
+                      <span class="checkmark"></span>
+                    </label>
+      
+                    <label class="custom-chck">Allow only people I follow to send direct message
+                      <input type="radio" id="Direct2" [value]="2"  name="DirectMessages" [(ngModel)]="objPrivacySettings.MessagePrivacy">
+                      <span class="checkmark"></span>
+                    </label>
+      
+                    <label class="custom-chck">Allow only people who follow me to send direct message
+                      <input type="radio" id="Direct3" [value]="3"  name="DirectMessages" [(ngModel)]="objPrivacySettings.MessagePrivacy">
+                      <span class="checkmark"></span>
+                    </label>
+      
+                    <label class="custom-chck">Do not allow anyone to send me direct message
+                      <input type="radio" id="Direct4" [value]="4"  name="DirectMessages" [(ngModel)]="objPrivacySettings.MessagePrivacy">
+                      <span class="checkmark"></span>
+                    </label>
+
+                    <label class="custom-chck">Allow followers & followings to send me direct messages
+                        <input type="radio" id="Direct5" [value]="5"  name="DirectMessages" [(ngModel)]="objPrivacySettings.MessagePrivacy">
+                        <span class="checkmark"></span>
+                      </label>
+                  </div>
+  
+                 
+
+              <a  class="custBtn" (click)="onSaveClick()"id="buttonCustom" style="cursor: pointer;">Save Changes</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  

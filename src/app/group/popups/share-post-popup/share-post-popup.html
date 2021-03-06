@@ -1,0 +1,190 @@
+<div class="genrel-popup share_popup" id="share_popup" style="display: none;">
+    <div class="share_header">
+        <div class="cust_drop" onclick="javascript:$('.share_header .cust_drop').toggleClass('open');">
+            <p><span class="icon-timeline-icon"></span> Share on Your Timeline</p>
+            <ul>
+                <li (click)="shareDestinationChanged(false)"><span class="icon-timeline-icon"></span> Share on Your Timeline</li>
+                <li (click)="shareDestinationChanged(true)"><span class="icon-group-icon"></span> Share in Group</li>
+                <li (click)="copyPostUrlToClipboard(sharePostObj.SharedParent.Id)"><span class="icon-link-icon"></span> Copy link </li>
+            </ul>
+        </div>
+    </div>
+    <div class="search_group" *ngIf="sharePostInGroup">
+        <span>Groups:</span>
+        <!-- <input type="text" name="" placeholder="Group Name" [(ngModel)]="groupSearchText" (keyup)="searchGroupInputChanged()"> -->
+        <select *ngIf="searchedGroups.length > 1" [(ngModel)]="_selectedGroup.id"
+             class="ddlGroupList" (change)="onGroupSelect()" >
+             <option [value]="0">select group</option>
+            <option [value]="group.Id" *ngFor="let group of searchedGroups">{{ group.Name}}</option>
+        </select>
+        <select  *ngIf="searchedGroups.length < 1" class="ddlGroupList">
+            <option value="0">No groups found</option>
+        </select>
+        <!-- <div class="autocomplete_pnl_overlay" (click)="hideGroupSearchAutocomplete()"></div>
+        <div class="autocomplete_pnl autocomplete_pnl_share_group">
+            <ul>
+                <li *ngFor="let group of searchedGroups" (click)="groupSelectedFromDropdown(group)">
+                    <figure class="user-img" [ngStyle]="{'background-image':'url(' + imagePath + group.ImageUrl + '),url(assets/images/signup-thumb.jpg)'}"></figure>
+                    <h3>{{group.Name}}</h3>
+                </li>
+                <li *ngIf="searchedGroups.length < 1">
+                    <h3>No groups found</h3>
+                </li>
+            </ul>
+        </div> -->
+    </div>
+    <div class="share_body postdetail">
+        <!-- <textarea placeholder="Say Something about this" [(ngModel)]="sharePostObj.Text"></textarea> -->
+        <div class="field">
+            <!-- <emoji-input [(model)]="sharePostObj.Text" [textArea]="{rows : 4}"
+            [closeAfterSelection]="false" placeholder="Say Something about this"
+            (click)="popuuChildComment()" id="comnt"
+            (setPopupAction)="setPopupActionChildComment($event)">
+            </emoji-input>
+            <span class="icon-Shape-13 showIcon" (click)="openPopupChildComment()"></span> -->
+
+            <span class="icon-Shape-13 showIcon parent-comment-area" (click)="showEmojee(1)"></span>
+            <textarea id="comnt" [(ngModel)]="sharePostObj.Text" placeholder="Say Something about this" ></textarea>
+            <emoji-mart (emojiSelect)="addEmoji($event, 1)"
+            [showPreview]="false"
+            [emojiTooltip]="true"
+            set="emojione"
+            [hideRecent]="true" >
+            </emoji-mart>
+        </div>
+        <div class="comment_mediaa">
+            <ul>
+                <li *ngIf="uploadedImageUrls[0]">
+                    <figure class="uploadedimg user-img" [style.background-image]="'url('+appComponent.imagePath+uploadedImageUrls[0]+')'"></figure>
+                    <span style="cursor: pointer;" class="icon-close2" (click)="onRemoveFile(mediaTypeEnum.Image,0)"></span>
+                <li *ngIf="uploadedVideoUrls[0]">
+                    <video class="user-vdo-sp">
+                        <source [src]="appComponent.imagePath+uploadedVideoUrls[0]" type="video/mp4" />
+                    </video>
+                    <span style="cursor: pointer;" class="icon-close2" (click)="onRemoveFile(mediaTypeEnum.Video,0)"></span>
+                </li>
+            </ul>
+            <img *ngIf="PostService.showLoaderImages" style="display: block;position: relative;left: 37%;top:2px;width:64px;height:42px;border-radius: 50%;border: 3px solid transparent;" src="assets/images/Facebook-1s-200px.svg">
+        </div>
+
+        <div class="content">
+
+            <ul class="attach-list">
+                <li >
+                    <a href="javascript:;"><span id="parent-img-sp" class="icon-picture"></span>
+                        <input type="file" id="uploadpicCmnt-sp" accept="image/*"  style="display:none;" (change)="onFileSelection(mediaTypeEnum.Image)" >
+                    </a>
+                </li>
+                <li >
+                    <a href="javascript:;"><span id="parent-vdo-sp" class="icon-Forma-1"></span>
+                    <input type="file" id="uploadvdoCmnt-sp" accept="video/*"  style="display:none;" (change)="onFileSelection(mediaTypeEnum.Video)" >
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="post-cart wid pb-0" id="sharePostContainer">
+            <div class="cart-header clearfix">
+                <div class="left">
+                    <figure class="user-img" [style.background-image]="(sharePostObj?.SharedParent?.User?.ProfilePictureUrl ? 'url(' + imagePath + sharePostObj?.SharedParent?.User?.ProfilePictureUrl + ')' : 'url(assets/images/signup-thumb.jpg)')"></figure>
+                    <div class="dtl">
+                        <h3>{{sharePostObj?.SharedParent?.User?.FullName}}</h3>
+                        <ul>
+                            <li [ngSwitch]="sharePostObj?.SharedParent?.RiskLevel">Risk
+                                <span class="redtxt" *ngSwitchCase="1">High</span>
+                                <span class="redtxt" *ngSwitchCase="2">Medium</span>
+                                <span class="redtxt" *ngSwitchCase="3">Low</span>
+                            </li>
+                            <li>{{sharePostObj.SharedParent.CreatedDate | date: 'hh:mm a'}}</li>
+                            <li>{{sharePostObj.SharedParent.CreatedDate | date: 'dd MMMM yyyy '}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <a *ngFor="let media of sharePostObj.SharedParent.Medias" href="javascript:;" class="cart-img" [ngStyle]="{ 'background-image': 'url(' + imagePath + media.Url +'),url(assets/images/not-available.jpg)' }"></a>
+
+            <div class="cart-content">
+                <p class="trancate360" [innerHTML]="sharePostObj.SharedParent.Text"></p>
+                <ul class="social-counter">
+                    <li>{{sharePostObj.SharedParent.LikesCount}} Like{{sharePostObj.SharedParent.LikesCount>1?'s':''}}</li>
+                    <li>{{sharePostObj.SharedParent.CommentsCount}} Comment{{sharePostObj.SharedParent.CommentsCount>1?'s':''}}</li>
+                    <li>{{sharePostObj.SharedParent.ShareCount}} Share{{sharePostObj.SharedParent.ShareCount>1?'s':''}}</li>
+                </ul>
+            </div>
+            <div class="cart-footer" style="display:none;">
+                <ul>
+                    <li><a href="javascript:;"><span class="icon-thumbs-o-up"></span></a></li>
+                    <li><a href="javascript:;" data-fancybox="" data-src="#postdetail"><span class="icon-comment"></span></a></li>
+                    <li>
+                        <a href="javascript:;"><span class="icon-reply more"></span></a>
+                        <div class="more-dropdown reply">
+                            <ul>
+                                <li><a href="javascript:;">Public</a></li>
+                                <li><a href="javascript:;">follower Only</a></li>
+                                <li><a href="javascript:;">Only me</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="javascript:;"><span class="icon-share"></span></a></li>
+                    <li>
+                        <a href="javascript:;"><span class="icon-more more"></span></a>
+                        <div class="more-dropdown">
+                            <ul>
+                                <li><a href="javascript:;">Hide Post</a></li>
+                                <li><a href="javascript:;">Hide all posts by this user</a></li>
+                                <li><a href="javascript:;">Turn Off Notification for this post</a></li>
+                                <li><a href="javascript:;" data-fancybox="" data-src="#report-dialog">Report Post</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <a href="javascript:;" onclick="$('#sharePostContainer').toggleClass('show');" title="" class="collapsBtn">Show
+                <span class="showall">All</span>
+                <span class="showless hide">Less</span>
+            </a>
+        </div>
+        <div class="permission_block">
+            <ng-container *ngIf="!sharePostInGroup">
+                <span *ngIf="sharePostObj.Visibility == 1" class="icon-globe"></span>
+                <span *ngIf="sharePostObj.Visibility == 2" class="icon-users"></span>
+                <!-- <span *ngIf="sharePostObj.Visibility == 3" class="icon-locked"></span> -->
+                <select [(ngModel)]="sharePostObj.Visibility">
+                    <option [ngValue]="undefined" disabled>Visibility</option>
+                    <option [ngValue]="PostVisibilityEnum.Public">Public</option>
+                    <option [ngValue]="PostVisibilityEnum.FollowersOnly">Followers only</option>
+                    <!-- <option [ngValue]="PostVisibilityEnum.OnlyMe">Only me</option> -->
+                </select>
+            </ng-container>
+            <!-- <p [ngSwitch]="sharePostObj.RiskLevel">
+                Risk
+                <span *ngSwitchDefault class="redtxt">High</span>
+                <span *ngSwitchCase="2" class="redtxt">Medium</span>
+                <span *ngSwitchCase="3" class="redtxt">Low</span>
+            </p> -->
+        </div>
+        <div class="status_footer clearfix">
+            <ul>
+                <!-- <li><span class="icon-smiling"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></li> -->
+                <li class="dropdown">#
+                    <select (change)="onTrendState($event.target.value)">
+                        <option [ngValue]="undefined" disabled>Trends</option>
+                        <option *ngFor="let trendObj of trendList" [value]="trendObj.Text">{{trendObj.Text}}</option>
+                    </select>
+                </li>
+                <li class="dropdown"><img src="assets/images/rico-icon2.png" alt="">
+                    <select [(ngModel)]="sharePostObj.RiskLevel">
+                        <option [ngValue]="undefined">Risk Level</option>
+                        <option [ngValue]="1">High</option>
+                        <option [ngValue]="2">Medium</option>
+                        <option [ngValue]="3">Low</option>
+                    </select>
+                </li>
+            </ul>
+            <a href="javascript:;" class="custBtn shareBtn" (click)="sharePostClick()">Share</a>
+            <a href="javascript:;" class="custBtn cancelBtn" (click)="closePopupClick()" #closeBtn>Cancel</a>
+        </div>
+
+    </div>
+</div>

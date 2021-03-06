@@ -1,0 +1,54 @@
+
+<div class="genrel-popup confirmPopup clearfix" id="leaveGroup" style="display: none;">
+    <h3>Are you sure you want to leave the group?</h3>
+    <a href="javascript:;" data-fancybox-close class="custBtn" title="" (click)="leftGroupByUser(objGroupInfo.Id)">Yes</a>
+    <a href="javascript:;" data-fancybox-close class="custBtn" title="">No</a>
+</div>
+
+<div class="genrel-popup confirmPopup clearfix" id="deleteGroup" style="display: none;">
+    <h3>Are you sure you want to delete the group?</h3>
+    <a href="javascript:;" data-fancybox-close class="custBtn" title="" (click)="deleteGroup(objGroupInfo.Id)">Yes</a>
+    <a href="javascript:;" data-fancybox-close class="custBtn" title="">No</a>
+</div>
+
+<div class="sideBar">
+    <div class="profile-wid wid">
+        <div *ngIf="objGroupInfo.ImageUrl!=null"  class="profile-wid-cover coverImage" [style.background-image]="'url('+imagePath+''+objGroupInfo?.ImageUrl+')'" onerror="this.src='http://i5.walmartimages.com/asr/f752abb3-1b49-4f99-b68a-7c4d77b45b40_1.39d6c524f6033c7c58bd073db1b42424242997486.jpeg'"><a href="javascript:;" class="upload_btn" title=""><span class="icon-pencil"></span> Upload Cover <input type="file" #inPictureCover  id="imguploadCover" name="fileCover" accept=".jpg,.png" (change)="onFileChangeCover($event)"></a></div>
+        <div *ngIf="objGroupInfo.ImageUrl==null" class="profile-wid-cover coverImage" [style.background-image]="'url(assets/images/default-img.jpg)'"><a href="javascript:;" class="upload_btn upld_btn" title=""><span class="icon-pencil upld_pencil"></span> Upload Cover <input type="file" #inPictureCover  id="imguploadCover" name="fileCover" accept=".jpg,.png" (change)="onFileChangeCover($event)"></a></div>
+           
+      <h3 class="wid-name">{{objGroupInfo?.Name}}</h3>
+      <div class="profile-wid">
+        <ul class="counter">
+            <li><span>{{objGroupInfo.MembersCount +1}}</span><p>Members</p></li>
+            <li><span>{{objGroupInfo.PostsCount}}</span><p>Posts</p></li>
+        </ul>
+        <ng-container *ngIf="objGroupInfo.IsAdmin==false">
+            <a *ngIf="objGroupInfo.Status==1 || objGroupInfo.Status==4 || objGroupInfo.Status== 5 || objGroupInfo.Status==6 || objGroupInfo.Status==7" class="custBtn" title="" style="cursor: pointer;" (click)="joinGroup(objGroupInfo.Id)">Join Group</a>
+            <a *ngIf="objGroupInfo.Status==2" class="custBtn" title="" style="cursor: pointer;" (click)="cancelJoinRequest(objGroupInfo.Id)">Cancel Join Request</a>
+            <a href="javascript:;" data-fancybox="" data-src="#leaveGroup" *ngIf="objGroupInfo.Status==3" class="custBtn" title="" style="cursor: pointer;">Leave Group</a>
+        </ng-container>
+        
+        <ng-container *ngIf="objGroupInfo.IsAdmin==true">
+            <a class="custBtn" title="" style="cursor: pointer;" data-fancybox="" data-src="#deleteGroup">Delete Group</a>
+        </ng-container>      
+      </div>
+    </div>
+  
+    <div class="about-wid wid">
+      <h3 class="heading-wid">About</h3> 
+      <div class="wid_scroll">
+        <p *ngIf="objGroupInfo.Description!=null" style="text-align: justify;width: 228px;">{{objGroupInfo.Description}}</p>
+        <p *ngIf="objGroupInfo.Description==null" style="top:3px;position:relative;">No description added</p>
+    </div>   	
+
+    </div>
+  
+    <div class="group-media wid pb-0">
+      <ul>
+        <!-- <li><a  title=""><span class="icon-image-frame"></span> Photos</a></li>
+        <li><a  title=""><span class="icon-movie"></span> Videos</a></li>
+        <li><a  title=""><span class="icon-risco"></span> Risks</a></li> -->
+      </ul>
+    </div>
+  
+</div>

@@ -1,0 +1,38 @@
+<div class="container">
+	<section class="loginSec wid">
+		<div class="loginBlock">
+			<h3>Sign in <span class="bluetxt">or Sign up</span></h3>
+			<p style="text-align:justify;">Welcome to Risco your direct connection to the latest happenings and significant event around you. Connect with your friends and family or other interesting people. Get in-the-moment updates on the things that interest you. And watch events reveal, in real time, from every angle. With Risco you will never be out of loop. <br> <br>Sign in now and get the latest updates or create your account.  </p>
+			<a  [routerLink]="['/signup']" class="custBtn">Register Now</a>
+		</div>
+
+		<div class="loginBlock wid">
+			<p>Registered User ?  Please log in.</p>
+			<p *ngIf="ErrorVisible" class="error-message">{{ErrorMessage}}</p>
+			<form #UserForm="ngForm">
+
+				<label class="bluetxt">Email or Mobile No</label>
+				<input type="email" ngModel required name="emsail" (keyup)="onkeyUp($event,email,password)" #email="ngModel"  class="mb-3" [class.invalid]="isSaveButtonClick && !email.valid">
+				<div class="invalid-text" *ngIf="(email.dirty && !email.valid) ||(isSaveButtonClick && !email.valid)">
+						<div *ngIf="email.errors.required">This field is required.</div>
+						<!-- <div *ngIf="email.errors.pattern">Email is invalid.</div> -->
+			    </div>   
+				
+				<label class="bluetxt">Password</label>
+				<input type="password" minlength="6" ngModel required name="password" (keyup)="onkeyUp($event,email,password)" #password="ngModel"   [class.invalid]="isSaveButtonClick && !password.valid" >
+				<div class="invalid-text" *ngIf="(password.dirty && !password.valid) ||(isSaveButtonClick && !password.valid)">
+					<div *ngIf="password.errors.required">Password is required.</div>
+					<div *ngIf="password.errors.minlength">Password must be at least 6 characters long</div>
+				</div>
+				
+				<div class="row mt-4">
+					<div class="col-md-6">
+						<a  class="custBtn" (click)="onLogin(email,password)">Sign in Now</a>
+					</div>
+					<div class="col-md-6 my-auto text-right"><a  [routerLink]="['/forgetpassword']" class="bluetxt link">Forgot Your Password?</a></div>
+				</div>
+			</form>
+		</div>
+
+	</section>
+</div>

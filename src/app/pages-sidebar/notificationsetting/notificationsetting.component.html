@@ -1,0 +1,50 @@
+<div class="mainSec">
+    <div class="container clearfix">
+        <app-sidebar></app-sidebar>
+
+
+      <div class="activity-panel ">
+        <div class="status-panel clearfix">
+          <div class="PrivacySetting_panel wid mb-0">
+            <h3>Notifications Settings</h3>
+            <p *ngIf="SuccessVisible" class="success-message">Notification settings updated successfully. </p>
+            <form #NotificationSettingForm="ngForm">
+              <!-- <div class="policy-group">
+                <p><strong>Mute notifications from:</strong></p>
+
+                <div class="form-check ">
+                    <label class="custom-chck">Group Notifications
+                        <input type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.objNotificationSettings.GroupsNotification" (click)="MuteNotification('Groups')" id="off">
+                        <span class="checkmark"></span>
+                      </label>
+                  </div>
+                <div class="form-check ">
+                    <label class="custom-chck">Post Notifications
+                        <input type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.objNotificationSettings.PostsNotification" id="offf" (click)="MuteNotification('Posts')">
+                        <span class="checkmark"></span>
+                      </label>
+                  </div>
+              </div> -->
+
+
+              <div *ngFor="let notificationCategory of notificationCategories; let i=index;" class="policy-group">
+                <p><strong>{{ notificationCategory.Title }}:</strong></p>
+
+                <div *ngFor="let notificationType of notificationCategory.NotificationTypeList; let j=index;" class="form-check ">
+                    <label class="custom-chck">{{ notificationType.Title }}
+                        <input type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="notificationType.Status"
+                        (click)="updateUserNotificationSetting(notificationType.Id, !notificationType.Status)">
+                        <span class="checkmark"></span>
+                      </label>
+                  </div>
+              </div>
+
+              <!-- <a  class="custBtn" id="buttonCustom" style="cursor: pointer;" (click)="onSaveClick()">Save Changes</a> -->
+            </form>
+          </div>
+        </div>
+      </div>
+      <app-side-follow-group></app-side-follow-group>
+    </div>
+  </div>
+

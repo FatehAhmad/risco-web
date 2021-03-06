@@ -1,0 +1,30 @@
+
+<section class="signupSec">
+	<div class="container clearfix pl-5 pr-5">
+		<div class="img-wrap" style="background-image: url('assets/images/verification.png');"></div>
+		<div class="formSec formSecVerify">
+			<h2>Mobile Verification</h2>
+			<p>A verfication code has been sent to your phone.</p>
+			<br />
+			<!-- <form> -->
+				<p *ngIf="checkCodeAndEmail" style="font-size: 12px; margin-left: 4px; margin-bottom: 3px; color: red;">{{ errorMessage }}</p>
+				<div class="row">
+					
+					<div class="col-md-6">
+						<div class="field">
+							<input type="text" name="" placeholder="Enter Code" [(ngModel)]="verificationData.Code" (keypress)="onlyNumberKey($event)">
+						</div>
+					</div>
+					<div class="col-md-6 text-left">
+						<div class="field">
+						<a href="javascript:;" class="custBtn" style="cursor:pointer;" (click)="verificationSubmit()">Verify</a>
+						</div>
+					</div>
+				</div>
+				<p class="terms"><span style="color: #686767; font-size: 13px; font-family: 'Raleway', sans-serif; font-weight: 600;">Haven't received code yet? </span> <a href="javascript:;" class="link bluetxt cursor-pointer rsnd-code" (click)="resendCode()">Resend Code</a></p>
+			<!-- </form> -->
+		</div>
+	</div>
+</section>
+
+<!-- <?php include("inc/footer.php"); ?> -->

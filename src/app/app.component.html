@@ -1,0 +1,39 @@
+
+<div *ngIf="!isVerification">
+    <app-header></app-header>
+</div>
+<div *ngIf="isVerification">
+    <app-login-header></app-login-header>
+</div>
+<!-- Current message:
+<h1>{{ (message | async)?.notification.title}}</h1>
+<img [src] ="(message | async)?.notification.icon" width="100px">
+<p>{{ (message | async)?.notification.body}}</p>
+{{ message | async | json }} -->
+
+<router-outlet></router-outlet>
+<div style="height: 30px;"></div>
+<div class="btmSection">
+    <div class="container" style="text-align: center;">
+            <!-- <p style="text-align: center;">Copyright © {{ anio }} Risco Powered by <a href="https://www.ingic.com/" target="_blank">INGIC</a> </p> -->
+            <p style="text-align: center;">Copyright © {{ anio }} Risco Powered by RISCO </p>
+            <ul style="text-align: center;">
+
+                <li><a [routerLink]="['/terms-and-conditions']" target="_blank">Terms & Conditions</a></li>
+                <li><a [routerLink]="['/about']" target="_blank">About us</a></li>
+                <li><a [routerLink]="['/contact']" target="_blank">Contact us</a></li>
+            </ul>
+    </div>
+</div>
+<!-- <div [hidden]="!PostService.showLoader" class="loaderWrapper">
+    <img id="loader" src="assets/images/Double Ring-1.8s-187px.svg">
+</div> -->
+
+<div class="loaderWrapper loaderWrapper2" style="display:none;">
+        <img id="loader" src="assets/images/Double Ring-1.8s-187px.svg">
+</div>
+
+
+<!-------------------------------POPUPS----------------------------------------->
+<!-------------------------------POPUPS----------------------------------------->
+

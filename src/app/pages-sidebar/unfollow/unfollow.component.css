@@ -1,0 +1,35 @@
+#unFollowButton:hover {
+    background: #fff;
+    color: #1bace2;
+    border: 1px solid #1bace2;
+}
+#unFollowButton {
+    background: #1bace2;
+    color:  #fff !important;
+    border: 1px solid #1bace2;
+}
+
+#followButton:hover {
+    background: #fff;
+    color: #1bace2 !important;
+    border: 1px solid #1bace2;
+}
+#followButton {
+    background: #1bace2;
+    color:  #fff !important;
+    border: 1px solid #1bace2;
+}
+#profileNameRedirect:hover{
+    text-decoration: underline;  
+    color:#1bace2;
+}
+.following:hover {
+    background: #DC143C !important;
+    color: #fff !important;
+    border-color: #DC143C !important;
+}
+
+.following_scroll {
+    max-height: 400px;
+    overflow: auto;
+}

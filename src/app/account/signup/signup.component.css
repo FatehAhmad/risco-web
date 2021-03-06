@@ -1,0 +1,52 @@
+.error-message{
+  color: #a74747;
+  position: relative;
+  top: -12px;
+  height:10px;
+  font-size: 14px;
+}
+
+.invalid{
+  border:1px solid #a74747;
+}
+.invalid-text{
+  color:#a74747;
+  margin-top: 5px;
+}
+#createGroupIndex {
+  background: #1bace2;
+  color: #fff !important;
+  border: 1px solid #1bace2;
+}
+#createGroupIndex:hover {
+  background: #fff;
+  color: #1bace2 !important;
+  border: 1px solid #1bace2;
+}
+.success-message{
+  color: #468847;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+
+.intl-tel-input.separate-dial-code .selected-dial-code{
+  display: table-cell;
+  vertical-align: top;
+  padding-left: 7px;
+  font-size: 15px;
+  padding: 11px 0 0 10px;
+  outline: none;
+}
+
+.intl-tel-input.allow-dropdown .flag-container, .intl-tel-input.separate-dial-code .flag-container{
+  right: auto;
+  left: 0px;
+}
+.intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-3 .selected-flag{
+  background:gainsboro;
+}
+
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

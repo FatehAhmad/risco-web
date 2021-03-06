@@ -1,0 +1,47 @@
+#sharePostContainer:hover .collapsBtn{
+    display: block !important;
+}
+
+.collapsBtn{
+    max-width: 100px;
+    display: none;
+}
+
+.share_body .show .collapsBtn:before {
+    content: "\e944" !important;
+}
+
+.hide{
+    display: none;
+}
+
+.share_body .show .collapsBtn .showless  {
+    display: inline !important;
+}
+
+.share_body .show .collapsBtn .showall  {
+    display: none !important;
+}
+
+.autocomplete_pnl_overlay{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9998;
+    display: none;
+}
+
+.search_group .autocomplete_pnl ul{
+    border: none;
+}
+
+.attach-list {
+    display: block !important;
+}
+
+.ddlGroupList {
+    width: 83%;
+    height: 41px;
+}

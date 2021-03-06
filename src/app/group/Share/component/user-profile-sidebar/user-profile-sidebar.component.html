@@ -1,0 +1,61 @@
+<div class="sideBar">
+
+    <div class="about-wid wid">
+      <h3 class="heading-wid">About</h3>
+      <div class="abt_scrol"> <p *ngIf="objUserSettings?.AboutMe">{{objUserSettings?.AboutMe}}</p>
+      </div>
+      <span *ngIf="!(objUserSettings?.AboutMe)" style="position: relative;left: -1px;font-size: 15px;color: #6a6a6a;top: -3px;">No description added</span>
+
+      <!-- <a *ngIf="!(objUserSettings?.AboutMe)"class="bluetxt" style="cursor: pointer;">Show more</a> -->
+    </div>
+    <div class="interst-wid wid">
+      <h3 class="heading-wid">Topics</h3>
+      <ul>
+        <ng-container *ngIf="InterestsCount==true">
+            <ng-container *ngFor="let objInterest of objUserSettings?.BasketSettings?.Interests">
+                <li *ngIf="objInterest.Checked==true">
+                    <span *ngIf="(objInterest.Checked==true && objInterest.Name=='Political')" class="interst-icon interst-icon1"></span>
+                    <span *ngIf="(objInterest.Checked==true && objInterest.Name=='Environmental')" class="interst-icon interst-icon2"></span>
+                    <span *ngIf="(objInterest.Checked==true && objInterest.Name=='Social')" class="interst-icon interst-icon3"></span>
+                    <span *ngIf="(objInterest.Checked==true && objInterest.Name=='Economical')" class="interst-icon interst-icon4"></span>
+                    <span *ngIf="(objInterest.Checked==true && objInterest.Name=='Geographical')" class="interst-icon interst-icon5"></span>
+                    <span *ngIf="(objInterest.Checked==true && objInterest.Name=='News')" class="interst-icon interst-icon6"></span>
+                  <h4 *ngIf="objInterest.Checked==true">{{objInterest.Name}}</h4>
+                </li>
+
+            </ng-container>
+
+        </ng-container>
+        <ng-container *ngIf="InterestsCount==false">
+          <span style="position: relative;left: 14px;font-size: 15px;color: #6a6a6a;top: -4px;">No Topics found</span>
+        </ng-container>
+
+
+      </ul>
+    </div>
+
+    <div class="trending-wid wid">
+      <h3 class="heading-wid">Trending Posts</h3>
+      <ul class="wid_scroll">
+        <li *ngFor="let objTrend of objTrends" (click)="heatMapRedirect(objTrend.Text)">
+          <p class="trend">{{objTrend.Text}}
+            <span>{{objTrend.Count}}</span>
+          </p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="trending-wid wid">
+      <h3 class="heading-wid">Trending Incidents</h3>
+      <ul class="wid_scroll">
+        <li *ngFor="let objTrend of objTrends" (click)="heatMapRedirect(objTrend.Text)">
+          <p class="trend">{{objTrend.Text}}
+            <span>{{objTrend.Count}}</span>
+          </p>
+        </li>
+      </ul>
+    </div>
+
+
+
+  </div>

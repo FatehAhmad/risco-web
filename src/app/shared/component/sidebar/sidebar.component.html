@@ -1,0 +1,179 @@
+<div class="genrel-popup confirmPopup clearfix" id="leaveGroup" style="display: none;">
+  <h3>Are you sure you want to leave the group?</h3>
+  <a href="javascript:;" data-fancybox-close class="custBtn" title="" (click)="leftGroupByUser(objGroupInfo.Id)">Yes</a>
+  <a href="javascript:;" data-fancybox-close class="custBtn" title="">No</a>
+</div>
+
+<div class="genrel-popup confirmPopup clearfix" id="deleteGroup" style="display: none;">
+  <h3>Are you sure you want to delete the group?</h3>
+  <a href="javascript:;" data-fancybox-close class="custBtn" title="" (click)="deleteGroup(objGroupInfo.Id)">Yes</a>
+  <a href="javascript:;" data-fancybox-close class="custBtn" title="">No</a>
+</div>
+
+
+<div class="sideBar">
+
+  <!-- group-detail -->
+  <div class="profile-wid wid" *ngIf="sideBar==SidebarTypeEnum.groupSidebar">
+      <div *ngIf="objGroupInfo.ImageUrl!=null"  class="profile-wid-cover coverImage" [style.background-image]="'url('+imagePath+''+objGroupInfo?.ImageUrl+')'" onerror="this.src='http://i5.walmartimages.com/asr/f752abb3-1b49-4f99-b68a-7c4d77b45b40_1.39d6c524f6033c7c58bd073db1b42424242997486.jpeg'"><a href="javascript:;" class="upload_btn" title=""><span class="icon-pencil"></span> Upload Cover <input type="file" #inPictureCover  id="imguploadCover" name="fileCover" accept=".jpg,.png" (change)="onFileChangeCoverGroupDetail($event)"></a></div>
+      <div *ngIf="objGroupInfo.ImageUrl==null" class="profile-wid-cover coverImage" [style.background-image]="'url(assets/images/default-img.jpg)'"><a href="javascript:;" class="upload_btn upld_btn" title=""><span class="icon-pencil upld_pencil"></span> Upload Cover <input type="file" #inPictureCover  id="imguploadCover" name="fileCover" accept=".jpg,.png" (change)="onFileChangeCoverGroupDetail($event)"></a></div>
+
+    <h3 class="wid-name">{{objGroupInfo?.Name}}</h3>
+    <div class="profile-wid">
+      <ul class="counter">
+          <li><span>{{objGroupInfo.MembersCount +1}}</span><p>Members</p></li>
+          <li><span>{{objGroupInfo.PostsCount}}</span><p>Posts</p></li>
+      </ul>
+      <ng-container *ngIf="objGroupInfo.IsAdmin==false">
+          <a *ngIf="objGroupInfo.Status==1 || objGroupInfo.Status==4 || objGroupInfo.Status== 5 || objGroupInfo.Status==6 || objGroupInfo.Status==7" class="custBtn" title="" style="cursor: pointer;" (click)="joinGroup(objGroupInfo.Id)">Join Group</a>
+          <a *ngIf="objGroupInfo.Status==2" class="custBtn" title="" style="cursor: pointer;" (click)="cancelJoinRequest(objGroupInfo.Id)">Cancel Join Request</a>
+          <a href="javascript:;" data-fancybox="" data-src="#leaveGroup" *ngIf="objGroupInfo.Status==3" class="custBtn" title="" style="cursor: pointer;">Leave Group</a>
+      </ng-container>
+
+      <ng-container *ngIf="objGroupInfo.IsAdmin==true">
+          <a class="custBtn" title="" style="cursor: pointer;" data-fancybox="" data-src="#deleteGroup">Delete Group</a>
+      </ng-container>
+    </div>
+  </div>
+
+
+  <!-- <div class="group-media wid pb-0">
+    <ul>
+      <li><a  title=""><span class="icon-image-frame"></span> Photos</a></li>
+      <li><a  title=""><span class="icon-movie"></span> Videos</a></li>
+      <li><a  title=""><span class="icon-risco"></span> Risks</a></li>
+    </ul>
+  </div> -->
+
+  <!-- end group-detail  -->
+
+
+
+    <div class="profile-wid wid" *ngIf="sideBar!=SidebarTypeEnum.profileSidebar && sideBar!=SidebarTypeEnum.userProfileSidebar && sideBar!=SidebarTypeEnum.groupSidebar">
+      <!-- <img class="profile-wid-cover profileImage" src="'+imagePath+'{{objAccountSetting.ProfilePictureUrl}}" onerror="this.src='assets/images/signup-thumb.jpg'"> -->
+      <!-- <img class="userImg-wid profileImage" src="'+imagePath+'{{objAccountSetting.ProfilePictureUrl}}" onerror="this.src='assets/images/signup-thumb.jpg'">
+      <input type="file" #inPicture  id="imgupload" name="file" multiple accept=".jpg,.png" (change)="onFileChange($event)"> -->
+      <div style="cursor: pointer;" *ngIf="(objAccountSetting !=null && objAccountSetting.CoverPictureUrl!=null)" class="profile-wid-cover coverImage" [style.background-image]="'url('+imagePath+''+objAccountSetting.CoverPictureUrl+')'" onerror="this.src='http://i5.walmartimages.com/asr/f752abb3-1b49-4f99-b68a-7c4d77b45b40_1.39d6c524f6033c7c58bd073db1b42424242997486.jpeg'"><a href="javascript:;" class="upload_btn" title="" style="cursor: pointer;"><span class="icon-pencil" style="cursor: pointer;"></span> Upload Cover <input style="cursor: pointer;" type="file" #inPictureCover  id="imguploadCover" name="fileCover" multiple accept=".jpg,.png" (change)="onFileChangeCover($event)"></a></div>
+      <div style="cursor: pointer;" *ngIf="!(objAccountSetting !=null && objAccountSetting.CoverPictureUrl!=null)" class="profile-wid-cover coverImage" [style.background-image]="'url(assets/images/default-img.jpg)'"><a href="javascript:;" class="upload_btn" title="" style="cursor: pointer;"><span class="icon-pencil" style="cursor: pointer;"></span> Upload Cover <input style="cursor: pointer;" type="file" #inPictureCover  id="imguploadCover" name="fileCover" multiple accept=".jpg,.png" (change)="onFileChangeCover($event)"></a></div>
+
+      <span style="background-position: 50% 50%; cursor: pointer;" *ngIf="(objAccountSetting !=null && objAccountSetting.ProfilePictureUrl!=null)" class="userImg-wid profileImage" [style.background-image]="'url('+imagePath+''+objAccountSetting.ProfilePictureUrl+')'">
+        <span class="icon-pencil" style="cursor: pointer;"> </span>
+        <input style="cursor: pointer;" type="file" #inPicture  id="imgupload" name="file" multiple accept=".jpg,.png" (change)="onFileChange($event)">
+      </span>
+      <span style="background-position: 50% 50%; cursor: pointer;" *ngIf="!(objAccountSetting !=null && objAccountSetting.ProfilePictureUrl!=null )" id="er"class="userImg-wid profileImage" [style.background-image]="'url(assets/images/signup-thumb.jpg)'">
+        <span class="icon-pencil" style="cursor: pointer;"> </span>
+        <input style="cursor: pointer;" type="file" #inPicture  id="imgupload" name="file" multiple accept=".jpg,.png" (change)="onFileChange($event)">
+      </span>
+
+
+      <!-- <span class="userImg-wid" style="background-image: url('assets/images/user-img.jpg');"></span> -->
+      <h3 class="wid-name">{{objAccountSetting.FullName}}</h3>
+      <div class="profile-wid">
+        <ul class="counter">
+            <li><a [routerLink]="['/profile']"><span>{{objAccountSetting.PostCount}}</span><p>Posts</p></a></li>
+            <li class="cursor-pointer" [ngClass]="{ 'active' : (this.activeTabs.following == true) }" [routerLink]="['/unfollow']"><a href="javascript:;"><span>{{objAccountSetting.FollowingCount}}</span><p>Following</p></a></li>
+            <li class="cursor-pointer" [ngClass]="{ 'active' : (this.activeTabs.followers == true) }" [routerLink]="['/follow']"><a href="javascript:;"><span>{{objAccountSetting.FollowersCount}}</span><p>Followers</p></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="about-wid wid" *ngIf="sideBar==SidebarTypeEnum.profileSidebar || sideBar==SidebarTypeEnum.userProfileSidebar || sideBar==SidebarTypeEnum.groupSidebar">
+      <h3 class="heading-wid">About</h3>
+      <div class="abt_scrol"> <p *ngIf="aboutMeContent">{{aboutMeContent}}</p>
+      </div>
+      <span *ngIf="!aboutMeContent" style="position: relative;left: -1px;font-size: 15px;color: #6a6a6a;top: -3px;">No description added</span>
+    </div>
+
+    <div class="interst-wid wid" *ngIf="sideBar==SidebarTypeEnum.profileSidebar || sideBar==SidebarTypeEnum.userProfileSidebar">
+      <h3 class="heading-wid ">Topics</h3>
+      <ul>
+        <ng-container *ngIf="InterestsCount==true">
+            <ng-container *ngFor="let objInterest of objAccountSetting?.BasketSettings?.Interests">
+                <li *ngIf="objInterest.Checked==true">
+                    <span *ngIf="(objInterest.Checked==true && objInterest.Name=='Political')" class="interst-icon interst-icon1"></span>
+                    <span *ngIf="(objInterest.Checked==true && objInterest.Name=='Environmental')" class="interst-icon interst-icon2"></span>
+                    <span *ngIf="(objInterest.Checked==true && objInterest.Name=='Social')" class="interst-icon interst-icon3"></span>
+                    <span *ngIf="(objInterest.Checked==true && objInterest.Name=='Economical')" class="interst-icon interst-icon4"></span>
+                    <span *ngIf="(objInterest.Checked==true && objInterest.Name=='Geographical')" class="interst-icon interst-icon5"></span>
+                    <span *ngIf="(objInterest.Checked==true && objInterest.Name=='News')" class="interst-icon interst-icon6"></span>
+                  <h4 *ngIf="objInterest.Checked==true">{{objInterest.Name}}</h4>
+                </li>
+
+            </ng-container>
+
+        </ng-container>
+        <ng-container *ngIf="InterestsCount==false">
+          <span style="position: relative;left: 14px;font-size: 15px;color: #6a6a6a;top: -4px;">No <span [routerLink]="['/account-setting']" style="cursor: pointer;color: #1bace2;">interests</span> added</span>
+        </ng-container>
+
+      </ul>
+    </div>
+
+    <div class="trending-wid wid" *ngIf="sideBar!=SidebarTypeEnum.groupSidebar">
+      <h3 class="heading-wid">Trending Posts</h3>
+      <ng-container *ngIf="objTrends.length>0">
+        <ul>
+          <li class="cursor-pointer" *ngFor="let objTrend of objTrends" (click)="heatMapRedirect(objTrend.Text)">
+            <p class="clearfix">{{objTrend.Text}}<span *ngIf="objTrend.Count>1">{{objTrend.Count}} </span> <span *ngIf="objTrend.Count==1">{{objTrend.Count}} post</span></p>
+          </li>
+       </ul>
+      </ng-container>
+      <ng-container *ngIf="objTrends.length==0">
+          <span style="position: relative;left: 19px;font-size: 15px;color: #6a6a6a;top: -4px;">No trends 've been set for now</span>
+      </ng-container>
+    </div>
+
+    <div class="trending-wid wid" *ngIf="sideBar!=SidebarTypeEnum.groupSidebar">
+      <h3 class="heading-wid">Trending Incidents</h3>
+      <ng-container *ngIf="objTrends.length>0">
+        <ul>
+          <li class="cursor-pointer" *ngFor="let objTrend of objTrends" (click)="heatMapRedirect(objTrend.Text)">
+            <p class="clearfix">{{objTrend.Text}}<span *ngIf="objTrend.Count>1">{{objTrend.Count}} </span> <span *ngIf="objTrend.Count==1">{{objTrend.Count}} post</span></p>
+          </li>
+       </ul>
+      </ng-container>
+      <ng-container *ngIf="objTrends.length==0">
+          <span style="position: relative;left: 19px;font-size: 15px;color: #6a6a6a;top: -4px;">No trends 've been set for now</span>
+      </ng-container>
+    </div>
+
+
+    <div class="follower-wid wid" *ngIf="sideBar!=SidebarTypeEnum.userProfileSidebar && sideBar!=SidebarTypeEnum.groupSidebar">
+      <h3 class="heading-wid">Top Followers</h3>
+      <ul class="wid_scroll">
+        <ng-container *ngIf="objTopFollowers.length>0">
+          <li *ngFor="let objTopFollwer of objTopFollowers" style="cursor: pointer;">
+            <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objTopFollwer?.FirstUser?.ProfilePictureUrl ? 'url('+imagePath+''+objTopFollwer?.FirstUser?.ProfilePictureUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}"></figure>
+          <h4 (click)="userProfileRedirect(objTopFollwer.FirstUser.Id)" style="cursor: pointer; width: 73%; text-overflow: ellipsis; white-space: nowrap; overflow-x: hidden;">{{objTopFollwer.FirstUser.FullName}}</h4>
+          </li>
+        </ng-container>
+
+        <ng-container *ngIf="objTopFollowers.length==0">
+          <span style="position: relative;left: 16px;font-size: 15px;color: #6a6a6a;top:8px;width: 170px;">You have no top followers</span>
+        </ng-container>
+
+      </ul>
+    </div>
+
+    <div class="follower-wid wid mb-0 " *ngIf="sideBar!=SidebarTypeEnum.userProfileSidebar && sideBar!=SidebarTypeEnum.groupSidebar">
+      <h3 class="heading-wid">Groups</h3>
+      <img *ngIf="GroupService.showGroupLoader" style="  display: block;position: relative;left: 37%;top:2px;width:64px;height:42px;border-radius: 50%;border: 3px solid transparent;" src="assets/images/Facebook-1s-200px.svg">
+
+      <ul class="wid_scroll">
+          <ng-container *ngIf="objGetGroups.MyGroupCount>0">
+            <li *ngFor="let objGroup of objGetGroups.MyGroups" (click)="groupDetailsPage(objGroup.Id)" style="cursor: pointer;">
+                <figure class="user-img" style="background-size: cover; background-position: 50% 50%;" [ngStyle]="{'background-image': objGroup?.ImageUrl? 'url('+imagePath+''+objGroup?.ImageUrl+'),url(assets/images/signup-thumb.jpg)' : 'url(assets/images/signup-thumb.jpg)'}"></figure>
+                <a><h4>{{objGroup.Name}}</h4></a>
+            </li>
+          </ng-container>
+
+          <ng-container *ngIf="objGetGroups.MyGroupCount==0">
+            <li>
+              <span style="position:relative;left:2px;font-size:15px;color:#6a6a6a;top:7.5px;width:198px;">You have created or joined no groups yet </span>
+            </li>
+          </ng-container>
+
+      </ul>
+    </div>
+
+</div>

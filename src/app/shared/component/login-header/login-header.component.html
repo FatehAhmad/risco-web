@@ -1,0 +1,30 @@
+<!-- Login Header -->
+<header class="header">
+	<div class="container clearfix">
+		<a [routerLink]="['/index']" class="logo">
+			<img src="assets/images/logo.png" alt="">
+		</a>
+
+		<div class="topLogin" style="margin-top: 15px;">
+			
+			<!-- <form> -->
+				<p class="err-cls" *ngIf="errorMessage"> {{ errorMessage }} </p>
+				<div class="field ml-0">
+					<input type="email" placeholder="Email Address" [(ngModel)]="loginData.userEmail">
+				</div>
+				<div class="field">
+					<input type="password" placeholder="Password" [(ngModel)]="loginData.password">
+				</div>
+				<a href="javascript:;" class="custBtn cursor-pointer" (click)="login()">Sign In</a>
+			<!-- </form> -->
+			<div class="topBar">
+				<div>
+					<input type="checkbox" id="remember">
+					<label for="remember"> Remember me</label>
+				</div>
+				<div><a class="link">Forgot Password?</a></div>
+			</div>
+		</div>
+		
+	</div>
+</header>
